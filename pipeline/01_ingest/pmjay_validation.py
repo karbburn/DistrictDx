@@ -14,22 +14,18 @@ Writes to data/raw/pmjay_validation/.
 
 import logging
 from pathlib import Path
+from urllib.parse import urlparse
 
 import pandas as pd
 import requests
-from bs4 import BeautifulSoup
+
+try:
+    from bs4 import BeautifulSoup
+except ImportError:
+    BeautifulSoup = None
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger(__name__)
-
-OUT_DIR = Path("data/raw/pmjay_validation")
-OUT_DIR.mkdir(parents=True, exist_ok=True)
-
-SESSION = requests.Session()
-SESSION.headers.update({
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-})
 
 PMJAY_URLS = [
     "https://pmjay.gov.in",
@@ -38,15 +34,18 @@ PMJAY_URLS = [
 ]
 
 
-def try_pmjay_dashboard():
+def try_pmjay_dashboard(out_dir, session):
     """Try PMJAY dashboard for state-level claims data."""
+    if BeautifulSoup is None:
+        return False
     for base in PMJAY_URLS:
         try:
-            resp = SESSION.get(base, timeout=30, allow_redirects=True)
+            resp = session.get(base, timeout=30, allow_redirects=True)
             if resp.status_code == 200:
                 soup = BeautifulSoup(resp.text, "lxml")
 
-                dest = OUT_DIR / f"pmjay_{base.split('//')[1].replace('/', '_').replace('.', '_')}.html"
+                host = urlparse(base).hostname
+                dest = out_dir / f"pmjay_{host}.html"
                 dest.write_text(resp.text, encoding="utf-8")
 
                 links = soup.find_all("a", href=True)
@@ -61,7 +60,7 @@ def try_pmjay_dashboard():
                         "text": a.get_text(strip=True)[:100],
                         "href": a["href"],
                     } for a in data_links[:30]]).to_csv(
-                        OUT_DIR / "pmjay_data_links.csv", index=False
+                        out_dir / "pmjay_data_links.csv", index=False
                     )
 
                 tables = soup.find_all("table")
@@ -69,7 +68,7 @@ def try_pmjay_dashboard():
                     try:
                         dfs = pd.read_html(str(table))
                         if dfs and len(dfs[0]) > 3:
-                            dfs[0].to_csv(OUT_DIR / f"pmjay_table_{i}.csv", index=False)
+                            dfs[0].to_csv(out_dir / f"pmjay_table_{i}.csv", index=False)
                             log.info("Extracted table %d from %s: %d rows", i, base, len(dfs[0]))
                     except Exception:
                         continue
@@ -80,7 +79,7 @@ def try_pmjay_dashboard():
     return False
 
 
-def try_pmjay_api():
+def try_pmjay_api(out_dir, session):
     """Try PMJAY internal API endpoints."""
     api_urls = [
         "https://dashboard.pmjay.gov.in/api/stateWiseData",
@@ -90,9 +89,9 @@ def try_pmjay_api():
 
     for url in api_urls:
         try:
-            resp = SESSION.get(url, timeout=30)
+            resp = session.get(url, timeout=30)
             if resp.status_code == 200 and "json" in resp.headers.get("content-type", ""):
-                dest = OUT_DIR / "pmjay_api_data.json"
+                dest = out_dir / "pmjay_api_data.json"
                 dest.write_bytes(resp.content)
                 log.info("Got API data from %s", url)
                 return True
@@ -102,13 +101,21 @@ def try_pmjay_api():
 
 
 def main():
+    out_dir = Path(__file__).resolve().parent.parent.parent / "data" / "raw" / "pmjay_validation"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    session = requests.Session()
+    session.headers.update({
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    })
+
     log.info("=== PMJAY Validation Ingestion (State-Level) ===")
     log.info("NOTE: District-level PMJAY claims not publicly available.")
     log.info("Accepting state-level fallback for validation correlations.")
 
-    if try_pmjay_api():
+    if try_pmjay_api(out_dir, session):
         log.info("PMJAY API data downloaded")
-    elif try_pmjay_dashboard():
+    elif try_pmjay_dashboard(out_dir, session):
         log.info("PMJAY dashboard data scraped")
     else:
         log.error(
