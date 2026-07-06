@@ -1,0 +1,5 @@
+# Local development resources and instructions
+assets/
+__pycache__/
+*.pyc
+*.html
