@@ -230,7 +230,8 @@ for _, row in nf4_subset.iterrows():
         records_n4[dist_code][f"bp_{ind_num}"] = val
 
 n4_wide = pd.DataFrame.from_dict(records_n4, orient="index").reset_index(drop=True)
-n4_wide["nfhs4_bp"] = n4_wide[["bp_85", "bp_86", "bp_87"]].sum(axis=1, min_count=1)
+# ponytail: bp_85/86/87 overlap on sys/dia OR thresholds — use max as union proxy
+n4_wide["nfhs4_bp"] = n4_wide[["bp_85", "bp_86", "bp_87"]].max(axis=1)
 n4_wide.drop(columns=["bp_85", "bp_86", "bp_87"], inplace=True, errors="ignore")
 
 # Merge NFHS-4 variables onto the master frame
