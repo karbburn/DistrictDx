@@ -2,11 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Map, BarChart3, BookOpen } from "lucide-react";
+import { Map, BarChart3, BookOpen, Target, Database } from "lucide-react";
 
 const NAV_ITEMS = [
   { href: "/", label: "Map", icon: Map },
+  { href: "/scatter", label: "Scatter", icon: Target },
   { href: "/rankings", label: "Rankings", icon: BarChart3 },
+  { href: "/variables", label: "Variables", icon: Database },
   { href: "/methodology", label: "Methodology", icon: BookOpen },
 ] as const;
 

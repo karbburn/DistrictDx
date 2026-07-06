@@ -1,85 +1,44 @@
 "use client";
 
-// Home page showing the full-bleed India choropleth map.
-// Features a collapsible left control rail and right-side district drill-down slide-over.
+// 2×2 Scatter Plot page: Demand × Realizability for all 785 districts.
+// Same control rail as the map page; scatter fills the viewport.
 
-import { useState, useEffect, useCallback, useRef, startTransition, useReducer, useMemo } from "react";
+import { useState, useEffect, useCallback, useReducer, useMemo } from "react";
 import TopBar from "@/components/TopBar";
-import ChoroplethMap from "@/components/ChoroplethMap";
+import ScatterPlot from "@/components/ScatterPlot";
 import DistrictDrilldown from "@/components/DistrictDrilldown";
 import {
   loadDistrictData,
-  loadGeoData,
   getDistrictByLgd,
   getStateList,
 } from "@/lib/data";
-import type {
-  DistrictData,
-  GeoDistrictProperties,
-} from "@/lib/data";
-import type { FeatureCollection, Geometry } from "geojson";
+import type { DistrictData } from "@/lib/data";
 import { filterReducer, INITIAL_FILTERS } from "@/lib/filters";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-// ── Filter Reducer (batched via reducer) ──────────────────────────────────────
 // Uses shared filterReducer from @/lib/filters
 
-export default function Home() {
+export default function ScatterPage() {
   // ── Data State ──────────────────────────────────────────────────────────────
   const [districtData, setDistrictData] = useState<DistrictData[]>([]);
-  const [geoData, setGeoData] = useState<FeatureCollection<
-    Geometry,
-    GeoDistrictProperties
-  > | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [states, setStates] = useState<string[]>([]);
 
   // ── UI State ────────────────────────────────────────────────────────────────
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
-  const [selectedDistrict, setSelectedDistrict] = useState<DistrictData | null>(
-    null
-  );
-  const [hoveredDistrictCode, setHoveredDistrictCode] = useState<string | null>(null);
+  const [selectedDistrict, setSelectedDistrict] = useState<DistrictData | null>(null);
 
-  // ── Filter State (batched via reducer) ──────────────────────────────────────
+  // ── Filter State ────────────────────────────────────────────────────────────
   const [filters, dispatch] = useReducer(filterReducer, INITIAL_FILTERS);
-
-  // ── State highlight: active filter takes priority, then hovered district ────
-  const highlightedState = useMemo(() => {
-    if (filters.stateFilter !== "all") return filters.stateFilter;
-    if (hoveredDistrictCode) {
-      const d = getDistrictByLgd(districtData, hoveredDistrictCode);
-      return d?.state_name ?? null;
-    }
-    return null;
-  }, [filters.stateFilter, hoveredDistrictCode, districtData]);
-
-  // ── Track initial load for stagger animation ────────────────────────────────
-  const isInitialLoadRef = useRef(true);
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
-
-  // After first render, disable stagger for future filter changes
-  useEffect(() => {
-    if (!loading && isInitialLoadRef.current) {
-      const timer = setTimeout(() => {
-        isInitialLoadRef.current = false;
-        setIsInitialLoad(false);
-      }, 2000); // Wait for stagger animation to complete
-      return () => clearTimeout(timer);
-    }
-  }, [loading]);
 
   // ── Load Data ───────────────────────────────────────────────────────────────
   useEffect(() => {
-    Promise.all([loadDistrictData(), loadGeoData()])
-      .then(([data, geo]) => {
-        startTransition(() => {
-          setDistrictData(data);
-          setGeoData(geo);
-          setStates(getStateList(data));
-          setLoading(false);
-        });
+    loadDistrictData()
+      .then((data) => {
+        setDistrictData(data);
+        setStates(getStateList(data));
+        setLoading(false);
       })
       .catch((err) => {
         setError(err instanceof Error ? err.message : "Failed to load data");
@@ -87,23 +46,23 @@ export default function Home() {
       });
   }, []);
 
+  // ── State highlight ─────────────────────────────────────────────────────────
+  const highlightedState = useMemo(() => {
+    if (filters.stateFilter !== "all") return filters.stateFilter;
+    return null;
+  }, [filters.stateFilter]);
+
   // ── Handlers ────────────────────────────────────────────────────────────────
   const handleDistrictClick = useCallback(
     (lgdCode: string) => {
       const district = getDistrictByLgd(districtData, lgdCode);
-      if (district) {
-        setSelectedDistrict(district);
-      }
+      if (district) setSelectedDistrict(district);
     },
     [districtData]
   );
 
   const handleCloseDrilldown = useCallback(() => {
     setSelectedDistrict(null);
-  }, []);
-
-  const handleDistrictHover = useCallback((lgdCode: string | null) => {
-    setHoveredDistrictCode(lgdCode);
   }, []);
 
   if (loading) {
@@ -141,36 +100,28 @@ export default function Home() {
       <TopBar />
 
       <div className="flex flex-1 overflow-hidden">
-        {/* ── Left Rail Control Panel ──────────────────────────────────── */}
+        {/* ── Left Rail ──────────────────────────────────────────────────── */}
         <aside
           className={`flex flex-col border-r border-hairline bg-surface transition-all duration-200 flex-shrink-0 ${
             isSidebarCollapsed ? "w-12" : "w-72"
           }`}
           role="region"
-          aria-label="Map controls"
+          aria-label="Scatter controls"
         >
-          {/* Collapse Toggle */}
           <div className="flex h-10 items-center justify-end border-b border-hairline px-2">
             <button
               onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-              aria-label={
-                isSidebarCollapsed ? "Expand controls" : "Collapse controls"
-              }
+              aria-label={isSidebarCollapsed ? "Expand controls" : "Collapse controls"}
               aria-expanded={!isSidebarCollapsed}
               className="flex h-7 w-7 items-center justify-center rounded hover:bg-surface-raised text-secondary hover:text-primary transition-colors"
             >
-              {isSidebarCollapsed ? (
-                <ChevronRight size={14} />
-              ) : (
-                <ChevronLeft size={14} />
-              )}
+              {isSidebarCollapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
             </button>
           </div>
 
-          {/* Controls */}
           {!isSidebarCollapsed && (
             <div className="flex flex-col gap-5 p-4 overflow-y-auto flex-1">
-              {/* Index Type Selector */}
+              {/* Index Type */}
               <fieldset className="flex flex-col gap-2">
                 <legend className="font-data text-[10px] uppercase tracking-wider text-muted">
                   Index Type
@@ -193,7 +144,7 @@ export default function Home() {
                 </div>
               </fieldset>
 
-              {/* Time Horizon Toggle */}
+              {/* Time Horizon */}
               <fieldset className="flex flex-col gap-2">
                 <legend className="font-data text-[10px] uppercase tracking-wider text-muted">
                   Temporal Horizon
@@ -218,35 +169,27 @@ export default function Home() {
 
               {/* State Filter */}
               <div className="flex flex-col gap-2">
-                <label
-                  htmlFor="state-filter"
-                  className="font-data text-[10px] uppercase tracking-wider text-muted"
-                >
+                <label htmlFor="scatter-state-filter" className="font-data text-[10px] uppercase tracking-wider text-muted">
                   State Filter
                 </label>
                 <select
-                  id="state-filter"
+                  id="scatter-state-filter"
                   value={filters.stateFilter}
                   onChange={(e) => dispatch({ type: "SET_STATE", stateFilter: e.target.value })}
                   className="w-full bg-void border border-hairline rounded px-3 py-2 text-xs text-primary font-data focus:outline-none focus:border-saffron min-h-[44px]"
                 >
                   <option value="all">All States ({districtData.length})</option>
                   {states.map((s) => (
-                    <option key={s} value={s}>
-                      {s}
-                    </option>
+                    <option key={s} value={s}>{s}</option>
                   ))}
                 </select>
               </div>
 
-              {/* Active Filter Summary */}
+              {/* Active View Summary */}
               <div className="border-t border-hairline pt-3 flex flex-col gap-1">
-                <span className="font-data text-[10px] text-muted uppercase tracking-wider">
-                  Active View
-                </span>
+                <span className="font-data text-[10px] text-muted uppercase tracking-wider">Active View</span>
                 <span className="font-data text-xs text-saffron">
-                  MAI_{filters.indexType.charAt(0).toUpperCase() + filters.indexType.slice(1)} ·{" "}
-                  {filters.timeHorizon === "current" ? "Current" : "Future (β=0.3)"}
+                  MAI_{filters.indexType.charAt(0).toUpperCase() + filters.indexType.slice(1)} · {filters.timeHorizon === "current" ? "Current" : "Future (β=0.3)"}
                 </span>
                 <span className="font-data text-[10px] text-muted">
                   {filters.stateFilter === "all"
@@ -257,36 +200,27 @@ export default function Home() {
             </div>
           )}
 
-          {/* Footer */}
           {!isSidebarCollapsed && (
             <div className="p-3 border-t border-hairline font-data text-[10px] text-muted flex-shrink-0">
               <div>DistrictDx v1.0</div>
-              <div>785 LGD districts · Census + NFHS data</div>
+              <div>Demand × Realizability scatter</div>
             </div>
           )}
         </aside>
 
-        {/* ── Map Area ─────────────────────────────────────────────────── */}
+        {/* ── Scatter Area ────────────────────────────────────────────────── */}
         <main className="flex-1 relative overflow-hidden bg-void">
-          {geoData && (
-            <ChoroplethMap
-              geoData={geoData}
-              districtData={districtData}
-              indexType={filters.indexType}
-              timeHorizon={filters.timeHorizon}
-              stateFilter={filters.stateFilter}
-              highlightedState={highlightedState}
-              onDistrictClick={handleDistrictClick}
-              onDistrictHover={handleDistrictHover}
-              selectedDistrictCode={
-                selectedDistrict?.lgd_district_code ?? null
-              }
-              isInitialLoad={isInitialLoad}
-            />
-          )}
+          <ScatterPlot
+            districtData={districtData}
+            indexType={filters.indexType}
+            timeHorizon={filters.timeHorizon}
+            highlightedState={highlightedState}
+            onDistrictClick={handleDistrictClick}
+            selectedDistrictCode={selectedDistrict?.lgd_district_code ?? null}
+          />
         </main>
 
-        {/* ── Right Slide-Over Drill-Down ───────────────────────────── */}
+        {/* ── Right Drill-Down ──────────────────────────────────────────── */}
         {selectedDistrict && (
           <DistrictDrilldown
             district={selectedDistrict}

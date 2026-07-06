@@ -26,6 +26,7 @@ interface DistrictPathProps {
   fillColor: string;
   isLowConf: boolean;
   isSelected: boolean;
+  isHighlighted: boolean;
   isInitialLoad: boolean;
   batchIndex: number;
   code: string;
@@ -42,6 +43,7 @@ const DistrictPath = memo(function DistrictPath({
   fillColor,
   isLowConf,
   isSelected,
+  isHighlighted,
   isInitialLoad,
   batchIndex,
   code,
@@ -99,6 +101,8 @@ const DistrictPath = memo(function DistrictPath({
     ? { animationDelay: `${batchIndex * 100}ms` }
     : { opacity: 1 };
 
+  const dimOpacity = !isHighlighted ? 0.15 : 1;
+
   return (
     <g>
       <path
@@ -107,7 +111,7 @@ const DistrictPath = memo(function DistrictPath({
         stroke={strokeColor}
         strokeWidth={strokeWidth}
         className={isInitialLoad ? "district-path" : undefined}
-        style={animStyle}
+        style={{ ...animStyle, opacity: isInitialLoad ? undefined : dimOpacity }}
         tabIndex={0}
         role="button"
         aria-label={`${districtName}, ${stateName}`}
@@ -126,7 +130,7 @@ const DistrictPath = memo(function DistrictPath({
           stroke="none"
           pointerEvents="none"
           className={isInitialLoad ? "district-path" : undefined}
-          style={animStyle}
+          style={{ ...animStyle, opacity: isInitialLoad ? undefined : dimOpacity }}
         />
       )}
     </g>
@@ -141,7 +145,9 @@ interface ChoroplethMapProps {
   indexType: IndexType;
   timeHorizon: TimeHorizon;
   stateFilter: string;
+  highlightedState: string | null;
   onDistrictClick: (lgdCode: string) => void;
+  onDistrictHover: (lgdCode: string | null) => void;
   selectedDistrictCode: string | null;
   isInitialLoad: boolean;
 }
@@ -154,7 +160,9 @@ export default function ChoroplethMap({
   indexType,
   timeHorizon,
   stateFilter,
+  highlightedState,
   onDistrictClick,
+  onDistrictHover,
   selectedDistrictCode,
   isInitialLoad,
 }: ChoroplethMapProps) {
@@ -263,7 +271,8 @@ export default function ChoroplethMap({
   // Hover callback — stable reference, doesn't cause path re-renders
   const handleHover = useCallback((code: string | null) => {
     setHoveredCode(code);
-  }, []);
+    onDistrictHover(code);
+  }, [onDistrictHover]);
 
   // Tooltip info — O(1) lookup
   const hoveredDistrict = hoveredCode ? districtMap.get(hoveredCode) : null;
@@ -318,6 +327,7 @@ export default function ChoroplethMap({
                 fillColor={fillColors.get(code) || "#1c1915"}
                 isLowConf={lowConfidenceFlags.get(code) || false}
                 isSelected={selectedDistrictCode === code}
+                isHighlighted={!highlightedState || feature.properties.state_name === highlightedState}
                 isInitialLoad={isInitialLoad}
                 batchIndex={Math.floor(i / BATCH_SIZE)}
                 districtName={feature.properties.district_name}

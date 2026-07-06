@@ -199,10 +199,12 @@ export default function DistrictPage({
               indexType={indexType}
               timeHorizon={timeHorizon}
               stateFilter={stateFilter}
+              highlightedState={stateFilter !== "all" ? stateFilter : null}
               onDistrictClick={(code) => {
                 const d = getDistrictByLgd(districtData, code);
                 if (d) setSelectedDistrict(d);
               }}
+              onDistrictHover={() => {}}
               selectedDistrictCode={selectedDistrict.lgd_district_code}
               isInitialLoad={false}
             />

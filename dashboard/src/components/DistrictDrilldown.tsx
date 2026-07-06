@@ -15,6 +15,7 @@ import {
 } from "recharts";
 import ConfidenceBadge from "./ConfidenceBadge";
 import QuadrantBadge from "./QuadrantBadge";
+import TherapyComparison from "./TherapyComparison";
 import type { DistrictData, IndexType, TimeHorizon } from "@/lib/data";
 import {
   getMAIValue,
@@ -215,6 +216,16 @@ export default function DistrictDrilldown({
                 </Bar>
               </BarChart>
             </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* Therapy Comparison */}
+        <div className="flex flex-col gap-2">
+          <span className="font-data text-[10px] text-muted uppercase tracking-wider">
+            Therapy Comparison
+          </span>
+          <div className="bg-void rounded border border-hairline p-3">
+            <TherapyComparison district={district} timeHorizon={timeHorizon} />
           </div>
         </div>
 

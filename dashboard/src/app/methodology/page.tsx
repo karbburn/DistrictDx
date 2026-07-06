@@ -407,6 +407,102 @@ const sections: Section[] = [
       </>
     ),
   },
+  {
+    id: "replicability",
+    title: "Extending the Framework",
+    content: (
+      <>
+        <h4 className="font-display text-base font-semibold text-primary mt-4 mb-2">
+          Adding a New Therapy Category
+        </h4>
+        <p>
+          The framework extends to any new therapy category (e.g., oncology,
+          pediatrics) without code changes to the pipeline architecture:
+        </p>
+        <ol className="list-decimal list-inside space-y-1">
+          <li>
+            Define a new{" "}
+            <span className="font-data text-xs">Demand-TherapyX</span>{" "}
+            composite by selecting domain-relevant variables (e.g., age-specific
+            incidence rates for pediatrics).
+          </li>
+          <li>
+            Build AHP pairwise comparison matrices for the new domain using
+            clinical literature.
+          </li>
+          <li>
+            Add the variable list to{" "}
+            <span className="font-data text-xs">
+              04_construct/build_subdomain_composites.py
+            </span>{" "}
+            and re-run the pipeline.
+          </li>
+        </ol>
+        <p>
+          The geometric-mean MAI formula automatically accommodates any number of
+          sub-domain composites — the only constraint is that each variable must
+          have a named free source documented in{" "}
+          <span className="font-data text-xs">data_dictionary.csv</span>.
+        </p>
+
+        <h4 className="font-display text-base font-semibold text-primary mt-4 mb-2">
+          District Boundary Changes
+        </h4>
+        <p>
+          India periodically creates new districts by bifurcating existing ones.
+          When this happens:
+        </p>
+        <ol className="list-decimal list-inside space-y-1">
+          <li>
+            Update the LGD crosswalk in{" "}
+            <span className="font-data text-xs">
+              02_reconcile/build_district_master.py
+            </span>{" "}
+            with the new district code and its parent boundary.
+          </li>
+          <li>
+            Download updated boundary geometries into{" "}
+            <span className="font-data text-xs">scratch/LGD_Districts.parquet</span>.
+          </li>
+          <li>
+            Re-run from stage 02 onward. The pipeline uses LGD codes as the join
+            key everywhere, so boundary changes only affect the crosswalk and
+            geometry files — no logic changes required.
+          </li>
+        </ol>
+
+        <h4 className="font-display text-base font-semibold text-primary mt-4 mb-2">
+          Adding New Variables
+        </h4>
+        <p>
+          To incorporate a newly available indicator (e.g., a future NFHS-6 or a
+          new HMIS metric):
+        </p>
+        <ol className="list-decimal list-inside space-y-1">
+          <li>
+            Add a row to{" "}
+            <span className="font-data text-xs">data_dictionary.csv</span> with
+            source, year, granularity, and limitations.
+          </li>
+          <li>
+            Add the variable name to the relevant domain list in{" "}
+            <span className="font-data text-xs">
+              04_construct/build_subdomain_composites.py
+            </span>.
+          </li>
+          <li>
+            Add the column to the CSV parser in{" "}
+            <span className="font-data text-xs">data.ts</span> for dashboard
+            display.
+          </li>
+        </ol>
+        <p>
+          The pipeline&apos;s imputation, normalization, and AHP weighting steps
+          are automatic for any new numeric column — no manual recoding needed.
+        </p>
+      </>
+    ),
+  },
 ];
 
 export default function MethodologyPage() {

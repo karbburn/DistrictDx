@@ -355,7 +355,7 @@ export function getQuadrantLabel(quadrant: string): {
     case "Underserved":
       return {
         label: "Underserved",
-        description: "Low demand but strong access. Niche opportunity.",
+        description: "Low demand but strong access — maintenance/efficiency play.",
       };
     case "Deprioritize":
       return {
