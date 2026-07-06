@@ -1,293 +1,260 @@
 "use client";
 
-import { useState } from "react";
+// ── Home Page: Full-Bleed Choropleth with Left Rail + Right Drill-Down ────────
+// Per DESIGN §4: full-bleed map as primary surface, left rail controls,
+// right-side slide-over for district drill-down.
+
+import { useState, useEffect, useCallback, useRef } from "react";
+import TopBar from "@/components/TopBar";
+import ChoroplethMap from "@/components/ChoroplethMap";
+import DistrictDrilldown from "@/components/DistrictDrilldown";
+import {
+  loadDistrictData,
+  loadGeoData,
+  getDistrictByLgd,
+  getStateList,
+} from "@/lib/data";
+import type {
+  DistrictData,
+  IndexType,
+  TimeHorizon,
+  GeoDistrictProperties,
+} from "@/lib/data";
+import type { FeatureCollection, Geometry } from "geojson";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function Home() {
-  // ── Layout & UI States ──────────────────────────────────────────────────────
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
-  const [isDrilldownOpen, setIsDrilldownOpen] = useState(true);
+  // ── Data State ──────────────────────────────────────────────────────────────
+  const [districtData, setDistrictData] = useState<DistrictData[]>([]);
+  const [geoData, setGeoData] = useState<FeatureCollection<
+    Geometry,
+    GeoDistrictProperties
+  > | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [states, setStates] = useState<string[]>([]);
 
-  // ── Filter States ──────────────────────────────────────────────────────────
-  const [selectedTime, setSelectedTime] = useState<"current" | "future">("current");
-  const [selectedIndex, setSelectedIndex] = useState<"overall" | "chronic" | "acute">("overall");
+  // ── UI State ────────────────────────────────────────────────────────────────
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [selectedDistrict, setSelectedDistrict] = useState<DistrictData | null>(
+    null
+  );
+
+  // ── Filter State ────────────────────────────────────────────────────────────
+  const [indexType, setIndexType] = useState<IndexType>("overall");
+  const [timeHorizon, setTimeHorizon] = useState<TimeHorizon>("current");
   const [stateFilter, setStateFilter] = useState("all");
 
+  // ── Track initial load for stagger animation ────────────────────────────────
+  const isInitialLoadRef = useRef(true);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
+
+  // After first render, disable stagger for future filter changes
+  useEffect(() => {
+    if (!loading && isInitialLoadRef.current) {
+      const timer = setTimeout(() => {
+        isInitialLoadRef.current = false;
+        setIsInitialLoad(false);
+      }, 2000); // Wait for stagger animation to complete
+      return () => clearTimeout(timer);
+    }
+  }, [loading]);
+
+  // ── Load Data ───────────────────────────────────────────────────────────────
+  useEffect(() => {
+    Promise.all([loadDistrictData(), loadGeoData()]).then(([data, geo]) => {
+      setDistrictData(data);
+      setGeoData(geo);
+      setStates(getStateList(data));
+      setLoading(false);
+    });
+  }, []);
+
+  // ── Handlers ────────────────────────────────────────────────────────────────
+  const handleDistrictClick = useCallback(
+    (lgdCode: number) => {
+      const district = getDistrictByLgd(districtData, lgdCode);
+      if (district) {
+        setSelectedDistrict(district);
+      }
+    },
+    [districtData]
+  );
+
+  const handleCloseDrilldown = useCallback(() => {
+    setSelectedDistrict(null);
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex h-screen w-screen items-center justify-center bg-void">
+        <div className="flex flex-col items-center gap-3">
+          <div className="h-3 w-3 rounded-full bg-saffron animate-pulse" />
+          <span className="font-data text-xs text-muted tracking-wider">
+            Loading 785 districts…
+          </span>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-void text-primary font-sans">
-      {/* ── Left Rail Control Panel ───────────────────────────────────────────── */}
-      <aside
-        className={`flex flex-col border-r border-hairline bg-surface transition-all duration-300 ${
-          isSidebarCollapsed ? "w-16" : "w-80"
-        }`}
-      >
-        {/* Sidebar Header */}
-        <div className="flex h-16 items-center justify-between border-b border-hairline px-4">
-          {!isSidebarCollapsed && (
-            <h1 className="font-display text-xl font-bold tracking-tight text-saffron">
-              DistrictDx
-            </h1>
-          )}
-          <button
-            onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-            aria-label={isSidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
-            aria-expanded={!isSidebarCollapsed}
-            className="flex h-8 w-8 items-center justify-center rounded border border-hairline hover:bg-surface-raised text-secondary hover:text-primary transition-colors font-data text-xs"
-          >
-            {isSidebarCollapsed ? "→" : "←"}
-          </button>
-        </div>
+    <div className="flex flex-col h-screen w-screen overflow-hidden bg-void text-primary font-sans">
+      <TopBar />
 
-        {/* Sidebar Controls */}
-        <div className={`flex flex-col gap-6 p-4 overflow-y-auto flex-1 ${isSidebarCollapsed ? "hidden" : "block"}`}>
-          {/* Index Selector */}
-          <div className="flex flex-col gap-2">
-            <span className="font-data text-xs uppercase tracking-wider text-muted">
-              Select Index
-            </span>
-            <div className="flex flex-col gap-1">
-              {(["overall", "chronic", "acute"] as const).map((type) => (
-                <button
-                  key={type}
-                  onClick={() => setSelectedIndex(type)}
-                  className={`w-full text-left px-3 py-2 rounded font-data text-sm transition-all border ${
-                    selectedIndex === type
-                      ? "bg-saffron/10 border-saffron text-saffron"
-                      : "border-transparent bg-void text-secondary hover:text-primary hover:border-hairline"
-                  }`}
-                >
-                  MAI_{type.charAt(0).toUpperCase() + type.slice(1)}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Time Selector */}
-          <div className="flex flex-col gap-2">
-            <span className="font-data text-xs uppercase tracking-wider text-muted">
-              Temporal Horizon
-            </span>
-            <div className="grid grid-cols-2 gap-1 bg-void p-1 rounded border border-hairline">
-              <button
-                onClick={() => setSelectedTime("current")}
-                className={`py-1.5 rounded font-data text-xs text-center transition-all ${
-                  selectedTime === "current"
-                    ? "bg-surface-raised text-primary"
-                    : "text-secondary hover:text-primary"
-                }`}
-              >
-                Current
-              </button>
-              <button
-                onClick={() => setSelectedTime("future")}
-                className={`py-1.5 rounded font-data text-xs text-center transition-all ${
-                  selectedTime === "future"
-                    ? "bg-surface-raised text-primary"
-                    : "text-secondary hover:text-primary"
-                }`}
-              >
-                Future (Trend)
-              </button>
-            </div>
-          </div>
-
-          {/* State Filter */}
-          <div className="flex flex-col gap-2">
-            <span className="font-data text-xs uppercase tracking-wider text-muted">
-              State Filter
-            </span>
-            <select
-              value={stateFilter}
-              onChange={(e) => setStateFilter(e.target.value)}
-              className="w-full bg-void border border-hairline rounded px-3 py-2 text-sm text-primary font-sans focus:outline-none focus:border-saffron"
-            >
-              <option value="all">All States</option>
-              <option value="maharashtra">Maharashtra</option>
-              <option value="gujarat">Gujarat</option>
-              <option value="kerala">Kerala</option>
-              <option value="telangana">Telangana</option>
-            </select>
-          </div>
-        </div>
-
-        {/* Sidebar Footer */}
-        <div className={`p-4 border-t border-hairline font-data text-[10px] text-muted ${isSidebarCollapsed ? "hidden" : "block"}`}>
-          <div>Sun Pharma Portfolio Matrix</div>
-          <div>Version 1.0.0 (Decadal Trend)</div>
-        </div>
-      </aside>
-
-      {/* ── Main Map Area ──────────────────────────────────────────────────────── */}
-      <main className="flex-1 flex flex-col relative overflow-hidden bg-void">
-        {/* Top Header/Status Bar */}
-        <header className="flex h-16 items-center justify-between border-b border-hairline bg-surface px-6 z-10">
-          <div className="flex items-center gap-4">
-            <div className="h-2 w-2 rounded-full bg-demand animate-pulse" />
-            <span className="font-data text-xs tracking-wider text-secondary">
-              SYSTEM ONLINE // data loaded successfully
-            </span>
-          </div>
-
-          <div className="flex items-center gap-3">
+      <div className="flex flex-1 overflow-hidden">
+        {/* ── Left Rail Control Panel ──────────────────────────────────── */}
+        <aside
+          className={`flex flex-col border-r border-hairline bg-surface transition-all duration-200 flex-shrink-0 ${
+            isSidebarCollapsed ? "w-12" : "w-72"
+          }`}
+          role="region"
+          aria-label="Map controls"
+        >
+          {/* Collapse Toggle */}
+          <div className="flex h-10 items-center justify-end border-b border-hairline px-2">
             <button
-              onClick={() => setIsDrilldownOpen(!isDrilldownOpen)}
-              aria-expanded={isDrilldownOpen}
-              className="px-3 py-1 text-xs font-data border border-hairline rounded hover:bg-surface-raised text-secondary hover:text-primary transition-colors"
+              onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+              aria-label={
+                isSidebarCollapsed ? "Expand controls" : "Collapse controls"
+              }
+              aria-expanded={!isSidebarCollapsed}
+              className="flex h-7 w-7 items-center justify-center rounded hover:bg-surface-raised text-secondary hover:text-primary transition-colors"
             >
-              {isDrilldownOpen ? "Hide Details" : "Show Details"}
+              {isSidebarCollapsed ? (
+                <ChevronRight size={14} />
+              ) : (
+                <ChevronLeft size={14} />
+              )}
             </button>
           </div>
-        </header>
 
-        {/* Hero Interactive Surface (Grid Fallback/Design Token Validator) */}
-        <div className="flex-1 p-8 overflow-y-auto flex flex-col gap-8">
-          <div className="flex flex-col gap-2 border-b border-hairline pb-4">
-            <h2 className="font-display text-4xl font-semibold tracking-tight text-primary">
-              Control Room / Research Instrument
-            </h2>
-            <p className="text-secondary max-w-xl text-sm">
-              Verify font families and custom color tokens dynamically rendering on the dashboard scaffold.
-            </p>
-          </div>
+          {/* Controls */}
+          {!isSidebarCollapsed && (
+            <div className="flex flex-col gap-5 p-4 overflow-y-auto flex-1">
+              {/* Index Type Selector */}
+              <fieldset className="flex flex-col gap-2">
+                <legend className="font-data text-[10px] uppercase tracking-wider text-muted">
+                  Index Type
+                </legend>
+                <div className="flex flex-col gap-1">
+                  {(["overall", "chronic", "acute"] as const).map((type) => (
+                    <button
+                      key={type}
+                      onClick={() => setIndexType(type)}
+                      className={`w-full text-left px-3 py-2 rounded font-data text-xs transition-colors border min-h-[44px] ${
+                        indexType === type
+                          ? "bg-saffron/10 border-saffron/40 text-saffron"
+                          : "border-transparent text-secondary hover:text-primary hover:bg-void"
+                      }`}
+                      aria-pressed={indexType === type}
+                    >
+                      MAI_{type.charAt(0).toUpperCase() + type.slice(1)}
+                    </button>
+                  ))}
+                </div>
+              </fieldset>
 
-          {/* Design Token Validator Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Color Swatches */}
-            <div className="border border-hairline bg-surface rounded p-6 flex flex-col gap-4">
-              <h3 className="font-display text-lg font-medium text-saffron border-b border-hairline pb-2">
-                Aesthetic Color Tokens
-              </h3>
-              <div className="grid grid-cols-2 gap-3 font-data text-xs">
-                <div className="flex items-center gap-3 p-2 bg-void rounded border border-hairline">
-                  <div className="h-6 w-6 rounded bg-void border border-hairline" />
-                  <span>bg-void (#0a0908)</span>
+              {/* Time Horizon Toggle */}
+              <fieldset className="flex flex-col gap-2">
+                <legend className="font-data text-[10px] uppercase tracking-wider text-muted">
+                  Temporal Horizon
+                </legend>
+                <div className="grid grid-cols-2 gap-1 bg-void p-1 rounded border border-hairline">
+                  {(["current", "future"] as const).map((t) => (
+                    <button
+                      key={t}
+                      onClick={() => setTimeHorizon(t)}
+                      className={`py-2 rounded font-data text-[11px] text-center transition-colors min-h-[44px] ${
+                        timeHorizon === t
+                          ? "bg-surface-raised text-primary"
+                          : "text-secondary hover:text-primary"
+                      }`}
+                      aria-pressed={timeHorizon === t}
+                    >
+                      {t === "current" ? "Current" : "Future"}
+                    </button>
+                  ))}
                 </div>
-                <div className="flex items-center gap-3 p-2 bg-void rounded border border-hairline">
-                  <div className="h-6 w-6 rounded bg-surface border border-hairline" />
-                  <span>bg-surface (#14120f)</span>
-                </div>
-                <div className="flex items-center gap-3 p-2 bg-void rounded border border-hairline">
-                  <div className="h-6 w-6 rounded bg-surface-raised border border-hairline" />
-                  <span>bg-surface-raised (#1c1915)</span>
-                </div>
-                <div className="flex items-center gap-3 p-2 bg-void rounded border border-hairline">
-                  <div className="h-6 w-6 rounded bg-saffron" />
-                  <span className="text-saffron">saffron (#f97316)</span>
-                </div>
-                <div className="flex items-center gap-3 p-2 bg-void rounded border border-hairline">
-                  <div className="h-6 w-6 rounded bg-demand" />
-                  <span className="text-demand">demand (#4ade80)</span>
-                </div>
-                <div className="flex items-center gap-3 p-2 bg-void rounded border border-hairline">
-                  <div className="h-6 w-6 rounded bg-realizability" />
-                  <span className="text-realizability">realizability (#38bdf8)</span>
-                </div>
-                <div className="flex items-center gap-3 p-2 bg-void rounded border border-hairline">
-                  <div className="h-6 w-6 rounded bg-negative" />
-                  <span className="text-negative">negative (#f87171)</span>
-                </div>
-                <div className="flex items-center gap-3 p-2 bg-void rounded border border-hairline">
-                  <div className="h-6 w-6 rounded bg-confidence-low" />
-                  <span className="text-confidence-low">confidence-low (#57534e)</span>
-                </div>
+              </fieldset>
+
+              {/* State Filter */}
+              <div className="flex flex-col gap-2">
+                <label
+                  htmlFor="state-filter"
+                  className="font-data text-[10px] uppercase tracking-wider text-muted"
+                >
+                  State Filter
+                </label>
+                <select
+                  id="state-filter"
+                  value={stateFilter}
+                  onChange={(e) => setStateFilter(e.target.value)}
+                  className="w-full bg-void border border-hairline rounded px-3 py-2 text-xs text-primary font-data focus:outline-none focus:border-saffron min-h-[44px]"
+                >
+                  <option value="all">All States ({districtData.length})</option>
+                  {states.map((s) => (
+                    <option key={s} value={s}>
+                      {s}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Active Filter Summary */}
+              <div className="border-t border-hairline pt-3 flex flex-col gap-1">
+                <span className="font-data text-[10px] text-muted uppercase tracking-wider">
+                  Active View
+                </span>
+                <span className="font-data text-xs text-saffron">
+                  MAI_{indexType.charAt(0).toUpperCase() + indexType.slice(1)} ·{" "}
+                  {timeHorizon === "current" ? "Current" : "Future (β=0.3)"}
+                </span>
+                <span className="font-data text-[10px] text-muted">
+                  {stateFilter === "all"
+                    ? `${districtData.length} districts`
+                    : `${districtData.filter((d) => d.state_name === stateFilter).length} districts in ${stateFilter}`}
+                </span>
               </div>
             </div>
+          )}
 
-            {/* Typography Samples */}
-            <div className="border border-hairline bg-surface rounded p-6 flex flex-col gap-4">
-              <h3 className="font-display text-lg font-medium text-saffron border-b border-hairline pb-2">
-                Typography Families
-              </h3>
-              <div className="flex flex-col gap-4">
-                <div className="flex flex-col">
-                  <span className="font-data text-[10px] text-muted uppercase tracking-wider">
-                    Fraunces (Display Heading)
-                  </span>
-                  <p className="font-display text-2xl font-bold italic tracking-tight">
-                    The quick brown fox jumps over the lazy dog.
-                  </p>
-                </div>
-                <div className="flex flex-col">
-                  <span className="font-data text-[10px] text-muted uppercase tracking-wider">
-                    IBM Plex Sans (UI Chrome/Body)
-                  </span>
-                  <p className="font-sans text-sm text-secondary">
-                    Pharmaceutical Market Attractiveness Index (MAI) provides analytical clarity for strategic market positioning.
-                  </p>
-                </div>
-                <div className="flex flex-col">
-                  <span className="font-data text-[10px] text-muted uppercase tracking-wider">
-                    JetBrains Mono (Monospace Data/Metrics)
-                  </span>
-                  <p className="font-data text-sm text-primary">
-                    MAI_Overall = 0.5882 // 785/785 LGD nodes // p_val = 1.0000e+00
-                  </p>
-                </div>
-              </div>
+          {/* Footer */}
+          {!isSidebarCollapsed && (
+            <div className="p-3 border-t border-hairline font-data text-[10px] text-muted flex-shrink-0">
+              <div>DistrictDx v1.0</div>
+              <div>785 LGD districts · Census + NFHS data</div>
             </div>
-          </div>
-        </div>
-      </main>
+          )}
+        </aside>
 
-      {/* ── Right-Side Slide-Over Panel (District Drill-Down Placeholder) ─────── */}
-      <section
-        className={`flex flex-col border-l border-hairline bg-surface transition-all duration-300 ${
-          isDrilldownOpen ? "w-96" : "w-0 overflow-hidden border-l-0"
-        }`}
-      >
-        <div className="flex h-16 items-center justify-between border-b border-hairline px-4 flex-shrink-0">
-          <h2 className="font-display text-lg font-bold text-saffron">
-            District Profile
-          </h2>
-          <button
-            onClick={() => setIsDrilldownOpen(false)}
-            aria-label="Close district profile panel"
-            className="flex h-8 w-8 items-center justify-center rounded border border-hairline hover:bg-surface-raised text-secondary hover:text-primary transition-colors font-data text-xs"
-          >
-            ×
-          </button>
-        </div>
+        {/* ── Map Area ─────────────────────────────────────────────────── */}
+        <main className="flex-1 relative overflow-hidden bg-void">
+          {geoData && (
+            <ChoroplethMap
+              geoData={geoData}
+              districtData={districtData}
+              indexType={indexType}
+              timeHorizon={timeHorizon}
+              stateFilter={stateFilter}
+              onDistrictClick={handleDistrictClick}
+              selectedDistrictCode={
+                selectedDistrict?.lgd_district_code ?? null
+              }
+              isInitialLoad={isInitialLoad}
+            />
+          )}
+        </main>
 
-        <div className="flex-1 p-6 flex flex-col gap-6 overflow-y-auto">
-          {/* Header info */}
-          <div className="flex flex-col gap-1 border-b border-hairline pb-4">
-            <h3 className="font-display text-2xl font-bold tracking-tight">
-              Ahmedabad
-            </h3>
-            <span className="font-data text-xs text-secondary">
-              State: Gujarat // LGD: 443
-            </span>
-          </div>
-
-          {/* Scores breakdown */}
-          <div className="flex flex-col gap-4">
-            <div className="flex items-center justify-between bg-void p-3 rounded border border-hairline">
-              <span className="font-sans text-sm text-secondary">MAI Overall</span>
-              <span className="font-data text-lg font-bold text-saffron">0.5882</span>
-            </div>
-            <div className="flex items-center justify-between bg-void p-3 rounded border border-hairline">
-              <span className="font-sans text-sm text-secondary">Demand Axis</span>
-              <span className="font-data text-lg font-bold text-demand">0.6120</span>
-            </div>
-            <div className="flex items-center justify-between bg-void p-3 rounded border border-hairline">
-              <span className="font-sans text-sm text-secondary">Realizability Axis</span>
-              <span className="font-data text-lg font-bold text-realizability">0.5654</span>
-            </div>
-          </div>
-
-          {/* Quadrant badge */}
-          <div className="flex flex-col gap-2 bg-void p-4 rounded border border-hairline items-center text-center">
-            <span className="font-data text-[10px] text-muted uppercase tracking-wider">
-              Quadrant Status
-            </span>
-            <span className="font-display text-xl font-semibold text-primary">
-              Star Market (Core Priority)
-            </span>
-            <p className="text-secondary text-xs font-sans max-w-xs mt-1">
-              High Demand potential matched with strong infrastructure capability.
-            </p>
-          </div>
-        </div>
-      </section>
+        {/* ── Right Slide-Over Drill-Down ───────────────────────────── */}
+        {selectedDistrict && (
+          <DistrictDrilldown
+            district={selectedDistrict}
+            indexType={indexType}
+            timeHorizon={timeHorizon}
+            onClose={handleCloseDrilldown}
+          />
+        )}
+      </div>
     </div>
   );
 }

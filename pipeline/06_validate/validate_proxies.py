@@ -1,7 +1,7 @@
 """
 Stage 7 — Sensitivity Check (Entropy Weighting) + Proxy Validation
 ==================================================================
-Implements TECHSPEC §4 (Sensitivity check) and §6 (Validation):
+Entropy weighting sensitivity analysis + proxy validation:
 
   1. Alternate Index via Entropy Weighting:
      - Calculates data-driven Shannon entropy weights for variables in each domain.
@@ -390,7 +390,7 @@ def main():
     
     report_content = f"""# Validation and Sensitivity Report
 
-This document reports the sensitivity checks and proxy validation correlations for the Market Attractiveness Index (MAI) models, in compliance with TECHSPEC §4 (Sensitivity check) and §6 (Validation).
+This document reports the sensitivity checks and proxy validation correlations for the Market Attractiveness Index (MAI) models.
 
 > [!IMPORTANT]
 > **Honesty in Terminology:** In alignment with project rules, the term "validated" is strictly banned. No commercial sales ground truth is available; therefore, all results represent proxy-based comparisons of face validity and statistical alignment.

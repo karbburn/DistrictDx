@@ -18,6 +18,7 @@
 
   /* brand colors */
   --accent-saffron: #f97316; /* Sun Pharma brand tie-in, primary accent */
+  --accent-saffron-dim: #7c3a10;
 
   /* semantic data colors */
   --data-demand: #4ade80;      /* green — demand axis */
@@ -38,6 +39,7 @@
   --color-muted: var(--text-muted);
   
   --color-saffron: var(--accent-saffron);
+  --color-saffron-dim: var(--accent-saffron-dim);
   
   --color-demand: var(--data-demand);
   --color-realizability: var(--data-realizability);
@@ -50,4 +52,121 @@
   --font-sans: var(--font-ibm-plex-sans), sans-serif;
 }
 
+/* ── Map District Staggered Load-In (DESIGN §6) ─────────────────────────── */
 
+@keyframes district-fadein {
+  from {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.district-path {
+  opacity: 0;
+  animation: district-fadein 400ms ease-out forwards;
+}
+
+/* ── Slide-Over Panel Transition (DESIGN §6: 200-250ms ease-out) ─────────── */
+
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-out-right {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+.slide-over-enter {
+  animation: slide-in-right 220ms ease-out forwards;
+}
+
+.slide-over-exit {
+  animation: slide-out-right 220ms ease-in forwards;
+}
+
+/* ── prefers-reduced-motion (DESIGN §7) ──────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .district-path {
+    opacity: 1;
+    animation: none;
+    transform: none;
+  }
+
+  .slide-over-enter,
+  .slide-over-exit {
+    animation: none;
+  }
+
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* ── Focus Visible Ring (keyboard nav — DESIGN §7) ───────────────────────── */
+
+:focus-visible {
+  outline: 2px solid var(--accent-saffron);
+  outline-offset: 2px;
+}
+
+/* ── SVG Hatch Pattern for Low-Confidence Districts (DESIGN §5) ──────────── */
+/* Applied programmatically via SVG <pattern> in the choropleth component */
+
+/* ── Dense Table Utilities ───────────────────────────────────────────────── */
+
+.table-dense th,
+.table-dense td {
+  padding: 8px 12px;
+  white-space: nowrap;
+}
+
+.table-dense th {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: var(--bg-surface);
+  border-bottom: 1px solid var(--border-hairline);
+}
+
+/* ── Scrollbar Styling (analytical tool feel) ────────────────────────────── */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-void);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-hairline);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* ── Selection Color ─────────────────────────────────────────────────────── */
+
+::selection {
+  background: var(--accent-saffron);
+  color: var(--bg-void);
+}

@@ -20,7 +20,7 @@
 
 ## 1. District Master & Boundary Reconciliation
 
-| Variable | Source (TECHSPEC) | Reachable | Granularity Found | Year | Format | Status | Notes |
+| Variable | Source | Reachable | Granularity Found | Year | Format | Status | Notes |
 |---|---|---|---|---|---|---|---|
 | LGD codes (master key) | `lgdirectory.gov.in` | Yes | District, Sub-district, Village | Current (live) | XLS download | OK | "Download Directory" section provides Excel. GitHub mirrors (e.g. `planemad/india-local-government-directory`) provide CSV. ~780+ districts confirmed. |
 | Census 2011 → LGD crosswalk | Census + LGD | Yes | District | 2011 / current | Excel + manual | WIP | No single official crosswalk file. Community repos on GitHub provide Census-2011-to-LGD mappings. Will need manual verification for bifurcated districts (e.g., Andhra Pradesh/Telangana split). |
@@ -29,7 +29,7 @@
 
 ## 2. Demand Potential — Shared/Base
 
-| Variable | Source (TECHSPEC) | Reachable | Granularity Found | Year | Format | Status | Notes |
+| Variable | Source | Reachable | Granularity Found | Year | Format | Status | Notes |
 |---|---|---|---|---|---|---|---|
 | Population, pop density, sex ratio, literacy rate | Census 2011 (`censusindia.gov.in`) | Yes | District | 2011 | Excel/XLS | OK | Census Tables section → Primary Census Abstract. Also available as cleaned CSV on Kaggle/GitHub. |
 | Urbanization rate | Census 2011 | Yes | District | 2011 | Excel | OK | Derived from urban/rural population in PCA tables. |
@@ -41,7 +41,7 @@
 
 ## 3. Demand Potential — Chronic-Specific
 
-| Variable | Source (TECHSPEC) | Reachable | Granularity Found | Year | Format | Status | Notes |
+| Variable | Source | Reachable | Granularity Found | Year | Format | Status | Notes |
 |---|---|---|---|---|---|---|---|
 | Diabetes prevalence (self-reported/tested) | NFHS-5 District Fact Sheets (`rchiips.org/nfhs`) | Yes (with workaround) | District | 2019-21 | **PDF** (official); CSV via community repos | WIP | Official site `rchiips.org` has expired SSL certificate — may block automated HTTPS access. **Workaround:** Use community-scraped CSVs: (a) GitHub `pratapvardhan/NFHS-5` — clean district-level CSV; (b) Mendeley dataset `t3s358sfzg` — consolidated Excel. Both derived from official PDFs. Cross-verify key values against original PDFs. |
 | Hypertension prevalence | NFHS-5 | Same as above | District | 2019-21 | Same | WIP | Same source and workaround as diabetes. Indicator present in district fact sheets. |
@@ -53,7 +53,7 @@
 
 ## 4. Demand Potential — Acute-Specific
 
-| Variable | Source (TECHSPEC) | Reachable | Granularity Found | Year | Format | Status | Notes |
+| Variable | Source | Reachable | Granularity Found | Year | Format | Status | Notes |
 |---|---|---|---|---|---|---|---|
 | Malaria incidence | NVBDCP / NCVBDC (`nvbdcp.gov.in`) | WARN Partially | **State-level** (public); district-level restricted | Various | Internal dashboard (IHIP) | WARN **FLAG** | **District-level malaria/dengue data is NOT freely downloadable.** Public reports from NCVBDC are typically state-level aggregates. District-level data is managed internally via IHIP (Integrated Health Information Platform) and requires authorized access. **Options:** (a) Use state-level data with `granularity_flag = "state_level_proxy"`; (b) Check if Dataful.in has aggregated district-level IDSP data; (c) Use academic datasets (e.g., EpiClim). **Recommend accepting state-level fallback and flagging.** |
 | Dengue incidence | NVBDCP / NCVBDC | Same as malaria | **State-level** | Various | Same | WARN **FLAG** | Same issue as malaria. State-level fallback required. |
@@ -67,7 +67,7 @@
 
 ## 5. Realizability / Access — Shared/Base
 
-| Variable | Source (TECHSPEC) | Reachable | Granularity Found | Year | Format | Status | Notes |
+| Variable | Source | Reachable | Granularity Found | Year | Format | Status | Notes |
 |---|---|---|---|---|---|---|---|
 | Doctors per 1,000 pop, PHC/CHC density | Rural Health Statistics / "Health Dynamics of India", MoHFW (`mohfw.gov.in`) | Yes | **State-level** (official publication); some district-level in annexures | 2022-23 (latest) | PDF (primary); some Excel tables | WIP | The official publication ("Health Dynamics of India") provides state-wise infrastructure and manpower tables. District-level PHC/CHC counts are available in annexures but not always as clean downloadable tables. **Workaround:** Dataful.in and Kaggle host cleaned versions. NITI for States portal also has some district health infra data. Doctors per 1,000 at district level may need derivation from PHC/CHC staffing tables. |
 | Hospital bed density | Rural Health Statistics / NHP | Yes | State-level (primary); some district in annexures | 2022-23 | PDF/Excel | WIP | Same source as above. Bed counts per facility type available. District-level derivation possible from facility-wise annexures. |
@@ -77,7 +77,7 @@
 
 ## 6. Realizability — Chronic-Specific
 
-| Variable | Source (TECHSPEC) | Reachable | Granularity Found | Year | Format | Status | Notes |
+| Variable | Source | Reachable | Granularity Found | Year | Format | Status | Notes |
 |---|---|---|---|---|---|---|---|
 | Diagnostic lab / pathology infra | HMIS facility registry (NHM portal) | WARN Partially | Facility-level (restricted); aggregated district may be available | Various | Dashboard / restricted downloads | WARN **FLAG** | **HMIS portal (`hmis.mohfw.gov.in`) has aggregated district-level indicators in its public dashboard**, but raw facility-level data requires authorized access. **Alternative:** ABDM Health Facility Registry (`facility.abdm.gov.in`) provides public listing of registered facilities by district including labs. Can scrape/count diagnostic facilities per district. **Recommend: Use HFR facility counts as proxy.** |
 | Chronic-care OPD availability | HMIS | WARN Partially | District (aggregated indicators) | Various | Dashboard | WARN **FLAG** | HMIS dashboard shows OPD indicators at district level, but may not be directly downloadable. **Workaround:** Use HMIS dashboard to manually extract or use HMIS API if available. Alternatively, derive from HFR facility type counts (CHCs with specialist availability). |
@@ -86,7 +86,7 @@
 
 ## 7. Realizability — Acute-Specific
 
-| Variable | Source (TECHSPEC) | Reachable | Granularity Found | Year | Format | Status | Notes |
+| Variable | Source | Reachable | Granularity Found | Year | Format | Status | Notes |
 |---|---|---|---|---|---|---|---|
 | Ambulance density, emergency/trauma centers | Rural Health Statistics | Partially | State-level (primary) | 2022-23 | PDF | WIP | Ambulance density not separately tabulated in RHS. Emergency/trauma centers partially covered under district hospital listings. **May need to derive from facility counts in RHS annexures or use 108/102 ambulance service data if available from state NHM sites.** State-level fallback likely necessary. |
 | PHC/CHC per capita | Rural Health Statistics | Yes | State + some district | 2022-23 | PDF/Excel | WIP | PHC/CHC counts per state are well-documented. District-level facility counts available in RHS annexures. Per-capita derivation requires combining with Census population. |
@@ -95,7 +95,7 @@
 
 ## 8. Trend / Future Indicators
 
-| Variable | Source (TECHSPEC) | Reachable | Granularity Found | Year | Format | Status | Notes |
+| Variable | Source | Reachable | Granularity Found | Year | Format | Status | Notes |
 |---|---|---|---|---|---|---|---|
 | Urbanization growth rate (2001→2011) | Census 2001 & 2011 | Yes | District | 2001, 2011 | Excel | WIP | Same boundary reconciliation issue as §2. Doable but requires concordance table. |
 | NFHS-4 → NFHS-5 deltas (chronic risk factors) | `rchiips.org/nfhs` | Yes (community repos) | District | NFHS-4: 2015-16, NFHS-5: 2019-21 | CSV (GitHub: `HindustanTimesLabs/nfhs-data` for NFHS-4, `pratapvardhan/NFHS-5` for NFHS-5) | WIP | Both rounds have district-level fact sheets. Community-scraped CSVs available for both. **Key concern:** District boundaries may have changed between NFHS-4 and NFHS-5 — need LGD concordance. Some indicators may have different definitions across rounds — verify indicator names match. |
@@ -104,7 +104,7 @@
 
 ---
 
-## 9. Validation Sources (TECHSPEC §6)
+## 9. Validation Sources
 
 | Source | Reachable | Granularity | Year | Format | Status | Notes |
 |---|---|---|---|---|---|---|

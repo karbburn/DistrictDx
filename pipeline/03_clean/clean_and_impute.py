@@ -14,7 +14,7 @@ Sources used:
   - VIIRS nightlights panel (income proxy, growth rate)
   - district_master.csv (LGD crosswalk, census_2011_district_code)
 
-TECHSPEC §3 rules enforced:
+Rules enforced:
   - Imputation hierarchy: district → state avg → national avg
   - Imputation flags: {var}__imputed_state_avg, {var}__imputed_national_avg
   - Winsorisation before any normalisation
