@@ -7,3 +7,6 @@ __pycache__/
 # Diagnostic / temp shapefiles and scratch scripts
 temp_shapefile/
 scratch/
+
+# Large regenerable pipeline outputs (keep outputs/ tracked)
+dashboard/public/data/district_index_final.geojson

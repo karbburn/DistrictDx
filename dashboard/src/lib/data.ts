@@ -1,8 +1,10 @@
 // ── District Data Types & Loaders ─────────────────────────────────────────────
 // Central data module for the DistrictDx dashboard.
-// All data is static (pre-computed CSV/GeoJSON committed to repo).
+// All data is static (pre-computed CSV/TopoJSON committed to repo).
 
 import type { FeatureCollection, Geometry } from "geojson";
+import * as topojson from "topojson-client";
+import type { Topology, GeometryObject } from "topojson-specification";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -197,12 +199,17 @@ export async function loadGeoData(): Promise<
 > {
   if (_geoCache) return _geoCache;
 
-  const resp = await fetch("/data/india-districts-light.json");
+  const resp = await fetch("/data/india-districts-topo.json");
   if (!resp.ok) throw new Error(`Failed to fetch geo data: ${resp.status}`);
-  const geo = (await resp.json()) as FeatureCollection<
-    Geometry,
-    GeoDistrictProperties
-  >;
+  const topo = (await resp.json()) as Topology;
+
+  // Convert TopoJSON → GeoJSON FeatureCollection (785 districts)
+  const objectKey = Object.keys(topo.objects)[0];
+  const geo = topojson.feature(
+    topo,
+    topo.objects[objectKey] as GeometryObject<GeoDistrictProperties>
+  ) as unknown as FeatureCollection<Geometry, GeoDistrictProperties>;
+
   _geoCache = geo;
   return geo;
 }
