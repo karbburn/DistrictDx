@@ -88,6 +88,7 @@ export interface GeoDistrictProperties {
 
 let _districtDataCache: DistrictData[] | null = null;
 let _geoCache: FeatureCollection<Geometry, GeoDistrictProperties> | null = null;
+let _districtByLgdCache: Map<number, DistrictData> | null = null;
 
 // ── CSV Parser ────────────────────────────────────────────────────────────────
 
@@ -191,6 +192,7 @@ export async function loadDistrictData(): Promise<DistrictData[]> {
   }
 
   _districtDataCache = data;
+  _districtByLgdCache = new Map(data.map((d) => [d.lgd_district_code, d]));
   return data;
 }
 
@@ -217,10 +219,10 @@ export async function loadGeoData(): Promise<
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
 export function getDistrictByLgd(
-  data: DistrictData[],
+  _data: DistrictData[],
   lgdCode: number
 ): DistrictData | undefined {
-  return data.find((d) => d.lgd_district_code === lgdCode);
+  return _districtByLgdCache?.get(lgdCode);
 }
 
 export function getStateList(data: DistrictData[]): string[] {
