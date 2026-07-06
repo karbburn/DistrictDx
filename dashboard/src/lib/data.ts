@@ -113,9 +113,9 @@ function parseCSVRow(headers: string[], row: string): Record<string, string> {
 }
 
 function toNumber(val: string): number {
-  if (val === "" || val === "nan" || val === "NaN" || val === "None") return 0;
+  if (val === "" || val === "nan" || val === "NaN" || val === "None") return NaN;
   const n = Number(val);
-  return isNaN(n) ? 0 : n;
+  return isNaN(n) ? NaN : n;
 }
 
 // ── Data Loaders ──────────────────────────────────────────────────────────────
