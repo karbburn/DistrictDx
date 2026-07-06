@@ -135,6 +135,12 @@ def main():
     # Verify shape and nulls
     assert len(final_df) == len(future_df), "Row count mismatch after final merge!"
     log.info("Unified final export dataset created (shape: %s)", final_df.shape)
+
+    # ── Verify district completeness ──────────────────────────────────────────
+    master = pd.read_csv(Path("data/processed/district_master.csv"))
+    missing = set(master["lgd_district_code"]) - set(final_df["lgd_district_code"])
+    if missing:
+        log.warning("Districts in master but missing from final output: %s", missing)
     
     # Write to final CSV
     final_df.to_csv(CSV_OUT, index=False)
