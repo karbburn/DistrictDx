@@ -424,6 +424,10 @@ export default function ScatterPlot({
         <div className="border-t border-hairline mt-1 pt-1.5">
           <span className="font-data text-[10px] text-muted">Point size = population</span>
         </div>
+        <div className="border-t border-hairline mt-1 pt-1.5 space-y-0.5">
+          <span className="font-data text-[9px] text-muted leading-tight block">Color = within-state quadrant</span>
+          <span className="font-data text-[9px] text-muted leading-tight block">Lines = national median</span>
+        </div>
       </div>
     </div>
   );
