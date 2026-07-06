@@ -14,22 +14,18 @@ Writes to data/raw/nvbdcp_disease/.
 
 import logging
 from pathlib import Path
+from urllib.parse import urlparse
 
 import pandas as pd
 import requests
-from bs4 import BeautifulSoup
+
+try:
+    from bs4 import BeautifulSoup
+except ImportError:
+    BeautifulSoup = None
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger(__name__)
-
-OUT_DIR = Path("data/raw/nvbdcp_disease")
-OUT_DIR.mkdir(parents=True, exist_ok=True)
-
-SESSION = requests.Session()
-SESSION.headers.update({
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-})
 
 BASE_URLS = [
     "https://nvbdcp.gov.in",
@@ -37,11 +33,13 @@ BASE_URLS = [
 ]
 
 
-def try_nvbdcp():
+def try_nvbdcp(out_dir, session):
     """Try NVBDCP portal for malaria/dengue state-level reports."""
+    if BeautifulSoup is None:
+        return False
     for base in BASE_URLS:
         try:
-            resp = SESSION.get(base, timeout=30, allow_redirects=True)
+            resp = session.get(base, timeout=30, allow_redirects=True)
             if resp.status_code == 200:
                 soup = BeautifulSoup(resp.text, "lxml")
 
@@ -53,7 +51,7 @@ def try_nvbdcp():
                 ]
 
                 if report_links:
-                    dest = OUT_DIR / "nvbdcp_report_links.csv"
+                    dest = out_dir / "nvbdcp_report_links.csv"
                     pd.DataFrame([{
                         "text": a.get_text(strip=True),
                         "href": a["href"],
@@ -67,12 +65,13 @@ def try_nvbdcp():
                         try:
                             dfs = pd.read_html(str(table))
                             if dfs and len(dfs[0]) > 5:
-                                dfs[0].to_csv(OUT_DIR / f"nvbdcp_table_{i}.csv", index=False)
+                                dfs[0].to_csv(out_dir / f"nvbdcp_table_{i}.csv", index=False)
                                 log.info("Extracted table %d: %d rows", i, len(dfs[0]))
                         except Exception:
                             continue
 
-                dest = OUT_DIR / f"nvbdcp_{base.split('//')[1].replace('/', '_')}.html"
+                host = urlparse(base).hostname
+                dest = out_dir / f"nvbdcp_{host}.html"
                 dest.write_text(resp.text, encoding="utf-8")
                 return True
         except Exception as e:
@@ -80,10 +79,12 @@ def try_nvbdcp():
     return False
 
 
-def try_idsp_surveillance():
+def try_idsp_surveillance(out_dir, session):
     """Try IDSP portal for disease surveillance data."""
+    if BeautifulSoup is None:
+        return False
     try:
-        resp = SESSION.get("https://idsp.nic.in/Index4.php", timeout=30)
+        resp = session.get("https://idsp.nic.in/Index4.php", timeout=30)
         if resp.status_code == 200:
             soup = BeautifulSoup(resp.text, "lxml")
             links = soup.find_all("a", href=True)
@@ -98,13 +99,21 @@ def try_idsp_surveillance():
 
 
 def main():
+    out_dir = Path(__file__).resolve().parent.parent.parent / "data" / "raw" / "nvbdcp_disease"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    session = requests.Session()
+    session.headers.update({
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    })
+
     log.info("=== NVBDCP Disease Ingestion (State-Level) ===")
     log.info("NOTE: District-level malaria/dengue not publicly available.")
     log.info("Accepting state-level fallback with granularity_flag = state_level_proxy")
 
-    if try_nvbdcp():
+    if try_nvbdcp(out_dir, session):
         log.info("NVBDCP data/links saved")
-    elif try_idsp_surveillance():
+    elif try_idsp_surveillance(out_dir, session):
         log.info("IDSP data saved")
     else:
         log.error(
