@@ -1,4 +1,4 @@
-#Data Availability Audit
+## Data Availability Audit
 
 **Date:** 2026-07-06  
 **Author:** Sourabh  
