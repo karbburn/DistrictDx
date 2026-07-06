@@ -1,0 +1,10 @@
+mai_variant,alpha,top20_overlap_with_baseline,top20_shifted_out,bottom20_overlap_with_baseline,bottom20_shifted_out,spearman_rank_corr_vs_baseline
+MAI_Overall,0.4,18,2,16,4,0.988446
+MAI_Overall,0.5,21,-1,20,0,1.0
+MAI_Overall,0.6,20,0,14,6,0.984842
+MAI_Chronic,0.4,19,1,17,3,0.991173
+MAI_Chronic,0.5,20,0,20,0,1.0
+MAI_Chronic,0.6,14,6,17,3,0.990325
+MAI_Acute,0.4,18,2,17,3,0.966512
+MAI_Acute,0.5,20,0,20,0,1.0
+MAI_Acute,0.6,16,4,11,9,0.963554
