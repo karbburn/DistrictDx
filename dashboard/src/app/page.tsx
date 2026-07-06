@@ -104,7 +104,7 @@ export default function Home() {
 
   // ── Handlers ────────────────────────────────────────────────────────────────
   const handleDistrictClick = useCallback(
-    (lgdCode: number) => {
+    (lgdCode: string) => {
       const district = getDistrictByLgd(districtData, lgdCode);
       if (district) {
         setSelectedDistrict(district);

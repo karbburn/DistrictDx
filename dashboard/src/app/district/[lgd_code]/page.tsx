@@ -29,7 +29,6 @@ export default function DistrictPage({
   params: Promise<{ lgd_code: string }>;
 }) {
   const { lgd_code } = use(params);
-  const lgdCode = parseInt(lgd_code, 10);
   const router = useRouter();
 
   const [districtData, setDistrictData] = useState<DistrictData[]>([]);
@@ -56,7 +55,7 @@ export default function DistrictPage({
         setStates(getStateList(data));
 
         // Pre-open the drill-down for the specified district
-        const district = getDistrictByLgd(data, lgdCode);
+        const district = getDistrictByLgd(data, lgd_code);
         if (district) {
           setSelectedDistrict(district);
           // Auto-filter to the district's state for context
@@ -68,7 +67,7 @@ export default function DistrictPage({
         setError(err instanceof Error ? err.message : "Failed to load data");
         setLoading(false);
       });
-  }, [lgdCode]);
+  }, [lgd_code]);
 
   if (loading) {
     return (
@@ -108,7 +107,7 @@ export default function DistrictPage({
             District Not Found
           </span>
           <span className="font-data text-xs text-muted">
-            LGD code {lgdCode} not found in the dataset.
+            LGD code {lgd_code} not found in the dataset.
           </span>
         </div>
       </div>

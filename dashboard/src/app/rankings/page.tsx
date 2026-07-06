@@ -108,7 +108,7 @@ export default function RankingsPage() {
         (d) =>
           d.district_name.toLowerCase().includes(q) ||
           d.state_name.toLowerCase().includes(q) ||
-          d.lgd_district_code.toString().includes(q)
+          d.lgd_district_code.includes(q)
       );
     }
 

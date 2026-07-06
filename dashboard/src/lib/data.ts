@@ -9,8 +9,8 @@ import type { Topology, GeometryObject } from "topojson-specification";
 // ── Types ─────────────────────────────────────────────────────────────────────
 
 export interface DistrictData {
-  lgd_state_code: number;
-  lgd_district_code: number;
+  lgd_state_code: string;
+  lgd_district_code: string;
   district_name: string;
   state_name: string;
 
@@ -78,8 +78,8 @@ export type ConfidenceLevel = "high" | "medium" | "low";
 export type QuadrantKey = "Star" | "Emerging" | "Underserved" | "Deprioritize";
 
 export interface GeoDistrictProperties {
-  lgd_state_code: number;
-  lgd_district_code: number;
+  lgd_state_code: string;
+  lgd_district_code: string;
   district_name: string;
   state_name: string;
 }
@@ -88,7 +88,7 @@ export interface GeoDistrictProperties {
 
 let _districtDataCache: DistrictData[] | null = null;
 let _geoCache: FeatureCollection<Geometry, GeoDistrictProperties> | null = null;
-let _districtByLgdCache: Map<number, DistrictData> | null = null;
+let _districtByLgdCache: Map<string, DistrictData> | null = null;
 
 // ── CSV Parser ────────────────────────────────────────────────────────────────
 
@@ -137,8 +137,8 @@ export async function loadDistrictData(): Promise<DistrictData[]> {
   for (let i = 1; i < lines.length; i++) {
     const raw = parseCSVRow(headers, lines[i].replace(/\r$/, ""));
     data.push({
-      lgd_state_code: toNumber(raw["lgd_state_code"]),
-      lgd_district_code: toNumber(raw["lgd_district_code"]),
+      lgd_state_code: raw["lgd_state_code"],
+      lgd_district_code: raw["lgd_district_code"],
       district_name: raw["district_name"] || "",
       state_name: raw["state_name"] || "",
 
@@ -220,7 +220,7 @@ export async function loadGeoData(): Promise<
 
 export function getDistrictByLgd(
   _data: DistrictData[],
-  lgdCode: number
+  lgdCode: string
 ): DistrictData | undefined {
   return _districtByLgdCache?.get(lgdCode);
 }

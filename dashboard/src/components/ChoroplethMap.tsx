@@ -28,13 +28,13 @@ interface DistrictPathProps {
   isSelected: boolean;
   isInitialLoad: boolean;
   batchIndex: number;
-  code: number;
+  code: string;
   districtName: string;
   stateName: string;
   indexType: IndexType;
   timeHorizon: TimeHorizon;
-  onDistrictClick: (code: number) => void;
-  onHover: (code: number | null) => void;
+  onDistrictClick: (code: string) => void;
+  onHover: (code: string | null) => void;
 }
 
 const DistrictPath = memo(function DistrictPath({
@@ -141,8 +141,8 @@ interface ChoroplethMapProps {
   indexType: IndexType;
   timeHorizon: TimeHorizon;
   stateFilter: string;
-  onDistrictClick: (lgdCode: number) => void;
-  selectedDistrictCode: number | null;
+  onDistrictClick: (lgdCode: string) => void;
+  selectedDistrictCode: string | null;
   isInitialLoad: boolean;
 }
 
@@ -159,7 +159,7 @@ export default function ChoroplethMap({
   isInitialLoad,
 }: ChoroplethMapProps) {
   const svgRef = useRef<SVGSVGElement>(null);
-  const [hoveredCode, setHoveredCode] = useState<number | null>(null);
+  const [hoveredCode, setHoveredCode] = useState<string | null>(null);
   const [dimensions, setDimensions] = useState({ width: 900, height: 800 });
 
   // Responsive sizing
@@ -177,7 +177,7 @@ export default function ChoroplethMap({
 
   // Build district lookup map
   const districtMap = useMemo(() => {
-    const map = new Map<number, DistrictData>();
+    const map = new Map<string, DistrictData>();
     districtData.forEach((d) => map.set(d.lgd_district_code, d));
     return map;
   }, [districtData]);
@@ -221,7 +221,7 @@ export default function ChoroplethMap({
 
   // Pre-compute fill colors for all filtered features
   const fillColors = useMemo(() => {
-    const colors = new Map<number, string>();
+    const colors = new Map<string, string>();
     const range = maxVal - minVal;
     filteredFeatures.forEach((feature) => {
       const code = feature.properties.lgd_district_code;
@@ -239,7 +239,7 @@ export default function ChoroplethMap({
 
   // Pre-compute low-confidence flags
   const lowConfidenceFlags = useMemo(() => {
-    const flags = new Map<number, boolean>();
+    const flags = new Map<string, boolean>();
     filteredFeatures.forEach((feature) => {
       const code = feature.properties.lgd_district_code;
       const district = districtMap.get(code);
@@ -255,13 +255,13 @@ export default function ChoroplethMap({
 
   // O(1) feature lookup for tooltip
   const featureMap = useMemo(() => {
-    const map = new Map<number, Feature<Geometry, GeoDistrictProperties>>();
+    const map = new Map<string, Feature<Geometry, GeoDistrictProperties>>();
     filteredFeatures.forEach((f) => map.set(f.properties.lgd_district_code, f));
     return map;
   }, [filteredFeatures]);
 
   // Hover callback — stable reference, doesn't cause path re-renders
-  const handleHover = useCallback((code: number | null) => {
+  const handleHover = useCallback((code: string | null) => {
     setHoveredCode(code);
   }, []);
 
