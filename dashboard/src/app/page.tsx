@@ -3,7 +3,7 @@
 // Home page showing the full-bleed India choropleth map.
 // Features a collapsible left control rail and right-side district drill-down slide-over.
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, startTransition } from "react";
 import TopBar from "@/components/TopBar";
 import ChoroplethMap from "@/components/ChoroplethMap";
 import DistrictDrilldown from "@/components/DistrictDrilldown";
@@ -63,10 +63,12 @@ export default function Home() {
   useEffect(() => {
     Promise.all([loadDistrictData(), loadGeoData()])
       .then(([data, geo]) => {
-        setDistrictData(data);
-        setGeoData(geo);
-        setStates(getStateList(data));
-        setLoading(false);
+        startTransition(() => {
+          setDistrictData(data);
+          setGeoData(geo);
+          setStates(getStateList(data));
+          setLoading(false);
+        });
       })
       .catch((err) => {
         setError(err instanceof Error ? err.message : "Failed to load data");

@@ -3,7 +3,7 @@
 // Renders a dense, sortable/filterable table showing rankings of all districts.
 // Uses native virtualized rendering (only visible rows in DOM).
 
-import { useState, useEffect, useMemo, useCallback, useRef } from "react";
+import { useState, useEffect, useMemo, useCallback, useRef, startTransition } from "react";
 import TopBar from "@/components/TopBar";
 import ConfidenceBadge from "@/components/ConfidenceBadge";
 import QuadrantBadge from "@/components/QuadrantBadge";
@@ -68,9 +68,11 @@ export default function RankingsPage() {
   useEffect(() => {
     loadDistrictData()
       .then((data) => {
-        setDistrictData(data);
-        setStates(getStateList(data));
-        setLoading(false);
+        startTransition(() => {
+          setDistrictData(data);
+          setStates(getStateList(data));
+          setLoading(false);
+        });
       })
       .catch((err) => {
         setError(err instanceof Error ? err.message : "Failed to load data");
