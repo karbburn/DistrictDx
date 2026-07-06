@@ -133,7 +133,7 @@ def main():
     )
     
     # Verify shape and nulls
-    assert len(final_df) == len(future_df), f"Row count mismatch after final merge!"
+    assert len(final_df) == len(future_df), "Row count mismatch after final merge!"
     log.info("Unified final export dataset created (shape: %s)", final_df.shape)
     
     # Write to final CSV
