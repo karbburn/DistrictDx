@@ -17,26 +17,27 @@ export default function TopBar() {
 
   return (
     <header
-      className="flex h-12 items-center justify-between border-b border-hairline bg-surface px-6 flex-shrink-0 z-50"
+      className="flex h-14 items-center justify-between border-b border-hairline bg-surface px-6 flex-shrink-0 z-50"
       role="banner"
     >
-      <div className="flex items-center gap-3">
-        <Link
-          href="/"
-          className="font-display text-lg font-bold tracking-tight text-saffron hover:opacity-90 transition-opacity"
-          aria-label="DistrictDx home"
-        >
+      <Link
+        href="/"
+        className="flex flex-col leading-none"
+        aria-label="DistrictDx home"
+      >
+        <span className="font-display text-lg font-bold tracking-tight text-saffron hover:opacity-90 transition-opacity">
           DistrictDx
-        </Link>
+        </span>
         <a
           href="https://www.linkedin.com/in/sourabh-pradhan07/"
           target="_blank"
           rel="noopener noreferrer"
+          onClick={(e) => e.stopPropagation()}
           className="font-data text-[10px] text-muted hover:text-secondary transition-colors hidden sm:block"
         >
           Built by Sourabh
         </a>
-      </div>
+      </Link>
 
       <nav aria-label="Main navigation" className="flex items-center gap-1">
         {NAV_ITEMS.map(({ href, label, icon: Icon }) => {

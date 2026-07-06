@@ -16,7 +16,7 @@ const QUADRANT_TINTS = getQuadrantTints();
 
 // ── Layout Constants ────────────────────────────────────────────────────────
 
-const PADDING = { top: 40, right: 40, bottom: 60, left: 70 };
+const PADDING = { top: 40, right: 40, bottom: 60, left: 90 };
 const MIN_POINT_R = 1.5;
 const MAX_POINT_R = 7;
 
@@ -318,14 +318,14 @@ export default function ScatterPlot({
           D median={medianDemand.toFixed(3)}
         </text>
         <text
-          x={PADDING.left - 8}
+          x={xScale(1) + 4}
           y={yScale(medianRealizability) + 3}
-          textAnchor="end"
+          textAnchor="start"
           className="font-data"
           fontSize="9"
           fill="var(--text-muted)"
         >
-          R median={medianRealizability.toFixed(3)}
+          R med={medianRealizability.toFixed(3)}
         </text>
 
         {/* Axes */}
@@ -355,14 +355,14 @@ export default function ScatterPlot({
           Demand Score
         </text>
         <text
-          x={16}
+          x={14}
           y={PADDING.top + plotH / 2}
           textAnchor="middle"
           className="font-data"
           fontSize="11"
           fill="var(--data-realizability)"
           fontWeight="500"
-          transform={`rotate(-90, 16, ${PADDING.top + plotH / 2})`}
+          transform={`rotate(-90, 14, ${PADDING.top + plotH / 2})`}
         >
           Realizability Score
         </text>
