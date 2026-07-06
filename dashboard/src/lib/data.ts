@@ -124,6 +124,7 @@ export async function loadDistrictData(): Promise<DistrictData[]> {
   if (_districtDataCache) return _districtDataCache;
 
   const resp = await fetch("/data/district_index_final.csv");
+  if (!resp.ok) throw new Error(`Failed to fetch district data: ${resp.status}`);
   const text = await resp.text();
   const lines = text.split("\n").filter((l) => l.trim().length > 0);
   const headers = lines[0].replace(/\r$/, "").split(",");
@@ -195,6 +196,7 @@ export async function loadGeoData(): Promise<
   if (_geoCache) return _geoCache;
 
   const resp = await fetch("/data/india-districts-light.json");
+  if (!resp.ok) throw new Error(`Failed to fetch geo data: ${resp.status}`);
   const geo = (await resp.json()) as FeatureCollection<
     Geometry,
     GeoDistrictProperties
