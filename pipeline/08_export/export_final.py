@@ -151,19 +151,21 @@ def main():
     log.info("Saved unified CSV to → %s", CSV_OUT)
     
     # ── Generate GeoJSON ──────────────────────────────────────────────────────
-    # Try downloading a lightweight boundary file, fall back to mock grid
-    # (Since raw.githubusercontent.com timed out previously, we go straight to fallback/mock or test download)
+    geojson_ok = False
     try:
-        # We can attempt a download of a very small 250kb India outline, but fallback to grid-geojson
         generate_grid_geojson(final_df, GEOJSON_OUT)
+        geojson_ok = True
     except Exception as e:
         log.error("Failed to generate GeoJSON: %s", e)
 
     # ── Copy to Dashboard ─────────────────────────────────────────────────────
-    DASHBOARD_DIR.mkdir(parents=True, exist_ok=True)
-    shutil.copy(CSV_OUT, DASHBOARD_DIR / "district_index_final.csv")
-    shutil.copy(GEOJSON_OUT, DASHBOARD_DIR / "district_index_final.geojson")
-    log.info("Synchronized final files with dashboard directory → %s", DASHBOARD_DIR)
+    if geojson_ok:
+        DASHBOARD_DIR.mkdir(parents=True, exist_ok=True)
+        shutil.copy(CSV_OUT, DASHBOARD_DIR / "district_index_final.csv")
+        shutil.copy(GEOJSON_OUT, DASHBOARD_DIR / "district_index_final.geojson")
+        log.info("Synchronized final files with dashboard directory → %s", DASHBOARD_DIR)
+    else:
+        log.warning("Skipping dashboard sync — GeoJSON generation failed")
 
 
 if __name__ == "__main__":
