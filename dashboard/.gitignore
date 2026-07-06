@@ -40,11 +40,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# dev files (project convention — dev docs excluded from git)
-AGENTS.md
-CLAUDE.md
-README.md
-
 # default scaffold assets (not used)
 public/file.svg
 public/globe.svg
