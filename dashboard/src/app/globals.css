@@ -52,7 +52,7 @@
   --font-sans: var(--font-ibm-plex-sans), sans-serif;
 }
 
-/* ── Map District Staggered Load-In (DESIGN §6) ─────────────────────────── */
+/* ── Map District Staggered Load-In ─────────────────────────────────────── */
 
 @keyframes district-fadein {
   from {
@@ -70,7 +70,7 @@
   animation: district-fadein 400ms ease-out forwards;
 }
 
-/* ── Slide-Over Panel Transition (DESIGN §6: 200-250ms ease-out) ─────────── */
+/* ── Slide-Over Panel Transition ────────────────────────────────────────── */
 
 @keyframes slide-in-right {
   from {
@@ -98,7 +98,7 @@
   animation: slide-out-right 220ms ease-in forwards;
 }
 
-/* ── prefers-reduced-motion (DESIGN §7) ──────────────────────────────────── */
+/* ── prefers-reduced-motion ─────────────────────────────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {
   .district-path {
@@ -118,14 +118,14 @@
   }
 }
 
-/* ── Focus Visible Ring (keyboard nav — DESIGN §7) ───────────────────────── */
+/* ── Focus Visible Ring (keyboard nav) ───────────────────────────────────── */
 
 :focus-visible {
   outline: 2px solid var(--accent-saffron);
   outline-offset: 2px;
 }
 
-/* ── SVG Hatch Pattern for Low-Confidence Districts (DESIGN §5) ──────────── */
+/* ── SVG Hatch Pattern for Low-Confidence Districts ──────────────────────── */
 /* Applied programmatically via SVG <pattern> in the choropleth component */
 
 /* ── Dense Table Utilities ───────────────────────────────────────────────── */

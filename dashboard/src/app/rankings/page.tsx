@@ -1,11 +1,8 @@
 "use client";
 
-// ── Rankings Page: Dense Sortable Table ───────────────────────────────────────
-// Per DESIGN §4: dense data table, monospace figures, sticky header,
-// sortable columns, confidence-flag column always visible (dot + label).
-// Per DESIGN §5: horizontal bars, monospace value labels right-aligned,
-//   no 3D effects, no drop shadows.
-// Per DESIGN §7: touch targets ≥44px on mobile.
+// Renders a dense, sortable/filterable table showing rankings of all districts.
+// Features a sticky header, inline horizontal value bars, and monospace numbers.
+// Accessible: touch targets are sized at 44px minimum for mobile layout.
 
 import { useState, useEffect, useMemo } from "react";
 import TopBar from "@/components/TopBar";

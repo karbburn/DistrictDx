@@ -32,6 +32,7 @@ export interface DistrictData {
 
   // Data reliability
   confidence_score: number;
+  boundary_inherited: boolean;
 
   // Historical (for trend computation)
   MAI_Overall_hist: number;
@@ -154,6 +155,7 @@ export async function loadDistrictData(): Promise<DistrictData[]> {
       quadrant_acute: raw["quadrant_acute"] || "",
 
       confidence_score: toNumber(raw["confidence_score"]),
+      boundary_inherited: raw["boundary_inherited"] === "True" || raw["boundary_inherited"] === "true" || raw["boundary_inherited"] === "1",
 
       MAI_Overall_hist: toNumber(raw["MAI_Overall_hist"]),
       MAI_Chronic_hist: toNumber(raw["MAI_Chronic_hist"]),

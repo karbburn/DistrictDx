@@ -1,8 +1,7 @@
 "use client";
 
-// ── District Drill-Down Slide-Over Panel ──────────────────────────────────────
-// Per DESIGN §4: right-side slide-over on top of the map, NOT a full page nav.
-// Per DESIGN §6: 200-250ms ease-out transition, respects prefers-reduced-motion.
+// Right-side slide-over on top of the map, NOT a full page nav.
+// Uses ease-out transitions and respects prefers-reduced-motion.
 
 import { X } from "lucide-react";
 import {

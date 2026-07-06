@@ -484,9 +484,9 @@ export default function MethodologyPage() {
                 Methodology
               </h1>
               <p className="text-secondary text-sm">
-                Plain-language summary of how the District-Level Pharmaceutical
+                Summary of how the District-Level Pharmaceutical
                 Market Attractiveness Index is constructed, validated, and
-                projected. Designed for non-technical readers.
+                projected.
               </p>
             </div>
 

@@ -30,7 +30,7 @@ function interpolateColor(
 
 /**
  * Get choropleth fill color for a district.
- * Sequential single-hue ramp per DESIGN §5:
+ * Sequential single-hue ramp:
  * - Overall: dark ink → saffron
  * - Chronic/demand-focused view: dark ink → green
  * - Acute/realizability view: dark ink → sky
@@ -82,7 +82,7 @@ export function getIndexLabel(indexType: IndexType): string {
 
 /**
  * 2×2 scatter quadrant background tints at ~8% opacity.
- * Per DESIGN §5: green/sky mixed quadrant backgrounds.
+ * Uses green/sky mixed quadrant backgrounds.
  */
 export function getQuadrantTints(): {
   starBg: string;

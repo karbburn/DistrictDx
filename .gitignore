@@ -3,3 +3,7 @@ assets/
 __pycache__/
 *.pyc
 *.html
+
+# Diagnostic / temp shapefiles and scratch scripts
+temp_shapefile/
+scratch/

@@ -1,9 +1,7 @@
 "use client";
 
-// ── District Shareable Route ──────────────────────────────────────────────────
-// Thin wrapper: loads the home page map with the specified district's
-// slide-over pre-opened. Per DESIGN §4: slide-over is the primary UX,
-// this route exists for URL shareability.
+// Loads the home page map with the specified district's slide-over pre-opened
+// to provide URL shareability.
 
 import { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";

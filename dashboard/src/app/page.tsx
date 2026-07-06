@@ -1,8 +1,7 @@
 "use client";
 
-// ── Home Page: Full-Bleed Choropleth with Left Rail + Right Drill-Down ────────
-// Per DESIGN §4: full-bleed map as primary surface, left rail controls,
-// right-side slide-over for district drill-down.
+// Home page showing the full-bleed India choropleth map.
+// Features a collapsible left control rail and right-side district drill-down slide-over.
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import TopBar from "@/components/TopBar";

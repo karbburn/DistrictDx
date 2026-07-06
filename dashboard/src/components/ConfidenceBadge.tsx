@@ -1,5 +1,4 @@
-// ── Confidence Badge ──────────────────────────────────────────────────────────
-// Per DESIGN §4 + §7: dot + text label, NEVER color-only.
+// Renders a visual status dot alongside a text label (never color-only).
 // Accessible: aria-label describes confidence level for screen readers.
 
 import { getConfidenceLevel, type ConfidenceLevel } from "@/lib/data";

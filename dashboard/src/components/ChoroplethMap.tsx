@@ -1,12 +1,11 @@
 "use client";
 
-// ── India Choropleth Map ──────────────────────────────────────────────────────
-// Full-bleed SVG choropleth. The map IS the product (DESIGN §1).
-// - Sequential single-hue ramp per index type (DESIGN §5)
-// - Diagonal hatch overlay on low-confidence districts (DESIGN §5)
-// - Staggered fade-in on initial load only (DESIGN §6)
-// - No animation on filter-triggered redraws (DESIGN §6)
-// - Keyboard navigable: Tab + Enter (DESIGN §7)
+// Full-bleed SVG choropleth representing all districts.
+// - Sequential single-hue ramp per index type
+// - Diagonal hatch overlay on low-confidence/inherited districts
+// - Staggered fade-in on initial load only
+// - No animation on filter-triggered redraws
+// - Keyboard navigable: Tab + Enter
 
 import { useMemo, useCallback, useRef, useState, useEffect } from "react";
 import { geoMercator, geoPath } from "d3-geo";
@@ -110,12 +109,13 @@ export default function ChoroplethMap({
     [districtMap, indexType, timeHorizon, minVal, maxVal]
   );
 
-  // Check if a feature is low confidence
+  // Check if a feature is low confidence or has boundary inherited (hatch required)
   const isLowConfidence = useCallback(
     (feature: Feature<Geometry, GeoDistrictProperties>) => {
       const district = districtMap.get(feature.properties.lgd_district_code);
       if (!district) return false;
-      return getConfidenceLevel(district.confidence_score) === "low";
+      const lowConf = getConfidenceLevel(district.confidence_score) === "low";
+      return lowConf || district.boundary_inherited === true;
     },
     [districtMap]
   );
@@ -254,7 +254,7 @@ export default function ChoroplethMap({
         </div>
       )}
 
-      {/* Static Legend (DESIGN §5: never hover-only) */}
+      {/* Static Legend (always visible) */}
       <div
         className="absolute bottom-4 left-4 bg-surface/90 border border-hairline rounded p-3 z-30 flex flex-col gap-2"
         role="img"
