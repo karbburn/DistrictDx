@@ -150,17 +150,10 @@ def main():
         log.error("Failed to generate GeoJSON: %s", e)
 
     # ── Copy to Dashboard ─────────────────────────────────────────────────────
-    if DASHBOARD_DIR.exists() or Path("dashboard").exists():
-        DASHBOARD_DIR.mkdir(parents=True, exist_ok=True)
-        shutil.copy(CSV_OUT, DASHBOARD_DIR / "district_index_final.csv")
-        shutil.copy(GEOJSON_OUT, DASHBOARD_DIR / "district_index_final.geojson")
-        log.info("Synchronized final files with dashboard directory → %s", DASHBOARD_DIR)
-    else:
-        # Create dashboard folder and public subfolder
-        DASHBOARD_DIR.mkdir(parents=True, exist_ok=True)
-        shutil.copy(CSV_OUT, DASHBOARD_DIR / "district_index_final.csv")
-        shutil.copy(GEOJSON_OUT, DASHBOARD_DIR / "district_index_final.geojson")
-        log.info("Created dashboard data directory and synced outputs → %s", DASHBOARD_DIR)
+    DASHBOARD_DIR.mkdir(parents=True, exist_ok=True)
+    shutil.copy(CSV_OUT, DASHBOARD_DIR / "district_index_final.csv")
+    shutil.copy(GEOJSON_OUT, DASHBOARD_DIR / "district_index_final.geojson")
+    log.info("Synchronized final files with dashboard directory → %s", DASHBOARD_DIR)
 
 
 if __name__ == "__main__":
