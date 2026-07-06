@@ -75,6 +75,7 @@ log.info("  master shape: %s", master.shape)
 
 df = master[["lgd_state_code", "lgd_district_code", "district_name",
              "state_name", "census_2011_district_code", "notes"]].copy()
+expected_rows = len(df)
 
 
 # ── 2. Census 2011 PCA ────────────────────────────────────────────────────────
@@ -106,6 +107,7 @@ pca_out = pca_keep[["census_2011_district_code", "census_total_population",
                       "literacy_rate", "sex_ratio"]].copy()
 
 df = df.merge(pca_out, on="census_2011_district_code", how="left")
+assert len(df) == expected_rows, f"Row count changed after Census PCA merge: expected {expected_rows}, got {len(df)}"
 log.info("  After PCA merge: %s  (nulls in census_total_population: %d)",
          df.shape, df["census_total_population"].isna().sum())
 
@@ -137,6 +139,7 @@ hlpca_out = hlpca_keep[["census_2011_district_code",
                           "latrine_access_rate", "tap_water_rate"]].copy()
 
 df = df.merge(hlpca_out, on="census_2011_district_code", how="left")
+assert len(df) == expected_rows, f"Row count changed after HLPCA merge: expected {expected_rows}, got {len(df)}"
 log.info("  After HLPCA merge: %s", df.shape)
 
 
@@ -180,6 +183,7 @@ df["_d"] = df["district_name"].apply(norm_name)
 df["_s"] = df["state_name"].apply(norm_name)
 df = df.merge(nfhs5_wide.drop_duplicates(["_s", "_d"]),
               on=["_s", "_d"], how="left").drop(columns=["_s", "_d"])
+assert len(df) == expected_rows, f"Row count changed after NFHS-5 merge: expected {expected_rows}, got {len(df)}"
 
 log.info("  After NFHS-5 merge: %s", df.shape)
 # Count matched rows
@@ -236,6 +240,7 @@ n4_wide.drop(columns=["bp_85", "bp_86", "bp_87"], inplace=True, errors="ignore")
 
 # Merge NFHS-4 variables onto the master frame
 df = df.merge(n4_wide, on="census_2011_district_code", how="left")
+assert len(df) == expected_rows, f"Row count changed after NFHS-4 merge: expected {expected_rows}, got {len(df)}"
 log.info("  After NFHS-4 merge: %s", df.shape)
 
 
@@ -272,6 +277,7 @@ nl_growth = (
 
 nl_all = nl_latest.merge(nl_growth, on="census_2011_district_code", how="left")
 df = df.merge(nl_all, on="census_2011_district_code", how="left")
+assert len(df) == expected_rows, f"Row count changed after nightlights merge: expected {expected_rows}, got {len(df)}"
 log.info("  After nightlights merge: %s", df.shape)
 
 
