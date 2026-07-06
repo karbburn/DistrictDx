@@ -6,6 +6,7 @@
 // this route exists for URL shareability.
 
 import { useState, useEffect, use } from "react";
+import { useRouter } from "next/navigation";
 import TopBar from "@/components/TopBar";
 import ChoroplethMap from "@/components/ChoroplethMap";
 import DistrictDrilldown from "@/components/DistrictDrilldown";
@@ -31,6 +32,7 @@ export default function DistrictPage({
 }) {
   const { lgd_code } = use(params);
   const lgdCode = parseInt(lgd_code, 10);
+  const router = useRouter();
 
   const [districtData, setDistrictData] = useState<DistrictData[]>([]);
   const [geoData, setGeoData] = useState<FeatureCollection<
@@ -215,7 +217,7 @@ export default function DistrictPage({
           district={selectedDistrict}
           indexType={indexType}
           timeHorizon={timeHorizon}
-          onClose={() => setSelectedDistrict(null)}
+          onClose={() => router.push("/")}
         />
       </div>
     </div>
