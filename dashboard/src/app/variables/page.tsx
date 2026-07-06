@@ -159,6 +159,8 @@ export default function VariablesPage() {
     return () => observer.disconnect();
   }, [rows]);
 
+  const rowsByVar = useMemo(() => new Map(rows.map((r) => [r.variable, r])), [rows]);
+
   if (loading) {
     return (
       <div className="flex h-screen w-screen items-center justify-center bg-void">
@@ -180,8 +182,6 @@ export default function VariablesPage() {
       </div>
     );
   }
-
-  const rowsByVar = useMemo(() => new Map(rows.map((r) => [r.variable, r])), [rows]);
 
   return (
     <div className="flex flex-col h-screen w-screen overflow-hidden bg-void text-primary font-sans">
