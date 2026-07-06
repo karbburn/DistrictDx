@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+:root {
+  /* page background, near-black warm ink */
+  --bg-void: #0a0908;
+  /* card/panel surface */
+  --bg-surface: #14120f;
+  /* hovered/active panel */
+  --bg-surface-raised: #1c1915;
+  
+  /* hairline border color */
+  --border-hairline: #2a2620;
+
+  /* typography colors */
+  --text-primary: #f2ede2;   /* warm off-white, not pure white */
+  --text-secondary: #a8a093;
+  --text-muted: #6b6459;
+
+  /* brand colors */
+  --accent-saffron: #f97316; /* Sun Pharma brand tie-in, primary accent */
+
+  /* semantic data colors */
+  --data-demand: #4ade80;      /* green — demand axis */
+  --data-realizability: #38bdf8; /* sky blue — realizability axis */
+  --data-negative: #f87171;
+  --data-confidence-low: #57534e; /* muted, used for low-confidence/imputed districts on map */
+}
+
+@theme {
+  /* Tailwind CSS v4 Theme Token Bindings */
+  --color-void: var(--bg-void);
+  --color-surface: var(--bg-surface);
+  --color-surface-raised: var(--bg-surface-raised);
+  --color-hairline: var(--border-hairline);
+  
+  --color-primary: var(--text-primary);
+  --color-secondary: var(--text-secondary);
+  --color-muted: var(--text-muted);
+  
+  --color-saffron: var(--accent-saffron);
+  
+  --color-demand: var(--data-demand);
+  --color-realizability: var(--data-realizability);
+  --color-negative: var(--data-negative);
+  --color-confidence-low: var(--data-confidence-low);
+
+  /* Fonts */
+  --font-display: var(--font-fraunces), serif;
+  --font-data: var(--font-jetbrains-mono), monospace;
+  --font-sans: var(--font-ibm-plex-sans), sans-serif;
+}
+
+
