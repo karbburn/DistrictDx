@@ -3,7 +3,7 @@
 // Home page showing the full-bleed India choropleth map.
 // Features a collapsible left control rail and right-side district drill-down slide-over.
 
-import { useState, useEffect, useCallback, useRef, startTransition } from "react";
+import { useState, useEffect, useCallback, useRef, startTransition, useReducer } from "react";
 import TopBar from "@/components/TopBar";
 import ChoroplethMap from "@/components/ChoroplethMap";
 import DistrictDrilldown from "@/components/DistrictDrilldown";
@@ -22,6 +22,30 @@ import type {
 import type { FeatureCollection, Geometry } from "geojson";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
+// ── Filter Reducer (batches state updates into single re-render) ─────────────
+
+type FilterState = {
+  indexType: IndexType;
+  timeHorizon: TimeHorizon;
+  stateFilter: string;
+};
+
+type FilterAction =
+  | { type: "SET_INDEX"; indexType: IndexType }
+  | { type: "SET_TIME"; timeHorizon: TimeHorizon }
+  | { type: "SET_STATE"; stateFilter: string };
+
+function filterReducer(state: FilterState, action: FilterAction): FilterState {
+  switch (action.type) {
+    case "SET_INDEX":
+      return { ...state, indexType: action.indexType };
+    case "SET_TIME":
+      return { ...state, timeHorizon: action.timeHorizon };
+    case "SET_STATE":
+      return { ...state, stateFilter: action.stateFilter };
+  }
+}
+
 export default function Home() {
   // ── Data State ──────────────────────────────────────────────────────────────
   const [districtData, setDistrictData] = useState<DistrictData[]>([]);
@@ -39,10 +63,12 @@ export default function Home() {
     null
   );
 
-  // ── Filter State ────────────────────────────────────────────────────────────
-  const [indexType, setIndexType] = useState<IndexType>("overall");
-  const [timeHorizon, setTimeHorizon] = useState<TimeHorizon>("current");
-  const [stateFilter, setStateFilter] = useState("all");
+  // ── Filter State (batched via reducer) ──────────────────────────────────────
+  const [filters, dispatch] = useReducer(filterReducer, {
+    indexType: "overall",
+    timeHorizon: "current",
+    stateFilter: "all",
+  });
 
   // ── Track initial load for stagger animation ────────────────────────────────
   const isInitialLoadRef = useRef(true);
@@ -164,13 +190,13 @@ export default function Home() {
                   {(["overall", "chronic", "acute"] as const).map((type) => (
                     <button
                       key={type}
-                      onClick={() => setIndexType(type)}
+                      onClick={() => dispatch({ type: "SET_INDEX", indexType: type })}
                       className={`w-full text-left px-3 py-2 rounded font-data text-xs transition-colors border min-h-[44px] ${
-                        indexType === type
+                        filters.indexType === type
                           ? "bg-saffron/10 border-saffron/40 text-saffron"
                           : "border-transparent text-secondary hover:text-primary hover:bg-void"
                       }`}
-                      aria-pressed={indexType === type}
+                      aria-pressed={filters.indexType === type}
                     >
                       MAI_{type.charAt(0).toUpperCase() + type.slice(1)}
                     </button>
@@ -187,13 +213,13 @@ export default function Home() {
                   {(["current", "future"] as const).map((t) => (
                     <button
                       key={t}
-                      onClick={() => setTimeHorizon(t)}
+                      onClick={() => dispatch({ type: "SET_TIME", timeHorizon: t })}
                       className={`py-2 rounded font-data text-[11px] text-center transition-colors min-h-[44px] ${
-                        timeHorizon === t
+                        filters.timeHorizon === t
                           ? "bg-surface-raised text-primary"
                           : "text-secondary hover:text-primary"
                       }`}
-                      aria-pressed={timeHorizon === t}
+                      aria-pressed={filters.timeHorizon === t}
                     >
                       {t === "current" ? "Current" : "Future"}
                     </button>
@@ -211,8 +237,8 @@ export default function Home() {
                 </label>
                 <select
                   id="state-filter"
-                  value={stateFilter}
-                  onChange={(e) => setStateFilter(e.target.value)}
+                  value={filters.stateFilter}
+                  onChange={(e) => dispatch({ type: "SET_STATE", stateFilter: e.target.value })}
                   className="w-full bg-void border border-hairline rounded px-3 py-2 text-xs text-primary font-data focus:outline-none focus:border-saffron min-h-[44px]"
                 >
                   <option value="all">All States ({districtData.length})</option>
@@ -230,13 +256,13 @@ export default function Home() {
                   Active View
                 </span>
                 <span className="font-data text-xs text-saffron">
-                  MAI_{indexType.charAt(0).toUpperCase() + indexType.slice(1)} ·{" "}
-                  {timeHorizon === "current" ? "Current" : "Future (β=0.3)"}
+                  MAI_{filters.indexType.charAt(0).toUpperCase() + filters.indexType.slice(1)} ·{" "}
+                  {filters.timeHorizon === "current" ? "Current" : "Future (β=0.3)"}
                 </span>
                 <span className="font-data text-[10px] text-muted">
-                  {stateFilter === "all"
+                  {filters.stateFilter === "all"
                     ? `${districtData.length} districts`
-                    : `${districtData.filter((d) => d.state_name === stateFilter).length} districts in ${stateFilter}`}
+                    : `${districtData.filter((d) => d.state_name === filters.stateFilter).length} districts in ${filters.stateFilter}`}
                 </span>
               </div>
             </div>
@@ -257,9 +283,9 @@ export default function Home() {
             <ChoroplethMap
               geoData={geoData}
               districtData={districtData}
-              indexType={indexType}
-              timeHorizon={timeHorizon}
-              stateFilter={stateFilter}
+              indexType={filters.indexType}
+              timeHorizon={filters.timeHorizon}
+              stateFilter={filters.stateFilter}
               onDistrictClick={handleDistrictClick}
               selectedDistrictCode={
                 selectedDistrict?.lgd_district_code ?? null
@@ -273,8 +299,8 @@ export default function Home() {
         {selectedDistrict && (
           <DistrictDrilldown
             district={selectedDistrict}
-            indexType={indexType}
-            timeHorizon={timeHorizon}
+            indexType={filters.indexType}
+            timeHorizon={filters.timeHorizon}
             onClose={handleCloseDrilldown}
           />
         )}
