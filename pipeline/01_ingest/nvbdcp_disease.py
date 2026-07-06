@@ -90,6 +90,8 @@ def try_idsp_surveillance():
             data_links = [a for a in links if "data" in a.get("href", "").lower()
                           or "report" in a.get("href", "").lower()]
             log.info("IDSP: found %d data/report links", len(data_links))
+            if data_links:
+                return True
     except Exception as e:
         log.debug("IDSP failed: %s", e)
     return False
