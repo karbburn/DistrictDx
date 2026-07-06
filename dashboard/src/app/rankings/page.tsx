@@ -33,6 +33,16 @@ type SortField =
   | "confidence_score";
 type SortDir = "asc" | "desc";
 
+function SortIcon({ field, currentField, direction }: { field: SortField; currentField: SortField; direction: SortDir }) {
+  if (currentField !== field)
+    return <ArrowUpDown size={12} className="text-muted" />;
+  return direction === "asc" ? (
+    <ArrowUp size={12} className="text-saffron" />
+  ) : (
+    <ArrowDown size={12} className="text-saffron" />
+  );
+}
+
 export default function RankingsPage() {
   const [districtData, setDistrictData] = useState<DistrictData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -138,16 +148,6 @@ export default function RankingsPage() {
       setSortField(field);
       setSortDir("desc");
     }
-  };
-
-  const SortIcon = ({ field }: { field: SortField }) => {
-    if (sortField !== field)
-      return <ArrowUpDown size={12} className="text-muted" />;
-    return sortDir === "asc" ? (
-      <ArrowUp size={12} className="text-saffron" />
-    ) : (
-      <ArrowDown size={12} className="text-saffron" />
-    );
   };
 
   // Max MAI value for bar scaling
@@ -271,7 +271,7 @@ export default function RankingsPage() {
                   className="flex items-center gap-1 min-h-[44px]"
                   aria-label="Sort by rank"
                 >
-                  # <SortIcon field="rank" />
+                  # <SortIcon field="rank" currentField={sortField} direction={sortDir} />
                 </button>
               </th>
               <th className="text-left font-data text-[10px] text-muted uppercase tracking-wider">
@@ -280,7 +280,7 @@ export default function RankingsPage() {
                   className="flex items-center gap-1 min-h-[44px]"
                   aria-label="Sort by district name"
                 >
-                  District <SortIcon field="district_name" />
+                  District <SortIcon field="district_name" currentField={sortField} direction={sortDir} />
                 </button>
               </th>
               <th className="text-left font-data text-[10px] text-muted uppercase tracking-wider">
@@ -289,7 +289,7 @@ export default function RankingsPage() {
                   className="flex items-center gap-1 min-h-[44px]"
                   aria-label="Sort by state"
                 >
-                  State <SortIcon field="state_name" />
+                  State <SortIcon field="state_name" currentField={sortField} direction={sortDir} />
                 </button>
               </th>
               <th className="text-right font-data text-[10px] text-muted uppercase tracking-wider w-56">
@@ -298,7 +298,7 @@ export default function RankingsPage() {
                   className="flex items-center gap-1 justify-end min-h-[44px] w-full"
                   aria-label="Sort by MAI score"
                 >
-                  MAI Score <SortIcon field="mai" />
+                  MAI Score <SortIcon field="mai" currentField={sortField} direction={sortDir} />
                 </button>
               </th>
               <th className="text-right font-data text-[10px] text-muted uppercase tracking-wider w-28">
@@ -307,7 +307,7 @@ export default function RankingsPage() {
                   className="flex items-center gap-1 justify-end min-h-[44px] w-full"
                   aria-label="Sort by demand"
                 >
-                  Demand <SortIcon field="demand" />
+                  Demand <SortIcon field="demand" currentField={sortField} direction={sortDir} />
                 </button>
               </th>
               <th className="text-right font-data text-[10px] text-muted uppercase tracking-wider w-28">
@@ -316,7 +316,7 @@ export default function RankingsPage() {
                   className="flex items-center gap-1 justify-end min-h-[44px] w-full"
                   aria-label="Sort by realizability"
                 >
-                  Realiz. <SortIcon field="realizability" />
+                  Realiz. <SortIcon field="realizability" currentField={sortField} direction={sortDir} />
                 </button>
               </th>
               <th className="text-left font-data text-[10px] text-muted uppercase tracking-wider w-28">
@@ -328,7 +328,7 @@ export default function RankingsPage() {
                   className="flex items-center gap-1 min-h-[44px]"
                   aria-label="Sort by confidence"
                 >
-                  Confidence <SortIcon field="confidence_score" />
+                  Confidence <SortIcon field="confidence_score" currentField={sortField} direction={sortDir} />
                 </button>
               </th>
             </tr>
