@@ -18,14 +18,15 @@ from pathlib import Path
 import pandas as pd
 import requests
 
+from download import download_file
+
+try:
+    from bs4 import BeautifulSoup
+except ImportError:
+    BeautifulSoup = None
+
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger(__name__)
-
-OUT_DIR = Path("data/raw/pmgsy")
-OUT_DIR.mkdir(parents=True, exist_ok=True)
-
-SESSION = requests.Session()
-SESSION.headers.update({"User-Agent": "Mozilla/5.0 (research pipeline)"})
 
 SOURCES = [
     {
@@ -41,40 +42,28 @@ SOURCES = [
 ]
 
 
-def download_file(url: str, dest: Path, timeout: int = 60) -> bool:
-    try:
-        resp = SESSION.get(url, timeout=timeout, allow_redirects=True)
-        resp.raise_for_status()
-        dest.write_bytes(resp.content)
-        log.info("Downloaded %s (%d bytes) -> %s", url, len(resp.content), dest)
-        return True
-    except Exception as e:
-        log.warning("Failed: %s — %s", url, e)
-        return False
-
-
-def try_pmgsy_portal():
+def try_pmgsy_portal(out_dir, session):
     """Try PMGSY MIS for progress reports."""
+    if BeautifulSoup is None:
+        return False
     try:
-        # PMGSY has a reports section — try to get district-wise progress
         urls = [
             "https://pmgsy.nic.in/pmgsy1/districtwiseperformance.php",
             "https://pmgsy.nic.in/DistrictWise/DistrictWiseProgress.aspx",
         ]
         for url in urls:
-            resp = SESSION.get(url, timeout=30)
+            resp = session.get(url, timeout=30)
             if resp.status_code == 200:
-                dest = OUT_DIR / "pmgsy_portal_response.html"
+                dest = out_dir / "pmgsy_portal_response.html"
                 dest.write_text(resp.text, encoding="utf-8")
                 log.info("Got PMGSY portal response from %s", url)
 
-                from bs4 import BeautifulSoup
                 soup = BeautifulSoup(resp.text, "lxml")
                 tables = soup.find_all("table")
                 if tables:
                     dfs = pd.read_html(str(tables[0]))
                     if dfs:
-                        dfs[0].to_csv(OUT_DIR / "pmgsy_district_progress.csv", index=False)
+                        dfs[0].to_csv(out_dir / "pmgsy_district_progress.csv", index=False)
                         log.info("Extracted table: %d rows", len(dfs[0]))
                         return True
     except Exception as e:
@@ -83,21 +72,27 @@ def try_pmgsy_portal():
 
 
 def main():
+    out_dir = Path(__file__).resolve().parent.parent.parent / "data" / "raw" / "pmgsy"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    session = requests.Session()
+    session.headers.update({"User-Agent": "Mozilla/5.0 (research pipeline)"})
+
     log.info("=== PMGSY / Road Connectivity Ingestion ===")
 
     downloaded = []
     for src in SOURCES:
-        dest = OUT_DIR / f"{src['name']}.csv"
-        if download_file(src["url"], dest):
+        dest = out_dir / f"{src['name']}.csv"
+        if download_file(src["url"], dest, session=session):
             downloaded.append(src["name"])
             try:
                 df = pd.read_csv(dest)
                 log.info("  %s: %d rows, %d cols", src["name"], len(df), len(df.columns))
             except Exception as e:
                 log.warning("  %s: parse error: %s", src["name"], e)
+                dest.unlink(missing_ok=True)
 
     if not downloaded:
-        if try_pmgsy_portal():
+        if try_pmgsy_portal(out_dir, session):
             downloaded.append("pmgsy_portal")
 
     if not downloaded:
@@ -109,7 +104,7 @@ def main():
             "Place files in data/raw/pmgsy/."
         )
     else:
-        log.info("Downloaded %d files to %s", len(downloaded), OUT_DIR)
+        log.info("Downloaded %d files to %s", len(downloaded), out_dir)
 
 
 if __name__ == "__main__":
