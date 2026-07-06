@@ -1,10 +1,9 @@
 "use client";
 
 // Renders a dense, sortable/filterable table showing rankings of all districts.
-// Features a sticky header, inline horizontal value bars, and monospace numbers.
-// Accessible: touch targets are sized at 44px minimum for mobile layout.
+// Uses native virtualized rendering (only visible rows in DOM).
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import TopBar from "@/components/TopBar";
 import ConfidenceBadge from "@/components/ConfidenceBadge";
 import QuadrantBadge from "@/components/QuadrantBadge";
@@ -40,6 +39,11 @@ function SortIcon({ field, currentField, direction }: { field: SortField; curren
   );
 }
 
+const ROW_HEIGHT = 40;
+const OVERSCAN = 5;
+
+// ── Main Page ────────────────────────────────────────────────────────────────
+
 export default function RankingsPage() {
   const [districtData, setDistrictData] = useState<DistrictData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -56,6 +60,11 @@ export default function RankingsPage() {
   const [sortField, setSortField] = useState<SortField>("mai");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
 
+  // Virtualization
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [scrollTop, setScrollTop] = useState(0);
+  const [containerHeight, setContainerHeight] = useState(600);
+
   useEffect(() => {
     loadDistrictData()
       .then((data) => {
@@ -69,16 +78,28 @@ export default function RankingsPage() {
       });
   }, []);
 
+  // Measure container
+  const containerRef = useCallback((node: HTMLDivElement | null) => {
+    if (node) {
+      const height = node.getBoundingClientRect().height;
+      setContainerHeight(Math.max(400, height));
+    }
+  }, []);
+
+  const handleScroll = useCallback(() => {
+    if (scrollRef.current) {
+      setScrollTop(scrollRef.current.scrollTop);
+    }
+  }, []);
+
   // Filter + sort data
   const processedData = useMemo(() => {
     let filtered = districtData;
 
-    // State filter
     if (stateFilter !== "all") {
       filtered = filtered.filter((d) => d.state_name === stateFilter);
     }
 
-    // Search filter
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
       filtered = filtered.filter(
@@ -89,7 +110,6 @@ export default function RankingsPage() {
       );
     }
 
-    // Sort
     const sorted = [...filtered].sort((a, b) => {
       let aVal: number | string;
       let bVal: number | string;
@@ -137,23 +157,32 @@ export default function RankingsPage() {
     return sorted;
   }, [districtData, stateFilter, searchQuery, sortField, sortDir, indexType, timeHorizon]);
 
-  // Toggle sort
-  const handleSort = (field: SortField) => {
-    if (sortField === field) {
-      setSortDir(sortDir === "asc" ? "desc" : "asc");
-    } else {
-      setSortField(field);
+  const handleSort = useCallback((field: SortField) => {
+    setSortField((prev) => {
+      if (prev === field) {
+        setSortDir((d) => (d === "asc" ? "desc" : "asc"));
+        return prev;
+      }
       setSortDir("desc");
-    }
-  };
+      return field;
+    });
+  }, []);
 
-  // Max MAI value for bar scaling
   const maxMAI = useMemo(() => {
     if (processedData.length === 0) return 1;
     return Math.max(
       ...processedData.map((d) => getMAIValue(d, indexType, timeHorizon))
     );
   }, [processedData, indexType, timeHorizon]);
+
+  // Virtualization math
+  const totalHeight = processedData.length * ROW_HEIGHT;
+  const startIndex = Math.max(0, Math.floor(scrollTop / ROW_HEIGHT) - OVERSCAN);
+  const endIndex = Math.min(
+    processedData.length,
+    Math.ceil((scrollTop + containerHeight) / ROW_HEIGHT) + OVERSCAN
+  );
+  const visibleRows = processedData.slice(startIndex, endIndex);
 
   if (loading) {
     return (
@@ -189,7 +218,6 @@ export default function RankingsPage() {
 
       {/* Filter Bar */}
       <div className="flex items-center gap-3 border-b border-hairline bg-surface px-6 py-3 flex-wrap flex-shrink-0">
-        {/* Index type */}
         <div className="flex items-center gap-1 bg-void rounded border border-hairline p-0.5">
           {(["overall", "chronic", "acute"] as const).map((type) => (
             <button
@@ -206,7 +234,6 @@ export default function RankingsPage() {
           ))}
         </div>
 
-        {/* Time */}
         <div className="flex items-center gap-1 bg-void rounded border border-hairline p-0.5">
           {(["current", "future"] as const).map((t) => (
             <button
@@ -223,7 +250,6 @@ export default function RankingsPage() {
           ))}
         </div>
 
-        {/* State filter */}
         <select
           value={stateFilter}
           onChange={(e) => setStateFilter(e.target.value)}
@@ -238,7 +264,6 @@ export default function RankingsPage() {
           ))}
         </select>
 
-        {/* Search */}
         <div className="flex items-center gap-2 bg-void border border-hairline rounded px-3 min-h-[44px] flex-1 max-w-xs">
           <Search size={14} className="text-muted flex-shrink-0" />
           <input
@@ -251,117 +276,97 @@ export default function RankingsPage() {
           />
         </div>
 
-        {/* Count */}
         <span className="font-data text-[11px] text-muted ml-auto flex-shrink-0">
           {processedData.length} districts
         </span>
       </div>
 
-      {/* Table */}
-      <div className="flex-1 overflow-auto">
-        <table className="w-full table-dense" role="grid">
-          <thead>
-            <tr>
-              <th className="text-left font-data text-[10px] text-muted uppercase tracking-wider w-14">
-                <button
-                  onClick={() => handleSort("rank")}
-                  className="flex items-center gap-1 min-h-[44px]"
-                  aria-label="Sort by rank"
-                >
-                  # <SortIcon field="rank" currentField={sortField} direction={sortDir} />
-                </button>
-              </th>
-              <th className="text-left font-data text-[10px] text-muted uppercase tracking-wider">
-                <button
-                  onClick={() => handleSort("district_name")}
-                  className="flex items-center gap-1 min-h-[44px]"
-                  aria-label="Sort by district name"
-                >
-                  District <SortIcon field="district_name" currentField={sortField} direction={sortDir} />
-                </button>
-              </th>
-              <th className="text-left font-data text-[10px] text-muted uppercase tracking-wider">
-                <button
-                  onClick={() => handleSort("state_name")}
-                  className="flex items-center gap-1 min-h-[44px]"
-                  aria-label="Sort by state"
-                >
-                  State <SortIcon field="state_name" currentField={sortField} direction={sortDir} />
-                </button>
-              </th>
-              <th className="text-right font-data text-[10px] text-muted uppercase tracking-wider w-56">
-                <button
-                  onClick={() => handleSort("mai")}
-                  className="flex items-center gap-1 justify-end min-h-[44px] w-full"
-                  aria-label="Sort by MAI score"
-                >
-                  MAI Score <SortIcon field="mai" currentField={sortField} direction={sortDir} />
-                </button>
-              </th>
-              <th className="text-right font-data text-[10px] text-muted uppercase tracking-wider w-28">
-                <button
-                  onClick={() => handleSort("demand")}
-                  className="flex items-center gap-1 justify-end min-h-[44px] w-full"
-                  aria-label="Sort by demand"
-                >
-                  Demand <SortIcon field="demand" currentField={sortField} direction={sortDir} />
-                </button>
-              </th>
-              <th className="text-right font-data text-[10px] text-muted uppercase tracking-wider w-28">
-                <button
-                  onClick={() => handleSort("realizability")}
-                  className="flex items-center gap-1 justify-end min-h-[44px] w-full"
-                  aria-label="Sort by realizability"
-                >
-                  Realiz. <SortIcon field="realizability" currentField={sortField} direction={sortDir} />
-                </button>
-              </th>
-              <th className="text-left font-data text-[10px] text-muted uppercase tracking-wider w-28">
-                Quadrant
-              </th>
-              <th className="text-left font-data text-[10px] text-muted uppercase tracking-wider w-28">
-                <button
-                  onClick={() => handleSort("confidence_score")}
-                  className="flex items-center gap-1 min-h-[44px]"
-                  aria-label="Sort by confidence"
-                >
-                  Confidence <SortIcon field="confidence_score" currentField={sortField} direction={sortDir} />
-                </button>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {processedData.map((district, idx) => {
-              const mai = getMAIValue(district, indexType, timeHorizon);
-              const demand = getDemandValue(district, indexType, timeHorizon);
-              const realizability = getRealizabilityValue(
-                district,
-                indexType,
-                timeHorizon
-              );
-              const quadrant = getQuadrant(district, indexType, timeHorizon);
-              const barWidth = maxMAI > 0 ? (mai / maxMAI) * 100 : 0;
+      {/* Virtualized Table */}
+      <div ref={containerRef} className="flex-1 overflow-hidden flex flex-col">
+        {/* Sticky Header */}
+        <div className="flex items-center bg-surface border-b border-hairline flex-shrink-0">
+          <div className="w-14 px-3 py-2">
+            <button onClick={() => handleSort("rank")} className="flex items-center gap-1" aria-label="Sort by rank">
+              <span className="font-data text-[10px] text-muted uppercase tracking-wider">#</span>
+              <SortIcon field="rank" currentField={sortField} direction={sortDir} />
+            </button>
+          </div>
+          <div className="flex-1 px-3 py-2">
+            <button onClick={() => handleSort("district_name")} className="flex items-center gap-1" aria-label="Sort by district name">
+              <span className="font-data text-[10px] text-muted uppercase tracking-wider">District</span>
+              <SortIcon field="district_name" currentField={sortField} direction={sortDir} />
+            </button>
+          </div>
+          <div className="w-36 px-3 py-2">
+            <button onClick={() => handleSort("state_name")} className="flex items-center gap-1" aria-label="Sort by state">
+              <span className="font-data text-[10px] text-muted uppercase tracking-wider">State</span>
+              <SortIcon field="state_name" currentField={sortField} direction={sortDir} />
+            </button>
+          </div>
+          <div className="w-56 px-3 py-2">
+            <button onClick={() => handleSort("mai")} className="flex items-center gap-1 justify-end w-full" aria-label="Sort by MAI score">
+              <span className="font-data text-[10px] text-muted uppercase tracking-wider">MAI Score</span>
+              <SortIcon field="mai" currentField={sortField} direction={sortDir} />
+            </button>
+          </div>
+          <div className="w-28 px-3 py-2">
+            <button onClick={() => handleSort("demand")} className="flex items-center gap-1 justify-end w-full" aria-label="Sort by demand">
+              <span className="font-data text-[10px] text-muted uppercase tracking-wider">Demand</span>
+              <SortIcon field="demand" currentField={sortField} direction={sortDir} />
+            </button>
+          </div>
+          <div className="w-28 px-3 py-2">
+            <button onClick={() => handleSort("realizability")} className="flex items-center gap-1 justify-end w-full" aria-label="Sort by realizability">
+              <span className="font-data text-[10px] text-muted uppercase tracking-wider">Realiz.</span>
+              <SortIcon field="realizability" currentField={sortField} direction={sortDir} />
+            </button>
+          </div>
+          <div className="w-28 px-3 py-2">
+            <span className="font-data text-[10px] text-muted uppercase tracking-wider">Quadrant</span>
+          </div>
+          <div className="w-28 px-3 py-2">
+            <button onClick={() => handleSort("confidence_score")} className="flex items-center gap-1" aria-label="Sort by confidence">
+              <span className="font-data text-[10px] text-muted uppercase tracking-wider">Confidence</span>
+              <SortIcon field="confidence_score" currentField={sortField} direction={sortDir} />
+            </button>
+          </div>
+        </div>
 
-              return (
-                <tr
-                  key={district.lgd_district_code}
-                  className="border-b border-hairline/50 hover:bg-surface-raised/50 transition-colors"
-                >
-                  <td className="font-data text-xs text-muted">{idx + 1}</td>
-                  <td>
-                    <Link
-                      href={`/district/${district.lgd_district_code}`}
-                      className="font-data text-xs text-primary hover:text-saffron transition-colors"
-                    >
-                      {district.district_name}
-                    </Link>
-                  </td>
-                  <td className="font-data text-xs text-secondary">
-                    {district.state_name}
-                  </td>
-                  <td className="text-right">
-                    <div className="flex items-center gap-2 justify-end">
-                      {/* Inline horizontal bar */}
+        {/* Scrollable Rows */}
+        {processedData.length > 0 ? (
+          <div
+            ref={scrollRef}
+            onScroll={handleScroll}
+            className="flex-1 overflow-y-auto"
+          >
+            <div style={{ height: totalHeight, position: "relative" }}>
+              {visibleRows.map((district, i) => {
+                const absoluteIndex = startIndex + i;
+                const mai = getMAIValue(district, indexType, timeHorizon);
+                const demand = getDemandValue(district, indexType, timeHorizon);
+                const realizability = getRealizabilityValue(district, indexType, timeHorizon);
+                const quadrant = getQuadrant(district, indexType, timeHorizon);
+                const barWidth = maxMAI > 0 ? (mai / maxMAI) * 100 : 0;
+
+                return (
+                  <div
+                    key={district.lgd_district_code}
+                    className="flex items-center border-b border-hairline/50 hover:bg-surface-raised/50 transition-colors absolute w-full"
+                    style={{ top: absoluteIndex * ROW_HEIGHT, height: ROW_HEIGHT }}
+                  >
+                    <div className="w-14 px-3 font-data text-xs text-muted">{absoluteIndex + 1}</div>
+                    <div className="flex-1 min-w-0 px-3">
+                      <Link
+                        href={`/district/${district.lgd_district_code}`}
+                        className="font-data text-xs text-primary hover:text-saffron transition-colors truncate block"
+                      >
+                        {district.district_name}
+                      </Link>
+                    </div>
+                    <div className="w-36 px-3 font-data text-xs text-secondary truncate">
+                      {district.state_name}
+                    </div>
+                    <div className="w-56 px-3 flex items-center gap-2 justify-end">
                       <div className="w-20 h-2 bg-void rounded-full overflow-hidden flex-shrink-0">
                         <div
                           className="h-full rounded-full"
@@ -375,29 +380,24 @@ export default function RankingsPage() {
                         {mai.toFixed(4)}
                       </span>
                     </div>
-                  </td>
-                  <td className="text-right font-data text-xs text-demand">
-                    {demand.toFixed(4)}
-                  </td>
-                  <td className="text-right font-data text-xs text-realizability">
-                    {realizability.toFixed(4)}
-                  </td>
-                  <td>
-                    <QuadrantBadge quadrant={quadrant} size="sm" />
-                  </td>
-                  <td>
-                    <ConfidenceBadge
-                      score={district.confidence_score}
-                      size="sm"
-                    />
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-
-        {processedData.length === 0 && (
+                    <div className="w-28 px-3 text-right font-data text-xs text-demand">
+                      {demand.toFixed(4)}
+                    </div>
+                    <div className="w-28 px-3 text-right font-data text-xs text-realizability">
+                      {realizability.toFixed(4)}
+                    </div>
+                    <div className="w-28 px-3">
+                      <QuadrantBadge quadrant={quadrant} size="sm" />
+                    </div>
+                    <div className="w-28 px-3">
+                      <ConfidenceBadge score={district.confidence_score} size="sm" />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ) : (
           <div className="flex items-center justify-center py-20">
             <span className="font-data text-sm text-muted">
               No districts match your filters.
