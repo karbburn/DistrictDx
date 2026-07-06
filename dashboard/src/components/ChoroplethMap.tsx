@@ -81,7 +81,7 @@ export default function ChoroplethMap({
     return geoMercator().fitSize(
       [dimensions.width - 40, dimensions.height - 40],
       geoData
-    ).translate([dimensions.width / 2, dimensions.height / 2]);
+    );
   }, [geoData, dimensions]);
 
   const pathGenerator = useMemo(() => geoPath().projection(projection), [projection]);
