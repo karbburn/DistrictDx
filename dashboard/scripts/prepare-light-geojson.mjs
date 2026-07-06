@@ -1,7 +1,7 @@
 /**
- * Convert district_index_final.geojson → india-districts.topo.json
- * Reduces ~5.6MB GeoJSON to ~1MB TopoJSON via shared arc topology.
- * Run: node scripts/prepare-topojson.mjs
+ * Strip district_index_final.geojson → india-districts-light.json (GeoJSON)
+ * Reduces ~5.6MB GeoJSON by stripping properties to only what the map needs.
+ * Run: node scripts/prepare-light-geojson.mjs
  */
 import { readFileSync, writeFileSync } from "fs";
 import { join, dirname } from "path";
@@ -10,9 +10,7 @@ import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, "..");
 
-// We need topojson-server for the conversion (topology())
-// Since it's a one-time script, we'll use a simpler approach:
-// quantize the GeoJSON coordinates to reduce precision + file size
+// Strip heavy properties — keep only what the map needs.
 
 const geojson = JSON.parse(
   readFileSync(join(root, "public", "data", "district_index_final.geojson"), "utf8")
