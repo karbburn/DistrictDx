@@ -55,7 +55,7 @@ def generate_grid_geojson(df: pd.DataFrame, dest: Path):
     log.info("Generating grid-based mock GeoJSON for offline/fallback dashboard use ...")
     features = []
     
-    # 28 cols x 28 rows covers the 785 districts
+    # 28 cols x 29 rows for 785 districts
     cols_count = 28
     
     # Coordinates bounding box roughly matching India (68°E to 97°E, 8°N to 37°N)
