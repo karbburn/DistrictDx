@@ -307,26 +307,46 @@ export default function ScatterPlot({
         />
 
         {/* Median labels */}
-        <text
-          x={xScale(medianDemand)}
-          y={yScale(0) + 16}
-          textAnchor="middle"
-          className="font-data"
-          fontSize="9"
-          fill="var(--text-muted)"
-        >
-          D median={medianDemand.toFixed(3)}
-        </text>
-        <text
-          x={xScale(1) + 4}
-          y={yScale(medianRealizability) + 3}
-          textAnchor="start"
-          className="font-data"
-          fontSize="9"
-          fill="var(--text-muted)"
-        >
-          R med={medianRealizability.toFixed(3)}
-        </text>
+        <g>
+          <rect
+            x={xScale(medianDemand) - 30}
+            y={PADDING.top + 2}
+            width={60}
+            height={14}
+            fill="var(--surface)"
+            rx={2}
+          />
+          <text
+            x={xScale(medianDemand)}
+            y={PADDING.top + 12}
+            textAnchor="middle"
+            className="font-data"
+            fontSize="9"
+            fill="var(--text-muted)"
+          >
+            D med={medianDemand.toFixed(3)}
+          </text>
+        </g>
+        <g>
+          <rect
+            x={PADDING.left + 2}
+            y={yScale(medianRealizability) - 15}
+            width={62}
+            height={14}
+            fill="var(--surface)"
+            rx={2}
+          />
+          <text
+            x={PADDING.left + 4}
+            y={yScale(medianRealizability) - 4}
+            textAnchor="start"
+            className="font-data"
+            fontSize="9"
+            fill="var(--text-muted)"
+          >
+            R med={medianRealizability.toFixed(3)}
+          </text>
+        </g>
 
         {/* Axes */}
         <line x1={PADDING.left} y1={yScale(0)} x2={xScale(1)} y2={yScale(0)} stroke="var(--border-hairline)" strokeWidth="1" />
