@@ -9,9 +9,8 @@ Stage 9 — Final Export and Unified Output Generation
      - Writes to /outputs/district_index_final.csv.
 
   2. Generates Unified District GeoJSON:
-     - Tries to fetch a lightweight India district GeoJSON from a public repository.
-     - Falls back to generating a valid grid-based mock GeoJSON representing all 785 districts
-       if network download fails/times out.
+     - Generates a grid-based GeoJSON representing all 785 districts within
+       an India-bounding box for offline/dashboard fallback use.
      - Links the unified properties dictionary to each district feature.
      - Writes to /outputs/district_index_final.geojson.
 
