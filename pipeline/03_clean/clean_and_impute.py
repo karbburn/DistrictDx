@@ -383,6 +383,9 @@ national_avgs_nf4 = df[list(NF5_TO_NF4_MAP.values())].mean()
 reconciliation_counts = {}
 
 for col in VARIABLE_COLS:
+    if df[col].isna().all():
+        log.warning("Column %s is entirely NaN — skipping imputation (no source data joined)", col)
+        continue
     direct_cnt = 0
     nf4_cnt = 0
     state_cnt = 0
