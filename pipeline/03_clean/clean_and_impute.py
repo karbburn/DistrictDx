@@ -391,6 +391,9 @@ for col in VARIABLE_COLS:
     if col in NF5_TO_NF4_MAP:
         nf4_col = NF5_TO_NF4_MAP[col]
         # Precompute deltas
+        # ponytail: delta conflates temporal change + medication inclusion diff
+        # (NFHS-5 indicator 88 includes "taking medicine", NFHS-4 indicator 81 does not)
+        # Accept ~5-15% inflation in trend-adjusted values for now.
         state_deltas = state_avgs_nf5[col] - state_avgs_nf4[nf4_col]
         national_delta = float(national_avgs_nf5[col] - national_avgs_nf4[nf4_col])
 
