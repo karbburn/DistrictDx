@@ -132,17 +132,9 @@
 
 ## Overall Assessment
 
-**Core feasibility: YES.** The vast majority of variables in TECHSPEC §2 can be sourced from free public data, though many require community-scraped CSVs rather than pristine government API downloads. The two genuinely problematic areas are:
+**Core feasibility: YES.** The vast majority of variables can be sourced from free public data, though many require community-scraped CSVs rather than pristine government API downloads. The two genuinely problematic areas are:
 
 1. **Vector-borne disease incidence at district level** — malaria/dengue from NVBDCP is effectively restricted. State-level fallback is the honest path.
 2. **HMIS facility-level data** — restricted access. The ABDM Health Facility Registry is a viable free alternative for infrastructure counts.
 
 No paid data source is needed for any variable. The NSSO microdata portal requires free registration (not a paywall). All other sources are either directly downloadable or available through well-established community repositories (GitHub, Mendeley, Kaggle) that derived their data from the original government publications.
-
-**Before proceeding to Stage 2, user must review and decide on:**
-- [ ] Accept state-level fallback for malaria/dengue incidence?
-- [ ] Use ABDM HFR as proxy for HMIS diagnostic lab data?
-- [ ] Accept state-level PMJAY data for validation (reduced granularity)?
-- [ ] Approve use of community-scraped NFHS-5 CSVs as primary ingest source?
-- [ ] Approve scraping janaushadhi.gov.in for Jan Aushadhi Kendra counts, or drop that validation variable?
-- [ ] Accept ambulance density state-level fallback or drop variable entirely?

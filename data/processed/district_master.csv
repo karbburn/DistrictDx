@@ -1,0 +1,786 @@
+lgd_state_code,lgd_district_code,district_name,state_name,census_2011_district_code,notes
+36,501,Adilabad,Telangana,532.0,
+23,667,Agar-Malwa,Madhya Pradesh,436.0,"boundary_inherited=True; It was created by removing parts of the Shajapur district, including the tehsils of Agar, Badod, Susner, and Nalkheda"
+9,118,Agra,Uttar Pradesh,146.0,
+24,438,Ahmedabad,Gujarat,474.0,
+27,466,Ahmednagar,Maharashtra,522.0,
+15,261,Aizawl,Mizoram,283.0,
+8,86,Ajmer,Rajasthan,119.0,
+27,467,Akola,Maharashtra,501.0,
+32,554,Alappuzha,Kerala,598.0,
+9,119,Aligarh,Uttar Pradesh,143.0,
+19,664,Alipurduar,West Bengal,328.0,"boundary_inherited=True; The Alipurduar district was created in 2014 by splitting the Jalpaiguri district in West Bengal, India"
+23,639,Alirajpur,Madhya Pradesh,465.0,
+28,745,Alluri Sitharama Raju,Andhra Pradesh,544.0,"boundary_inherited=True; formed on April 4, 2022,from erstwhile Vishakapatnam"
+5,45,Almora,Uttarakhand,64.0,
+8,87,Alwar,Rajasthan,104.0,
+6,58,Ambala,Haryana,70.0,
+9,121,Ambedkar Nagar,Uttar Pradesh,178.0,
+9,640,Amethi,Uttar Pradesh,,"parent_census_2011_code=multiple; boundary_inherited=True; the Amethi district in Uttar Pradesh was formed by merging parts of two other districts, Sultanpur and Rae Bareli"
+27,468,Amravati,Maharashtra,503.0,
+24,439,Amreli,Gujarat,480.0,
+3,27,Amritsar,Punjab,49.0,
+9,154,Amroha,Uttar Pradesh,137.0,Name changed from Jyothi Bhai Phule Nagar to Amroha
+28,744,Anakapalli,Andhra Pradesh,544.0,"boundary_inherited=True; formed on April 4, 2022, from erstwhile Vishakapatnam"
+24,440,Anand,Gujarat,482.0,
+28,502,Ananthapuramu,Andhra Pradesh,553.0,
+1,1,Anantnag,Jammu And Kashmir,14.0,
+12,628,Anjaw,Arunachal Pradesh,260.0,
+28,753,Annamayya,Andhra Pradesh,,"parent_census_2011_code=multiple; boundary_inherited=True; formed on April 4, 2022 ,combining parts of the erstwhile Chittoor and YSR districts"
+21,344,Anugul,Odisha,384.0,
+8,776,Anupgarh,Rajasthan,99.0,boundary_inherited=True (new LGD district); Anupgarh district is a new north-west district of Rajasthan state in India. It was established on 7 August 2023 after curving it out of Sri Ganganagar District.
+23,390,Anuppur,Madhya Pradesh,461.0,
+10,188,Araria,Bihar,209.0,
+33,610,Ariyalur,Tamil Nadu,616.0,
+24,672,Arvalli,Gujarat,472.0,"boundary_inherited=True; The Arvalli district in Gujarat, India was formed on August 15, 2013, after being carved out of the Sabarkantha district"
+10,611,Arwal,Bihar,240.0,
+23,391,Ashoknagar,Madhya Pradesh,459.0,
+9,122,Auraiya,Uttar Pradesh,162.0,
+10,189,Aurangabad,Bihar,235.0,
+9,140,Ayodhya,Uttar Pradesh,177.0,Name changed from faizabad to Ayodhya
+9,123,Azamgarh,Uttar Pradesh,191.0,
+29,524,Bagalkote,Karnataka,556.0,
+5,46,Bageshwar,Uttarakhand,63.0,
+9,124,Baghpat,Uttar Pradesh,139.0,
+9,125,Bahraich,Uttar Pradesh,180.0,
+18,739,Bajali,Assam,303.0,"boundary_inherited=True; Bajali was a newly created district in the Indian state of Assam, but was remerged with the Barpeta district in December 2022"
+18,616,Baksa,Assam,324.0,"boundary_inherited=True; Created from parts of Nalbari, Barpeta, Kamrup, and a small portion of Darrang districts in June 2004"
+23,392,Balaghat,Madhya Pradesh,457.0,
+21,345,Balangir,Odisha,393.0,
+21,346,Baleshwar,Odisha,377.0,Name changed from Balasore to Baleshwar
+29,528,Ballari,Karnataka,565.0,
+9,126,Ballia,Uttar Pradesh,193.0,
+22,646,Balod,Chhattisgarh,409.0,"boundary_inherited=True; Balod became a district in Chhattisgarh, India on January 1, 2012, after being carved out of the Durg district"
+22,644,Balodabazar-Bhatapara,Chhattisgarh,410.0,"boundary_inherited=True; The Balodabazar-Bhatapara district was established on January 1, 2012, when it was split from the Raipur district"
+8,775,Balotra,Rajasthan,115.0,"boundary_inherited=True (new LGD district); The Balotra district was formed on August 7, 2023, when it separated from the Barmer district in the state of Rajasthan, India."
+9,127,Balrampur,Uttar Pradesh,182.0,
+22,649,Balrampur-Ramanujganj,Chhattisgarh,401.0,"boundary_inherited=True; It was carved out of the erstwhile Surguja district and came into existence on 17th January, 2012."
+24,441,Banas Kantha,Gujarat,469.0,
+9,128,Banda,Uttar Pradesh,170.0,
+1,623,Bandipora,Jammu And Kashmir,9.0,
+10,190,Banka,Bihar,225.0,
+19,305,Bankura,West Bengal,339.0,
+8,88,Banswara,Rajasthan,125.0,
+28,750,Bapatla,Andhra Pradesh,548.0,"boundary_inherited=True; formed on April 4, 2022, as a result of the division of the Guntur district into three districts:"
+9,129,Bara Banki,Uttar Pradesh,176.0,
+1,3,Baramulla,Jammu And Kashmir,8.0,
+8,89,Baran,Rajasthan,128.0,
+9,130,Bareilly,Uttar Pradesh,150.0,
+21,347,Bargarh,Odisha,370.0,
+8,90,Barmer,Rajasthan,115.0,
+3,605,Barnala,Punjab,54.0,
+18,280,Barpeta,Assam,303.0,
+23,393,Barwani,Madhya Pradesh,441.0,
+22,374,Bastar,Chhattisgarh,414.0,
+9,131,Basti,Uttar Pradesh,185.0,
+3,28,Bathinda,Punjab,46.0,
+8,774,Beawar,Rajasthan,119.0,"boundary_inherited=True (new LGD district); Beawar became a district in Rajasthan in 2023, carved out of Ajmer district"
+27,470,Beed,Maharashtra,523.0,
+10,191,Begusarai,Bihar,222.0,
+29,527,Belagavi,Karnataka,555.0,Name changed from Belgaun to Belagavi
+22,650,Bemetara,Chhattisgarh,409.0,"boundary_inherited=True; It was created after the Durg district was divided, and is located on the northern side of Durg"
+29,526,Bengaluru Rural,Karnataka,583.0,
+29,525,Bengaluru Urban,Karnataka,572.0,
+23,394,Betul,Madhya Pradesh,447.0,
+9,179,Bhadohi,Uttar Pradesh,198.0,Previously known as Sant Ravidas Nagr
+36,690,Bhadradri Kothagudem,Telangana,541.0,boundary_inherited=True; Bhadradri Kothagudem district was formed from the erstwhile Khammam district in 2016
+21,348,Bhadrak,Odisha,378.0,
+10,192,Bhagalpur,Bihar,224.0,
+27,471,Bhandara,Maharashtra,506.0,
+8,91,Bharatpur,Rajasthan,105.0,
+24,442,Bharuch,Gujarat,488.0,
+24,443,Bhavnagar,Gujarat,481.0,
+8,92,Bhilwara,Rajasthan,122.0,
+23,395,Bhind,Madhya Pradesh,420.0,
+6,59,Bhiwani,Haryana,81.0,
+10,193,Bhojpur,Bihar,231.0,
+23,396,Bhopal,Madhya Pradesh,444.0,
+29,529,Bidar,Karnataka,558.0,
+22,636,Bijapur,Chhattisgarh,417.0,
+9,132,Bijnor,Uttar Pradesh,134.0,
+8,93,Bikaner,Rajasthan,101.0,
+22,375,Bilaspur,Chhattisgarh,406.0,
+2,15,Bilaspur,Himachal Pradesh,30.0,
+19,307,Birbhum,West Bengal,334.0,
+14,252,Bishnupur,Manipur,275.0,
+18,705,Biswanath,Assam,306.0,"boundary_inherited=True; On 31 December 2022, the district remerged with existing Sonitpur district ahead of delimitation process by ECI in the state.[3]"
+20,322,Bokaro,Jharkhand,355.0,
+18,281,Bongaigaon,Assam,319.0,
+24,676,Botad,Gujarat,481.0,"boundary_inherited=True; Erstwhile, it was part of Bhavnagar District."
+21,349,Boudh,Odisha,391.0,
+9,133,Budaun,Uttar Pradesh,149.0,
+1,2,Budgam,Jammu And Kashmir,2.0,
+9,134,Bulandshahr,Uttar Pradesh,142.0,
+27,472,Buldhana,Maharashtra,500.0,
+8,94,Bundi,Rajasthan,121.0,
+23,397,Burhanpur,Madhya Pradesh,467.0,
+10,194,Buxar,Bihar,232.0,
+18,282,Cachar,Assam,316.0,
+7,77,Central,Delhi,95.0,
+29,531,Chamarajanagara,Karnataka,578.0,
+2,16,Chamba,Himachal Pradesh,23.0,
+5,47,Chamoli,Uttarakhand,57.0,
+5,48,Champawat,Uttarakhand,65.0,
+15,262,Champhai,Mizoram,284.0,
+9,135,Chandauli,Uttar Pradesh,196.0,
+14,253,Chandel,Manipur,280.0,
+4,44,Chandigarh,Chandigarh,55.0,
+27,473,Chandrapur,Maharashtra,509.0,
+12,229,Changlang,Arunachal Pradesh,253.0,
+18,708,Charaideo,Assam,311.0,boundary_inherited=True; It was carved out of the Sivasagar district and is part of the Upper Assam division
+6,701,Charki Dadri,Haryana,81.0,"boundary_inherited=True; Previously in Bhiwani district, Charkhi Dadri became part of the new Charkhi Dadri district in"
+20,323,Chatra,Jharkhand,347.0,
+33,730,Chengalpattu,Tamil Nadu,604.0,"boundary_inherited=True; Chengalpattu district was formed from the Kancheepuram district in Tamil Nadu, India in 2019:"
+33,568,Chennai,Tamil Nadu,603.0,
+23,398,Chhatarpur,Madhya Pradesh,425.0,
+27,469,Chhatrapati Sambhajinagar,Maharashtra,515.0,Aurangabad name changed to C Shambaji Nagar
+23,399,Chhindwara,Madhya Pradesh,455.0,
+24,668,Chhotaudepur,Gujarat,486.0,"boundary_inherited=True; Chhotaudepur is a district in the state of Gujarat, India, that was created in 2013 from a portion of the Vadodara district."
+29,630,Chikkaballapura,Karnataka,582.0,
+29,532,Chikkamagaluru,Karnataka,570.0,
+18,612,Chirang,Assam,320.0,
+29,533,Chitradurga,Karnataka,566.0,
+9,136,Chitrakoot,Uttar Pradesh,171.0,
+28,503,Chittoor,Andhra Pradesh,554.0,
+8,95,Chittorgarh,Rajasthan,126.0,
+13,758,Chumoukedima,Nagaland,265.0,"boundary_inherited=True; The Chümoukedima district was formed from the Dimapur district in Nagaland on December 18, 2021."
+14,254,Churachandpur,Manipur,274.0,
+8,96,Churu,Rajasthan,102.0,
+33,569,Coimbatore,Tamil Nadu,632.0,
+19,308,Cooch Behar,West Bengal,329.0,
+33,570,Cuddalore,Tamil Nadu,617.0,
+21,350,Cuttack,Odisha,381.0,
+38,465,Dadra And Nagar Haveli,The Dadra And Nagar Haveli And Daman And Diu,496.0,
+24,445,Dahod,Gujarat,485.0,
+22,376,Dakshin Bastar Dantewada,Chhattisgarh,416.0,
+19,310,Dakshin Dinajpur,West Bengal,331.0,
+29,534,Dakshina Kannada,Karnataka,575.0,
+38,463,Daman,The Dadra And Nagar Haveli And Daman And Diu,495.0,
+23,400,Damoh,Madhya Pradesh,428.0,
+24,444,Dangs,Gujarat,489.0,
+10,195,Darbhanga,Bihar,215.0,
+19,309,Darjeeling,West Bengal,327.0,
+18,283,Darrang,Assam,325.0,
+23,401,Datia,Madhya Pradesh,422.0,
+8,97,Dausa,Rajasthan,109.0,
+29,535,Davangere,Karnataka,567.0,
+8,767,Deeg,Rajasthan,105.0,boundary_inherited=True (new LGD district); It is carved out from its former district bharatpur on 7 August 2023. It is situated 32 kilometres
+5,49,Dehradun,Uttarakhand,60.0,
+21,351,Deogarh,Odisha,373.0,
+20,324,Deoghar,Jharkhand,350.0,
+9,137,Deoria,Uttar Pradesh,190.0,
+24,674,Devbhumi Dwarka,Gujarat,477.0,"boundary_inherited=True; The Devbhumi Dwarka district was created in Gujarat, India on August 15, 2013, when it was split from the Jamnagar district:"
+23,402,Dewas,Madhya Pradesh,437.0,
+16,269,Dhalai,Tripura,291.0,
+22,377,Dhamtari,Chhattisgarh,412.0,
+20,325,Dhanbad,Jharkhand,354.0,
+23,403,Dhar,Madhya Pradesh,438.0,
+27,488,Dharashiv,Maharashtra,525.0,previously known as Osmanabad
+33,571,Dharmapuri,Tamil Nadu,630.0,
+29,536,Dharwad,Karnataka,562.0,
+18,284,Dhemaji,Assam,308.0,
+21,352,Dhenkanal,Odisha,383.0,
+8,98,Dholpur,Rajasthan,106.0,
+18,285,Dhubri,Assam,301.0,
+27,474,Dhule,Maharashtra,498.0,
+12,230,Dibang Valley,Arunachal Pradesh,257.0,
+18,286,Dibrugarh,Assam,310.0,
+8,768,Didwana-Kuchaman,Rajasthan,112.0,"boundary_inherited=True (new LGD district); The government had earlier turned Deedwana-Kuchaman, previously part of Nagaur, into a new district."
+18,299,Dima Hasao,Assam,315.0,Name changed from North Cachar Hills to Dima Hasao
+13,244,Dimapur,Nagaland,265.0,
+33,572,Dindigul,Tamil Nadu,612.0,
+23,404,Dindori,Madhya Pradesh,453.0,
+38,464,Diu,The Dadra And Nagar Haveli And Daman And Diu,494.0,
+1,4,Doda,Jammu And Kashmir,16.0,
+28,747,Dr BR Ambedkar Konaseema,Andhra Pradesh,545.0,"boundary_inherited=True; The District is a newly formed district, getting divided from Erstwhile East Godavari District, as per District Reorganization Act,2022"
+8,769,Dudu,Rajasthan,110.0,"boundary_inherited=True (new LGD district); Jaipur North, Jaipur South, Dudu and Phalodi districts have been carved out of Jaipur district"
+20,326,Dumka,Jharkhand,362.0,
+8,99,Dungarpur,Rajasthan,124.0,
+22,378,Durg,Chhattisgarh,409.0,
+7,78,East,Delhi,93.0,
+17,273,East Garo Hills,Meghalaya,294.0,
+28,505,East Godavari,Andhra Pradesh,545.0,
+17,657,East Jaintia Hills,Meghalaya,299.0,boundary_inherited=True; It was created when the Jaintia Hills District was split into East and West Jaintia Hills Districts
+12,231,East Kameng,Arunachal Pradesh,247.0,
+17,274,East Khasi Hills,Meghalaya,298.0,
+12,232,East Siang,Arunachal Pradesh,251.0,
+20,327,East Singhbum,Jharkhand,357.0,
+17,740,Eastern West Khasi Hills,Meghalaya,296.0,"boundary_inherited=True; It was formed by splitting the West Khasi Hills district,"
+28,748,Eluru,Andhra Pradesh,,parent_census_2011_code=multiple; boundary_inherited=True; Eluru district is carved out of the part of old West Godavari District along with 8 mandals from old Krishna District total with 28 mandals
+32,555,Ernakulam,Kerala,595.0,
+33,573,Erode,Tamil Nadu,610.0,
+9,138,Etah,Uttar Pradesh,201.0,
+9,139,Etawah,Uttar Pradesh,161.0,
+6,60,Faridabad,Haryana,88.0,
+3,29,Faridkot,Punjab,45.0,
+9,141,Farrukhabad,Uttar Pradesh,159.0,
+6,61,Fatehabad,Haryana,78.0,
+3,30,Fatehgarh Sahib,Punjab,40.0,
+9,142,Fatehpur,Uttar Pradesh,172.0,
+3,651,Fazilka,Punjab,43.0,"boundary_inherited=True; The Fazilka district was formed on July 27, 2011, when the Government of Punjab carved it out of the existing Firozpur district"
+3,31,Ferozepur,Punjab,43.0,
+9,143,Firozabad,Uttar Pradesh,147.0,
+29,537,Gadag,Karnataka,561.0,
+27,475,Gadchiroli,Maharashtra,508.0,
+21,353,Gajapati,Odisha,389.0,
+1,626,Ganderbal,Jammu And Kashmir,11.0,
+24,446,Gandhinagar,Gujarat,473.0,
+8,100,Ganganagar,Rajasthan,99.0,
+8,771,Gangapurcity,Rajasthan,108.0,boundary_inherited=True (new LGD district); Gangapur City became a new district in Rajasthan by separating from Sawai Madhopur district
+11,225,Gangtok,Sikkim,244.0,Formerly East district
+21,354,Ganjam,Odisha,388.0,
+20,328,Garhwa,Jharkhand,346.0,
+22,645,Gariyaband,Chhattisgarh,410.0,boundary_inherited=True; It was carved out of Raipur district
+22,734,Gaurela-Pendra-Marwahi,Chhattisgarh,406.0,boundary_inherited=True; It was carved out of the Bilaspur district and is located on the border of Chhattisgarh and Madhya Pradesh
+9,144,Gautam Buddha Nagar,Uttar Pradesh,141.0,
+10,196,Gaya,Bihar,236.0,
+9,145,Ghaziabad,Uttar Pradesh,140.0,
+9,146,Ghazipur,Uttar Pradesh,195.0,
+24,675,Gir Somnath,Gujarat,479.0,"boundary_inherited=True; The Gir Somnath district was formed in August 2013 when it was split from the Junagadh district in Gujarat, India."
+20,329,Giridih,Jharkhand,349.0,
+18,287,Goalpara,Assam,302.0,
+20,330,Godda,Jharkhand,351.0,
+18,288,Golaghat,Assam,313.0,
+16,654,Gomati,Tripura,290.0,boundary_inherited=True; Gomati District was created in 2012 when the undivided South Tripura District was split into two districts.
+9,147,Gonda,Uttar Pradesh,183.0,
+27,476,Gondia,Maharashtra,507.0,
+10,197,Gopalganj,Bihar,217.0,
+9,148,Gorakhpur,Uttar Pradesh,188.0,
+20,331,Gumla,Jharkhand,366.0,
+23,406,Guna,Madhya Pradesh,458.0,
+28,506,Guntur,Andhra Pradesh,548.0,
+3,32,Gurdaspur,Punjab,35.0,
+6,62,Gurugram,Haryana,86.0,
+23,407,Gwalior,Madhya Pradesh,421.0,
+11,228,Gyalshing,Sikkim,242.0,Formerly West district
+18,289,Hailakandi,Assam,318.0,
+2,17,Hamirpur,Himachal Pradesh,28.0,
+9,149,Hamirpur,Uttar Pradesh,168.0,
+36,686,Hanumakonda,Telangana,540.0,boundary_inherited=True; The Hanamkonda district was formed in 2016 when the Warangal district was reorganized to create two districts: Hanamkonda and Warangal.
+8,101,Hanumangarh,Rajasthan,100.0,
+9,661,Hapur,Uttar Pradesh,140.0,"boundary_inherited=True; The Hapur district in Uttar Pradesh, India was created on September 28, 2011 as the Panchsheel Nagar district, from parts of the Ghaziabad district"
+23,408,Harda,Madhya Pradesh,448.0,
+9,150,Hardoi,Uttar Pradesh,155.0,
+5,50,Haridwar,Uttarakhand,68.0,
+29,539,Hassan,Karnataka,574.0,
+9,163,Hathras,Uttar Pradesh,144.0,
+29,540,Haveri,Karnataka,564.0,
+20,332,Hazaribagh,Jharkhand,360.0,
+27,477,Hingoli,Maharashtra,512.0,
+6,63,Hisar,Haryana,80.0,
+15,726,Hnahthial,Mizoram,286.0,boundary_inherited=True; The district was created by splitting off from the Lunglei district.
+18,709,Hojai,Assam,305.0,boundary_inherited=True; It was carved out of Nagaon district and is one of five districts in Assam.
+19,312,Hooghly,West Bengal,338.0,
+3,33,Hoshiarpur,Punjab,38.0,
+19,313,Howrah,West Bengal,341.0,
+36,507,Hyderabad,Telangana,536.0,
+32,556,Idukki,Kerala,596.0,
+14,255,Imphal East,Manipur,278.0,
+14,256,Imphal West,Manipur,277.0,
+23,410,Indore,Madhya Pradesh,439.0,
+23,411,Jabalpur,Madhya Pradesh,451.0,
+21,355,Jagatsinghapur,Odisha,380.0,
+36,681,Jagitial,Telangana,534.0,"boundary_inherited=True; Jagtial district was formed from the erstwhile Karimnagar district in Telangana, India."
+8,102,Jaipur,Rajasthan,110.0,
+8,783,Jaipur (Gramin),Rajasthan,110.0,"boundary_inherited=True (new LGD district); Jaipur Rural is a new district that was created by reorganizing the Jaipur district in Rajasthan, India."
+8,103,Jaisalmer,Rajasthan,114.0,
+21,356,Jajapur,Odisha,382.0,
+3,34,Jalandhar,Punjab,37.0,
+9,151,Jalaun,Uttar Pradesh,165.0,
+27,478,Jalgaon,Maharashtra,499.0,
+27,479,Jalna,Maharashtra,514.0,
+8,104,Jalore,Rajasthan,116.0,
+19,314,Jalpaiguri,West Bengal,328.0,
+1,5,Jammu,Jammu And Kashmir,21.0,
+24,447,Jamnagar,Gujarat,477.0,
+20,333,Jamtara,Jharkhand,363.0,
+10,198,Jamui,Bihar,238.0,
+36,689,Jangoan,Telangana,,"parent_census_2011_code=multiple ; boundary_inherited=True; The Jangaon district in the Indian state of Telangana was formed on October 11, 2016, from parts of the Warangal and Nalgonda districts:"
+22,379,Janjgir-Champa,Chhattisgarh,405.0,
+22,380,Jashpur,Chhattisgarh,402.0,
+9,152,Jaunpur,Uttar Pradesh,194.0,
+36,687,Jayashankar Bhupalapally,Telangana,,"parent_census_2011_code=multiple ; boundary_inherited=True; The Jayashankar Bhupalpally district was formed in Telangana, India on October 11, 2016, when parts of the Warangal and Karimnagar districts were annexed."
+10,199,Jehanabad,Bihar,239.0,
+23,412,Jhabua,Madhya Pradesh,464.0,
+6,64,Jhajjar,Haryana,83.0,
+8,105,Jhalawar,Rajasthan,129.0,
+9,153,Jhansi,Uttar Pradesh,166.0,
+19,703,Jhargram,West Bengal,344.0,"boundary_inherited=True; Jhargram district in West Bengal, India was formed on April 4, 2017, by splitting from the Paschim Medinipur district"
+21,357,Jharsuguda,Odisha,371.0,
+8,106,Jhunjhunu,Rajasthan,103.0,
+6,65,Jind,Haryana,77.0,
+14,713,Jiribam,Manipur,278.0,boundary_inherited=True; Jiribam from Imphal East districts.
+8,107,Jodhpur,Rajasthan,113.0,
+8,778,Jodhpur (Gramin),Rajasthan,113.0,"boundary_inherited=True (new LGD district); Jodhpur Gramin district was formed from the old Jodhpur district in Rajasthan, India on August 7, 2023."
+36,695,Jogulamba Gadwal,Telangana,538.0,"boundary_inherited=True; Jogulamba Gadwal district was formed from the Mahabubnagar district in Telangana, India on October 11, 2016."
+18,290,Jorhat,Assam,312.0,
+24,448,Junagadh,Gujarat,479.0,
+22,382,Kabeerdham,Chhattisgarh,407.0,Name changed from Kawardha to Kabirdham
+24,449,Kachchh,Gujarat,468.0,
+10,200,Kaimur (Bhabua),Bihar,233.0,
+6,66,Kaithal,Haryana,73.0,
+14,711,Kakching,Manipur,276.0,boundary_inherited=True; Kakching has been carved out of the erstwhile Thoubal district.
+28,746,Kakinada,Andhra Pradesh,545.0,"boundary_inherited=True; The District is a newly formed district, getting divided from Erstwhile East Godavari District, as per District Reorganization Act,2022."
+29,538,Kalaburagi,Karnataka,579.0,Name changed it from Gulbarga
+21,358,Kalahandi,Odisha,395.0,
+19,702,Kalimpong,West Bengal,327.0,"boundary_inherited=True; Kalimpong district was formed on February 14, 2017, when it split from the Darjeeling district to become the 21st district of West Bengal."
+33,729,Kallakurichi,Tamil Nadu,607.0,"boundary_inherited=True; Kallakurichi district was formed from the bifurcation of the Viluppuram district in Tamil Nadu, India:"
+36,685,Kamareddy,Telangana,533.0,"boundary_inherited=True; Kamareddy district was formed from the residual Nizamabad district on October 11, 2016."
+14,717,Kamjong,Manipur,279.0,boundary_inherited=True; Kampong from Ukhrul
+12,718,Kamle,Arunachal Pradesh,,"parent_census_2011_code=multiple; boundary_inherited=True; On 4 December 2017, a new district called Kamle district was created from Lower Subansiri District and Upper Subansiri District"
+18,291,Kamrup,Assam,321.0,
+18,618,Kamrup Metro,Assam,322.0,
+33,574,Kancheepuram,Tamil Nadu,604.0,
+21,359,Kandhamal,Odisha,390.0,
+14,712,Kangpokpi,Manipur,272.0,boundary_inherited=True; It was formed from three sub-divisions of Senapati District:
+2,18,Kangra,Himachal Pradesh,24.0,
+9,155,Kannauj,Uttar Pradesh,160.0,
+33,575,Kanniyakumari,Tamil Nadu,629.0,
+32,557,Kannur,Kerala,589.0,
+9,156,Kanpur Dehat,Uttar Pradesh,163.0,
+9,157,Kanpur Nagar,Uttar Pradesh,164.0,
+3,35,Kapurthala,Punjab,36.0,
+34,598,Karaikal,Puducherry,637.0,
+8,108,Karauli,Rajasthan,107.0,
+18,292,Karbi Anglong,Assam,314.0,
+37,6,Kargil,Ladakh,4.0,
+18,293,Karimganj,Assam,317.0,
+36,508,Karimnagar,Telangana,534.0,
+6,67,Karnal,Haryana,74.0,
+33,576,Karur,Tamil Nadu,613.0,
+32,558,Kasaragod,Kerala,588.0,
+9,633,Kasganj,Uttar Pradesh,202.0,Previously known as Kanshiram Nagar
+1,7,Kathua,Jammu And Kashmir,7.0,
+10,201,Katihar,Bihar,212.0,
+23,413,Katni,Madhya Pradesh,450.0,
+9,158,Kaushambi,Uttar Pradesh,174.0,
+8,781,Kekri,Rajasthan,,parent_census_2011_code=multiple; boundary_inherited=True (new LGD district); Kekri is a new district in Rajasthan that was formed from parts of the Ajmer and Tonk districts
+21,360,Kendrapara,Odisha,379.0,
+21,361,Kendujhar,Odisha,375.0,
+10,202,Khagaria,Bihar,223.0,
+22,759,Khairagarh-Chhuikhadan-Gandai,Chhattisgarh,408.0,boundary_inherited=True; It was created by separating from the Rajnandgaon district and became the 31st district in the state.
+8,770,Khairthal-Tijara,Rajasthan,104.0,"boundary_inherited=True (new LGD district); The Khairthal-Tijara district was created on August 4, 2023, when the Alwar district was reorganized"
+36,509,Khammam,Telangana,541.0,
+23,405,Khandwa (East Nimar),Madhya Pradesh,466.0,
+23,414,Khargone (West Nimar),Madhya Pradesh,440.0,
+15,728,Khawzawl,Mizoram,284.0,boundary_inherited=True; Khawzawl District was created from Champhai District in 2008 but non functional till 2019.
+24,450,Kheda,Gujarat,483.0,
+9,159,Kheri,Uttar Pradesh,153.0,
+21,362,Khordha,Odisha,386.0,
+16,652,Khowai,Tripura,289.0,boundary_inherited=True; The district was carved out of West Tripura district along with new Sipahijala district
+20,606,Khunti,Jharkhand,365.0,
+2,19,Kinnaur,Himachal Pradesh,34.0,
+13,614,Kiphire,Nagaland,269.0,
+10,203,Kishanganj,Bihar,210.0,
+1,620,Kishtwar,Jammu And Kashmir,18.0,
+29,541,Kodagu,Karnataka,576.0,
+20,334,Koderma,Jharkhand,348.0,
+13,245,Kohima,Nagaland,270.0,
+18,294,Kokrajhar,Assam,300.0,
+29,542,Kolar,Karnataka,581.0,
+15,263,Kolasib,Mizoram,282.0,
+27,480,Kolhapur,Maharashtra,530.0,
+19,315,Kolkata,West Bengal,342.0,
+32,559,Kollam,Kerala,600.0,
+22,643,Kondagaon,Chhattisgarh,414.0,"boundary_inherited=True; The district of Kondagaon in Chhattisgarh, India was formed on January 24, 2012, when it was separated from the Bastar district"
+29,543,Koppal,Karnataka,560.0,
+21,363,Koraput,Odisha,398.0,
+22,383,Korba,Chhattisgarh,404.0,
+22,384,Korea,Chhattisgarh,400.0,
+8,109,Kota,Rajasthan,127.0,
+8,782,Kotputli-Behror,Rajasthan,,"parent_census_2011_code=multiple; boundary_inherited=True (new LGD district); Kotputli-Behror district was formed by combining parts of the Jaipur and Alwar districts in Rajasthan, India."
+32,560,Kottayam,Kerala,597.0,
+32,561,Kozhikode,Kerala,591.0,
+12,677,Kra Daadi,Arunachal Pradesh,256.0,boundary_inherited=True; It was created from the Kurung Kumey district
+28,510,Krishna,Andhra Pradesh,547.0,
+33,577,Krishnagiri,Tamil Nadu,631.0,boundary_inherited=True; Carved out of Dharmapuri
+1,622,Kulgam,Jammu And Kashmir,15.0,
+2,20,Kullu,Himachal Pradesh,26.0,
+36,699,Kumuram Bheem Asifabad,Telangana,532.0,"boundary_inherited=True; Kumuram Bheem Asifabad district in Telangana, India was formed in 2016 from the Adilabad district"
+1,8,Kupwara,Jammu And Kashmir,1.0,
+28,511,Kurnool,Andhra Pradesh,552.0,
+6,68,Kurukshetra,Haryana,72.0,
+12,233,Kurung Kumey,Arunachal Pradesh,256.0,
+9,160,Kushinagar,Uttar Pradesh,189.0,
+2,21,Lahaul And Spiti,Himachal Pradesh,25.0,
+18,295,Lakhimpur,Assam,307.0,
+10,204,Lakhisarai,Bihar,227.0,
+31,553,Lakshadweep District,Lakshadweep,587.0,
+9,161,Lalitpur,Uttar Pradesh,167.0,
+20,335,Latehar,Jharkhand,359.0,
+27,481,Latur,Maharashtra,524.0,
+15,264,Lawngtlai,Mizoram,287.0,
+37,9,Leh Ladakh,Ladakh,3.0,
+12,724,Leparada,Arunachal Pradesh,250.0,boundary_inherited=True; created from the West Siang district by bifurcating its southern areas along Assam border into a new district.
+20,336,Lohardaga,Jharkhand,356.0,
+12,234,Lohit,Arunachal Pradesh,259.0,
+12,666,Longding,Arunachal Pradesh,254.0,boundary_inherited=True; The Longding district became a full-fledged district after bifurcating from Tirap district on 19th March 2012.
+13,615,Longleng,Nagaland,268.0,
+12,235,Lower Dibang Valley,Arunachal Pradesh,258.0,
+12,719,Lower Siang,Arunachal Pradesh,,parent_census_2011_code=multiple; boundary_inherited=True; Its territory was carved out of West Siang and East Siang districts.
+12,236,Lower Subansiri,Arunachal Pradesh,255.0,
+9,162,Lucknow,Uttar Pradesh,157.0,
+3,36,Ludhiana,Punjab,41.0,
+15,265,Lunglei,Mizoram,286.0,
+10,205,Madhepura,Bihar,213.0,
+10,206,Madhubani,Bihar,207.0,
+33,578,Madurai,Tamil Nadu,623.0,
+36,688,Mahabubabad,Telangana,540.0,"boundary_inherited=True; The Mahabubabad district in Telangana, India was formed on October 11, 2016, when it was carved out of the erstwhile Warangal district."
+36,512,Mahabubnagar,Telangana,538.0,
+22,385,Mahasamund,Chhattisgarh,411.0,
+34,599,Mahe,Puducherry,636.0,
+6,69,Mahendragarh,Haryana,84.0,
+24,451,Mahesana,Gujarat,471.0,
+24,669,Mahisagar,Gujarat,,"parent_census_2011_code=multiple; boundary_inherited=True; It was carved out of the Panchmahal and Kheda districts,"
+9,165,Mahoba,Uttar Pradesh,169.0,
+9,164,Mahrajganj,Uttar Pradesh,187.0,
+23,784,Maihar,Madhya Pradesh,429.0,boundary_inherited=True (new LGD district); t was created by separating from the Satna district and is the 55th district in the state.
+9,166,Mainpuri,Uttar Pradesh,148.0,
+18,706,Majuli,Assam,312.0,boundary_inherited=True; Majuli carved out of the Northern parts of Jorhat is the first river island district of India.
+32,562,Malappuram,Kerala,592.0,
+19,316,Malda,West Bengal,332.0,
+3,737,Malerkotla,Punjab,53.0,"boundary_inherited=True; Malerkotla district was formed from the Sangrur district in Punjab, India on May 14, 2021"
+21,364,Malkangiri,Odisha,399.0,
+15,266,Mamit,Mizoram,281.0,
+36,684,Mancherial,Telangana,532.0,"boundary_inherited=True; Mancherial district was formed in 2016 when the Adilabad district was reorganized, creating four districts in total"
+2,22,Mandi,Himachal Pradesh,27.0,
+23,415,Mandla,Madhya Pradesh,454.0,
+23,416,Mandsaur,Madhya Pradesh,433.0,
+29,544,Mandya,Karnataka,573.0,
+22,760,Manendragarh-Chirmiri-Bharatpur(M C B),Chhattisgarh,400.0,"boundary_inherited=True; on September 9, 2022, as the 32nd district in the state. It was created by splitting the Korea district."
+11,226,Mangan,Sikkim,241.0,Formerly North district
+3,37,Mansa,Punjab,47.0,
+18,296,Marigaon,Assam,304.0,
+9,167,Mathura,Uttar Pradesh,145.0,
+9,168,Mau,Uttar Pradesh,192.0,
+23,766,MAUGANJ,Madhya Pradesh,430.0,"boundary_inherited=True (new LGD district); Mauganj is a new district in Madhya Pradesh that was created on August 15, 2023, when it was separated from the Rewa district."
+33,735,Mayiladuthurai,Tamil Nadu,618.0,"boundary_inherited=True; Mayiladuthurai was formed from the Nagapattinam district in Tamil Nadu, India on December 28, 2020"
+21,365,Mayurbhanj,Odisha,376.0,
+36,513,Medak,Telangana,535.0,
+36,700,Medchal Malkajgiri,Telangana,537.0,boundary_inherited=True; The Medchal-Malkajgiri district was created in 2014 when the Rangareddy district was reorganized to form the new Vikarabad district and Medchal-Malkajgiri district
+9,169,Meerut,Uttar Pradesh,138.0,
+9,170,Mirzapur,Uttar Pradesh,199.0,
+3,38,Moga,Punjab,42.0,
+22,761,Mohla-Manpur-Ambagarh Chouki,Chhattisgarh,408.0,"boundary_inherited=True; The Mohla-Manpur-Ambagarh Chowki district was formed on September 2, 2022, when it was split from the Rajnandgaon district in the state of Chhattisgarh"
+13,246,Mokokchung,Nagaland,262.0,
+13,247,Mon,Nagaland,261.0,
+9,171,Moradabad,Uttar Pradesh,135.0,
+24,673,Morbi,Gujarat,,"parent_census_2011_code=multiple; boundary_inherited=True; The district was created from parts of the Rajkot, Surendranagar, and Jamnagar districts."
+23,417,Morena,Madhya Pradesh,419.0,
+36,720,Mulugu,Telangana,540.0,"boundary_inherited=True; The Mulugu district in Telangana, India was created in 2019 when the Jayashankar Bhupalpally district was split. Before this, Mulugu was part of the Warangal district."
+27,482,Mumbai,Maharashtra,519.0,
+27,483,Mumbai Suburban,Maharashtra,518.0,
+22,647,Mungeli,Chhattisgarh,406.0,"boundary_inherited=True; Mungeli district was formed in January 2012, when it was carved out of Bilaspur district in Chhattisgarh."
+10,207,Munger,Bihar,226.0,
+19,319,Murshidabad,West Bengal,333.0,
+9,172,Muzaffarnagar,Uttar Pradesh,133.0,
+10,208,Muzaffarpur,Bihar,216.0,
+29,545,Mysuru,Karnataka,577.0,
+21,366,Nabarangpur,Odisha,397.0,
+19,320,Nadia,West Bengal,336.0,
+18,297,Nagaon,Assam,305.0,
+33,579,Nagapattinam,Tamil Nadu,618.0,
+36,694,Nagarkurnool,Telangana,538.0,"boundary_inherited=True; Nagarkurnool district was formed on October 11, 2016 from the Mahbubnagar district in the state of Telangana, India."
+8,110,Nagaur,Rajasthan,112.0,
+27,484,Nagpur,Maharashtra,505.0,
+5,51,Nainital,Uttarakhand,66.0,
+10,209,Nalanda,Bihar,229.0,
+18,298,Nalbari,Assam,323.0,
+36,514,Nalgonda,Telangana,539.0,
+33,580,Namakkal,Tamil Nadu,609.0,
+11,227,Namchi,Sikkim,243.0,Formerly South district
+12,678,Namsai,Arunachal Pradesh,259.0,"boundary_inherited=True; Namsai is a district in Arunachal Pradesh, India that was formed in 2014 when the Lohit district was bifurcated for the third time"
+27,485,Nanded,Maharashtra,511.0,
+27,486,Nandurbar,Maharashtra,497.0,
+28,755,Nandyal,Andhra Pradesh,552.0,"boundary_inherited=True; It was created from parts of the Kurnool district,"
+36,721,Narayanpet,Telangana,538.0,"boundary_inherited=True; Narayanpet district was formed from the Mahabubnagar district in the state of Telangana, India in 2019:"
+22,637,Narayanpur,Chhattisgarh,415.0,
+24,452,Narmada,Gujarat,487.0,
+23,409,Narmadapuram,Madhya Pradesh,449.0,Name changed from Hosahngabad to Narmadapuram
+23,418,Narsimhapur,Madhya Pradesh,452.0,
+27,487,Nashik,Maharashtra,516.0,
+24,453,Navsari,Gujarat,490.0,
+10,210,Nawada,Bihar,237.0,
+21,367,Nayagarh,Odisha,385.0,
+8,773,Neem Ka Thana,Rajasthan,,parent_census_2011_code=multiple; boundary_inherited=True (new LGD district); Neem Ka Thana district was formed in July 2023 from parts of the Sikar and Jhunjhunu districts in Rajasthan
+23,419,Neemuch,Madhya Pradesh,432.0,
+7,79,New Delhi,Delhi,94.0,
+35,603,Nicobars,Andaman And Nicobar Islands,638.0,
+36,680,Nirmal,Telangana,532.0,"boundary_inherited=True; Nirmal district was formed from the erstwhile Adilabad district in Telangana, India in 2016."
+13,764,Niuland,Nagaland,265.0,"boundary_inherited=True (new LGD district); The Niuland District was formed from the Dimapur District in Nagaland on December 18, 2021"
+23,722,Niwari,Madhya Pradesh,424.0,"boundary_inherited=True; Niwari became the 52nd district of Madhya Pradesh on October 1, 2018, when it was separated from Tikamgarh district."
+36,516,Nizamabad,Telangana,533.0,
+13,736,Noklak,Nagaland,267.0,"boundary_inherited=True; Noklak was carved out of the Tuensang district to become the 12th district of Nagaland in India on December 21, 2017."
+14,714,Noney,Manipur,272.0,boundary_inherited=True; Kangpokpi from Senapati
+7,80,North,Delhi,91.0,
+19,303,North 24 Parganas,West Bengal,337.0,
+35,632,North And Middle Andaman,Andaman And Nicobar Islands,639.0,
+7,81,North East,Delhi,92.0,
+17,656,North Garo Hills,Meghalaya,294.0,"boundary_inherited=True; July 27, 2012, when it was carved out of the East Garo Hills district."
+30,551,North Goa,Goa,585.0,
+16,270,North Tripura,Tripura,292.0,
+7,82,North West,Delhi,90.0,
+28,749,Ntr,Andhra Pradesh,547.0,boundary_inherited=True; Split from Krishna district
+21,368,Nuapada,Odisha,394.0,
+6,604,Nuh,Haryana,87.0,Name changed from Mewat to Nuh district
+12,723,Pakke Kessang,Arunachal Pradesh,247.0,"boundary_inherited=True; The district used to be a part of the neighboring district, East Kameng"
+20,337,Pakur,Jharkhand,353.0,
+11,741,Pakyong,Sikkim,244.0,"boundary_inherited=True; The Pakyong district in Sikkim, India was created in 2021 from three subdivisions of the former East Sikkim district"
+32,563,Palakkad,Kerala,593.0,
+20,338,Palamu,Jharkhand,358.0,
+27,665,Palghar,Maharashtra,517.0,"boundary_inherited=True; Palghar was formed as the 36th district of Maharashtra on August 1, 2014, when it was carved out of the Thane district"
+8,111,Pali,Rajasthan,118.0,
+28,751,Palnadu,Andhra Pradesh,548.0,"boundary_inherited=True; formed on April 4, 2022, as a result of the division of the Guntur district into three districts:"
+6,619,Palwal,Haryana,89.0,
+24,454,Panch Mahals,Gujarat,484.0,
+6,70,Panchkula,Haryana,69.0,
+23,785,Pandhurna,Madhya Pradesh,455.0,"boundary_inherited=True (new LGD district); Pandhurna is a new district in Madhya Pradesh, India that was formed in 2023 by merging parts of the Chhindwara district"
+6,71,Panipat,Haryana,75.0,
+23,420,Panna,Madhya Pradesh,426.0,
+12,237,Papum Pare,Arunachal Pradesh,248.0,
+27,489,Parbhani,Maharashtra,513.0,
+28,743,Parvathipuram Manyam,Andhra Pradesh,,parent_census_2011_code=multiple; boundary_inherited=True; The district was formed by merging parts of the neighboring Vizianagaram and Srikakulam districts
+19,704,Paschim Bardhaman,West Bengal,335.0,"boundary_inherited=True; Paschim Bardhaman was formed on April 7, 2017, when the Bardhaman district was split into two districts, Paschim Bardhaman and Purba Bardhaman."
+19,318,Paschim Medinipur,West Bengal,344.0,
+10,211,Pashchim Champaran,Bihar,203.0,
+24,455,Patan,Gujarat,470.0,
+32,564,Pathanamthitta,Kerala,599.0,
+3,662,Pathankot,Punjab,35.0,"boundary_inherited=True; The Pathankot district was formed on July 27, 2011, when the Government of Punjab carved it out of the Gurdaspur district."
+3,41,Patiala,Punjab,48.0,
+10,212,Patna,Bihar,230.0,
+5,52,Pauri Garhwal,Uttarakhand,61.0,referred to as Garhwal
+36,682,Peddapalli,Telangana,534.0,boundary_inherited=True; Peddapalli district was formed in 2016 from the Karimnagar district as part of a reorganization of districts in Telangana
+33,581,Perambalur,Tamil Nadu,615.0,
+13,613,Peren,Nagaland,271.0,
+8,772,Phalodi,Rajasthan,113.0,"boundary_inherited=True (new LGD district); The Phalodi district was established on August 7, 2023, and was carved out of the Jodhpur district"
+13,248,Phek,Nagaland,266.0,
+14,715,Pherzawl,Manipur,274.0,boundary_inherited=True; Pherzawl from Churachandpur
+9,173,Pilibhit,Uttar Pradesh,151.0,
+5,53,Pithoragarh,Uttarakhand,62.0,
+34,600,Pondicherry,Puducherry,635.0,
+1,10,Poonch,Jammu And Kashmir,5.0,
+24,456,Porbandar,Gujarat,478.0,
+28,517,Prakasam,Andhra Pradesh,549.0,
+8,629,Pratapgarh,Rajasthan,131.0,"boundary_inherited=True; Created on 26 January 2008, carved out from the erstwhile tehsils of Chittorgarh, Udaipur and Banswara districts"
+9,174,Pratapgarh,Uttar Pradesh,173.0,
+9,120,Prayagraj,Uttar Pradesh,175.0,Allahabad name changed to Prayagraj
+33,582,Pudukkottai,Tamil Nadu,621.0,
+1,11,Pulwama,Jammu And Kashmir,12.0,
+27,490,Pune,Maharashtra,521.0,
+19,306,Purba Bardhaman,West Bengal,335.0,
+19,317,Purba Medinipur,West Bengal,345.0,
+10,213,Purbi Champaran,Bihar,204.0,
+21,369,Puri,Odisha,387.0,
+10,214,Purnia,Bihar,211.0,
+19,321,Purulia,West Bengal,340.0,
+9,175,Rae Bareli,Uttar Pradesh,158.0,
+29,546,Raichur,Karnataka,559.0,
+27,491,Raigad,Maharashtra,520.0,
+22,386,Raigarh,Chhattisgarh,403.0,
+22,387,Raipur,Chhattisgarh,410.0,
+23,421,Raisen,Madhya Pradesh,446.0,
+36,683,Rajanna Sircilla,Telangana,534.0,"boundary_inherited=True; The Rajanna Sircilla district was formed in Telangana, India on October 11, 2016, when it was carved out of the erstwhile Karimnagar district"
+23,422,Rajgarh,Madhya Pradesh,442.0,
+24,457,Rajkot,Gujarat,476.0,
+22,388,Rajnandgaon,Chhattisgarh,408.0,
+1,12,Rajouri,Jammu And Kashmir,6.0,
+8,112,Rajsamand,Rajasthan,123.0,
+29,631,Ramanagara,Karnataka,584.0,
+33,583,Ramanathapuram,Tamil Nadu,626.0,
+1,621,Ramban,Jammu And Kashmir,17.0,
+20,607,Ramgarh,Jharkhand,361.0,
+9,176,Rampur,Uttar Pradesh,136.0,
+20,339,Ranchi,Jharkhand,364.0,
+36,518,Ranga Reddy,Telangana,537.0,
+33,731,Ranipet,Tamil Nadu,605.0,"boundary_inherited=True; Ranipet district was formed by splitting the Vellore district in Tamil Nadu, India in 2019"
+23,423,Ratlam,Madhya Pradesh,434.0,
+27,492,Ratnagiri,Maharashtra,528.0,
+21,370,Rayagada,Odisha,396.0,
+1,627,Reasi,Jammu And Kashmir,20.0,
+23,424,Rewa,Madhya Pradesh,430.0,
+6,72,Rewari,Haryana,85.0,
+17,276,Ri Bhoi,Meghalaya,297.0,
+6,73,Rohtak,Haryana,82.0,
+10,215,Rohtas,Bihar,234.0,
+5,54,Rudra Prayag,Uttarakhand,58.0,
+3,42,Rupnagar,Punjab,51.0,
+24,458,Sabar Kantha,Gujarat,472.0,
+23,425,Sagar,Madhya Pradesh,427.0,
+9,177,Saharanpur,Uttar Pradesh,132.0,
+10,216,Saharsa,Bihar,214.0,
+20,340,Sahebganj,Jharkhand,352.0,
+15,727,Saitual,Mizoram,,"parent_census_2011_code=multiple; boundary_inherited=True; The Saitual district in Mizoram, India was formed from the existing administrative districts of Aizawl and Champhai"
+22,762,Sakti,Chhattisgarh,405.0,boundary_inherited=True; The district was created by merging four blocks from the Janjgir-Champa district:
+33,584,Salem,Tamil Nadu,608.0,
+8,777,Salumbar,Rajasthan,130.0,"boundary_inherited=True (new LGD district); Salumbar is a new district that was carved out of the erstwhile Udaipur district in Rajasthan on August 7, 2023."
+10,217,Samastipur,Bihar,221.0,
+1,624,Samba,Jammu And Kashmir,22.0,"boundary_inherited=True; Created on October 27, 2006, formed from an area that was part of Jammu district and Kathua district"
+21,371,Sambalpur,Odisha,372.0,
+9,659,Sambhal,Uttar Pradesh,,parent_census_2011_code=multiple; boundary_inherited=True; Sambhal District at the time of creation was made from Two Tehsils of Moradabad District and one Tehsil of Gunnaur from Badaun District
+8,779,Sanchore,Rajasthan,116.0,"boundary_inherited=True (new LGD district); Sanchore district was formed on August 7, 2023, when it separated from the Jalore district to become one of 19 new districts in Rajasthan."
+36,691,Sangareddy,Telangana,535.0,"boundary_inherited=True; the Sangareddy district in Telangana, India was carved out of the former Medak district"
+27,493,Sangli,Maharashtra,531.0,
+3,43,Sangrur,Punjab,53.0,
+9,178,Sant Kabir Nagar,Uttar Pradesh,186.0,
+20,341,Saraikela Kharsawan,Jharkhand,369.0,
+10,218,Saran,Bihar,219.0,
+22,763,Sarangarh-Bilaigarh,Chhattisgarh,,parent_census_2011_code=multiple; boundary_inherited=True; It was created by splitting the districts of Raigarh and Balodabazar-Bhatapara.
+3,608,SAS Nagar,Punjab,52.0,Also Sahibzada Ajit Singh Nagar
+27,494,Satara,Maharashtra,527.0,
+23,426,Satna,Madhya Pradesh,429.0,
+8,113,Sawai Madhopur,Rajasthan,108.0,
+23,427,Sehore,Madhya Pradesh,445.0,
+14,257,Senapati,Manipur,272.0,
+23,428,Seoni,Madhya Pradesh,456.0,
+16,653,Sepahijala,Tripura,289.0,boundary_inherited=True
+15,268,Serchhip,Mizoram,285.0,
+7,671,Shahdara,Delhi,,parent_census_2011_code=multiple; boundary_inherited=True; Two new districts  Southeast and Shahdara  were carved out and notified from the nine districts
+23,429,Shahdol,Madhya Pradesh,460.0,
+3,40,Shahid Bhagat Singh Nagar,Punjab,39.0,
+9,180,Shahjahanpur,Uttar Pradesh,152.0,
+8,780,Shahpura,Rajasthan,122.0,"boundary_inherited=True (new LGD district); Shahpura district was formed from the Bhilwara district in the Indian state of Rajasthan on March 17, 2023."
+23,430,Shajapur,Madhya Pradesh,436.0,
+13,765,Shamator,Nagaland,267.0,"boundary_inherited=True (new LGD district); Shamator district was formed from the Tuensang district in the Indian state of Nagaland on January 19, 2022"
+9,660,Shamli,Uttar Pradesh,133.0,"boundary_inherited=True; Shamli district in Uttar Pradesh, India was formed from the Muzaffarnagar district in September 2011."
+10,219,Sheikhpura,Bihar,228.0,
+10,220,Sheohar,Bihar,205.0,
+23,431,Sheopur,Madhya Pradesh,418.0,
+12,725,Shi Yomi,Arunachal Pradesh,250.0,boundary_inherited=True; created in 2018 by splitting the West Siang district
+2,23,Shimla,Himachal Pradesh,33.0,
+29,547,Shivamogga,Karnataka,568.0,
+23,432,Shivpuri,Madhya Pradesh,423.0,
+1,625,Shopian,Jammu And Kashmir,13.0,
+9,181,Shrawasti,Uttar Pradesh,181.0,
+15,267,Siaha,Mizoram,288.0,
+12,679,Siang,Arunachal Pradesh,,parent_census_2011_code=multiple; boundary_inherited=True; This district was created in 2015 by splitting the West Siang and East Siang districts
+9,182,Siddharthnagar,Uttar Pradesh,184.0,
+36,692,Siddipet,Telangana,,"parent_census_2011_code=multiple; boundary_inherited=True; The Siddipet district was formed from parts of the Medak, Karimnagar, and Warangal districts in Telangana."
+23,433,Sidhi,Madhya Pradesh,462.0,
+8,114,Sikar,Rajasthan,111.0,
+20,342,Simdega,Jharkhand,367.0,
+27,495,Sindhudurg,Maharashtra,529.0,
+23,638,Singrauli,Madhya Pradesh,463.0,
+2,24,Sirmaur,Himachal Pradesh,32.0,
+8,115,Sirohi,Rajasthan,117.0,
+6,74,Sirsa,Haryana,79.0,
+10,221,Sitamarhi,Bihar,206.0,
+9,183,Sitapur,Uttar Pradesh,154.0,
+33,585,Sivaganga,Tamil Nadu,622.0,
+18,300,Sivasagar,Assam,311.0,
+10,222,Siwan,Bihar,218.0,
+2,25,Solan,Himachal Pradesh,31.0,
+27,496,Solapur,Maharashtra,526.0,
+9,184,Sonbhadra,Uttar Pradesh,200.0,
+21,372,Sonepur,Odisha,392.0,Also known as Subarnapur
+6,75,Sonipat,Haryana,76.0,
+18,301,Sonitpur,Assam,306.0,
+11,742,Soreng,Sikkim,242.0,boundary_inherited=True; Soreng was formed from the erstwhile West Sikkim district
+7,83,South,Delhi,98.0,
+19,304,South 24 Parganas,West Bengal,343.0,
+35,602,South Andamans,Andaman And Nicobar Islands,640.0,
+7,670,South East,Delhi,,parent_census_2011_code=multiple; boundary_inherited=True; Two new districts  Southeast and Shahdara  were carved out and notified from the nine districts
+17,277,South Garo Hills,Meghalaya,295.0,
+30,552,South Goa,Goa,586.0,
+18,707,South Salmara Mancachar,Assam,301.0,boundary_inherited=True; The South Salmara Mankachar district was formed in 2016 when the Old Dhubri district was split into two.
+16,271,South Tripura,Tripura,290.0,
+7,84,South West,Delhi,97.0,
+17,663,South West Garo Hills,Meghalaya,,parent_census_2011_code=multiple; boundary_inherited=True; The SWGH district was carved out of the West Garo Hills and North Garo Hills districts.
+17,658,South West Khasi Hills,Meghalaya,296.0,"boundary_inherited=True; The South West Khasi Hills district was formed on August 3, 2012, when it was carved out of the West Khasi Hills district."
+3,39,Sri Muktsar Sahib,Punjab,44.0,Name changed from Mukatsar to Sri Mukatsar Sahib
+28,515,Sri Potti Sriramulu Nellore,Andhra Pradesh,550.0,
+28,754,Sri Sathya Sai,Andhra Pradesh,553.0,boundary_inherited=True; from erstwhile Ananthapuramu district
+28,519,Srikakulam,Andhra Pradesh,542.0,
+1,13,Srinagar,Jammu And Kashmir,10.0,
+22,642,Sukma,Chhattisgarh,416.0,"boundary_inherited=True; Sukma is a district in the state of Chhattisgarh, India that was newly formed on January 16, 2012. It was carved out of Dantewada district"
+9,185,Sultanpur,Uttar Pradesh,179.0,
+21,373,Sundargarh,Odisha,374.0,
+10,223,Supaul,Bihar,208.0,
+22,648,Surajpur,Chhattisgarh,401.0,"boundary_inherited=True; It was formed by dividing the Surguja district,"
+24,459,Surat,Gujarat,492.0,
+24,460,Surendranagar,Gujarat,475.0,
+22,389,Surguja,Chhattisgarh,401.0,
+36,696,Suryapet,Telangana,539.0,"boundary_inherited=True; The Suryapet district was formed from the Nalgonda district in the state of Telangana, India."
+14,258,Tamenglong,Manipur,273.0,
+18,756,Tamulpur,Assam,324.0,"boundary_inherited=True; Tamulpur is a district in the state of Assam, India that was recreated on August 25, 2023. The district was originally formed on January 23, 2022, but was merged with Baksa district on December 30, 2022, and ceased to exist on January 1, 2023. The Assam government announced the decision to recreate the district on August 25, 2023, making the total number of districts in Assam 35."
+24,641,Tapi,Gujarat,493.0,
+3,609,Tarn Taran,Punjab,50.0,
+12,238,Tawang,Arunachal Pradesh,245.0,
+5,55,Tehri Garhwal,Uttarakhand,59.0,
+14,716,Tengnoupal,Manipur,280.0,"boundary_inherited=True; Tengnoupal, bifurcated from Channel district,"
+33,733,Tenkasi,Tamil Nadu,628.0,"boundary_inherited=True; Tenkasi district was formed from the Tirunelveli district in Tamil Nadu, India in 2019"
+27,497,Thane,Maharashtra,517.0,
+33,586,Thanjavur,Tamil Nadu,620.0,
+33,587,The Nilgiris,Tamil Nadu,611.0,
+33,588,Theni,Tamil Nadu,624.0,
+33,589,Thiruvallur,Tamil Nadu,602.0,
+32,565,Thiruvananthapuram,Kerala,601.0,
+33,590,Thiruvarur,Tamil Nadu,619.0,
+33,594,Thoothukkudi,Tamil Nadu,627.0,
+14,259,Thoubal,Manipur,276.0,
+32,566,Thrissur,Kerala,594.0,
+23,434,Tikamgarh,Madhya Pradesh,424.0,
+18,302,Tinsukia,Assam,309.0,
+12,239,Tirap,Arunachal Pradesh,254.0,
+33,591,Tiruchirappalli,Tamil Nadu,614.0,
+33,592,Tirunelveli,Tamil Nadu,628.0,
+33,732,Tirupathur,Tamil Nadu,605.0,"boundary_inherited=True; Tirupattur district was formed in 2019 by splitting off three taluks from Vellore district in Tamil Nadu, India"
+28,752,Tirupati,Andhra Pradesh,,parent_census_2011_code=multiple; boundary_inherited=True; The new district was created from parts of the former Chittoor and Nellore districts:
+33,634,Tiruppur,Tamil Nadu,633.0,
+33,593,Tiruvannamalai,Tamil Nadu,606.0,
+8,116,Tonk,Rajasthan,120.0,
+13,757,Tseminyu,Nagaland,270.0,"boundary_inherited=True; Tseminyu was created as the 13th district of Nagaland on December 18, 2021, from the former Tseminyü sub-division of Kohima district"
+13,249,Tuensang,Nagaland,267.0,
+29,548,Tumakuru,Karnataka,571.0,
+8,117,Udaipur,Rajasthan,130.0,
+18,617,Udalguri,Assam,326.0,
+5,56,Udam Singh Nagar,Uttarakhand,67.0,
+1,14,Udhampur,Jammu And Kashmir,19.0,
+29,549,Udupi,Karnataka,569.0,
+23,435,Ujjain,Madhya Pradesh,435.0,
+14,260,Ukhrul,Manipur,279.0,
+23,436,Umaria,Madhya Pradesh,431.0,
+2,26,Una,Himachal Pradesh,29.0,
+16,655,Unakoti,Tripura,292.0,boundary_inherited=True; decision to further bifurcate North Tripura District was accepted and the district “UNAKOTI DISTRICT” was created
+9,186,Unnao,Uttar Pradesh,156.0,
+12,240,Upper Siang,Arunachal Pradesh,252.0,
+12,241,Upper Subansiri,Arunachal Pradesh,249.0,
+22,381,Uttar Bastar Kanker,Chhattisgarh,413.0,Name change to Uttar Bastar Kanker from Kanker
+19,311,Uttar Dinajpur,West Bengal,330.0,
+5,57,Uttar Kashi,Uttarakhand,56.0,
+29,550,Uttara Kannada,Karnataka,563.0,
+24,461,Vadodara,Gujarat,486.0,
+10,224,Vaishali,Bihar,220.0,
+24,462,Valsad,Gujarat,491.0,
+9,187,Varanasi,Uttar Pradesh,197.0,
+33,595,Vellore,Tamil Nadu,605.0,
+23,437,Vidisha,Madhya Pradesh,443.0,
+29,738,Vijayanagar,Karnataka,565.0,boundary_inherited=True; Vijayanagara was officially carved out of Ballari on 2 October 2021 to become the 31st district of the state with Hospet as the district headquarters.
+29,530,Vijayapura,Karnataka,557.0,
+36,698,Vikarabad,Telangana,537.0,boundary_inherited=True; The Medchal-Malkajgiri district was created in 2014 when the Rangareddy district was reorganized to form the new Vikarabad district and Medchal-Malkajgiri district
+33,596,Viluppuram,Tamil Nadu,607.0,
+33,597,Virudhunagar,Tamil Nadu,625.0,
+28,520,Visakhapatnam,Andhra Pradesh,544.0,
+28,521,Vizianagaram,Andhra Pradesh,543.0,
+36,693,Wanaparthy,Telangana,538.0,"boundary_inherited=True; Wanaparthy is a district in the southern part of Telangana, India, that was formed in 2016 when the state was reorganized. It was carved out of the Mahabubnagar district."
+36,522,Warangal,Telangana,540.0,
+27,498,Wardha,Maharashtra,504.0,
+27,499,Washim,Maharashtra,502.0,
+32,567,Wayanad,Kerala,590.0,
+7,85,West,Delhi,96.0,
+17,278,West Garo Hills,Meghalaya,293.0,
+28,523,West Godavari,Andhra Pradesh,546.0,
+17,275,West Jaintia Hills,Meghalaya,299.0,
+12,242,West Kameng,Arunachal Pradesh,246.0,
+18,710,West Karbi Anglong,Assam,314.0,boundary_inherited=True; That was formed in 2016 from the existing Karbi Anglong district.
+17,279,West Khasi Hills,Meghalaya,296.0,
+12,243,West Siang,Arunachal Pradesh,250.0,
+20,343,West Singhbhum,Jharkhand,368.0,
+16,272,West Tripura,Tripura,289.0,
+13,250,Wokha,Nagaland,264.0,
+36,697,Yadadri Bhuvanagiri,Telangana,539.0,"boundary_inherited=True; The Yadadri Bhuvanagiri district was created from the former Nalgonda district in the state of Telangana, India."
+29,635,Yadgir,Karnataka,580.0,
+6,76,Yamunanagar,Haryana,71.0,
+34,601,Yanam,Puducherry,634.0,
+27,500,Yavatmal,Maharashtra,510.0,
+28,504,YSR,Andhra Pradesh,551.0,
+13,251,Zunheboto,Nagaland,263.0,
