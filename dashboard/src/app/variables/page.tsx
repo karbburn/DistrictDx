@@ -150,7 +150,7 @@ export default function VariablesPage() {
           }
         });
       },
-      { rootMargin: "-20% 0px -70% 0px" }
+      { rootMargin: "-10% 0px -80% 0px" }
     );
     DOMAIN_GROUPS.forEach(({ id }) => {
       const el = document.getElementById(id);
@@ -208,6 +208,7 @@ export default function VariablesPage() {
                   }`}
                   onClick={(e) => {
                     e.preventDefault();
+                    setActiveSection(id);
                     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
                   }}
                 >
