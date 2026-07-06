@@ -9,7 +9,7 @@ import geopandas as gpd
 from shapely.validation import make_valid
 
 # ── Theme System ──────────────────────────────────────────────────────────────
-# Hex values exactly matching DESIGN.md, with Light variant for readability
+# Hex values exactly matching theme spec, with Light variant for readability
 
 THEMES = {
     "light": {
@@ -68,7 +68,7 @@ def setup_matplotlib_style(theme):
 # ── Colormaps & Scales ────────────────────────────────────────────────────────
 
 def get_custom_cmap(theme, index_type):
-    """Generate sequential single-hue colormaps matching DESIGN.md."""
+    """Generate sequential single-hue colormaps matching theme spec."""
     t = THEMES[theme]
     bg = t["bg_page"]
     
