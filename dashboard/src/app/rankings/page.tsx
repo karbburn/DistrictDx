@@ -36,6 +36,7 @@ type SortDir = "asc" | "desc";
 export default function RankingsPage() {
   const [districtData, setDistrictData] = useState<DistrictData[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [states, setStates] = useState<string[]>([]);
 
   // Filters
@@ -49,11 +50,16 @@ export default function RankingsPage() {
   const [sortDir, setSortDir] = useState<SortDir>("desc");
 
   useEffect(() => {
-    loadDistrictData().then((data) => {
-      setDistrictData(data);
-      setStates(getStateList(data));
-      setLoading(false);
-    });
+    loadDistrictData()
+      .then((data) => {
+        setDistrictData(data);
+        setStates(getStateList(data));
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err instanceof Error ? err.message : "Failed to load data");
+        setLoading(false);
+      });
   }, []);
 
   // Filter + sort data
@@ -158,6 +164,23 @@ export default function RankingsPage() {
         <div className="flex flex-col items-center gap-3">
           <div className="h-3 w-3 rounded-full bg-saffron animate-pulse" />
           <span className="font-data text-xs text-muted">Loading…</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex h-screen w-screen items-center justify-center bg-void">
+        <div className="flex flex-col items-center gap-3">
+          <span className="font-display text-xl text-primary">Something went wrong</span>
+          <span className="font-data text-xs text-muted">{error}</span>
+          <button
+            onClick={() => window.location.reload()}
+            className="mt-2 px-4 py-2 bg-saffron/10 border border-saffron/40 text-saffron rounded font-data text-xs hover:bg-saffron/20 transition-colors"
+          >
+            Retry
+          </button>
         </div>
       </div>
     );

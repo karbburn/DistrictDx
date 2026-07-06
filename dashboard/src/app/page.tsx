@@ -31,6 +31,7 @@ export default function Home() {
     GeoDistrictProperties
   > | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [states, setStates] = useState<string[]>([]);
 
   // ── UI State ────────────────────────────────────────────────────────────────
@@ -61,12 +62,17 @@ export default function Home() {
 
   // ── Load Data ───────────────────────────────────────────────────────────────
   useEffect(() => {
-    Promise.all([loadDistrictData(), loadGeoData()]).then(([data, geo]) => {
-      setDistrictData(data);
-      setGeoData(geo);
-      setStates(getStateList(data));
-      setLoading(false);
-    });
+    Promise.all([loadDistrictData(), loadGeoData()])
+      .then(([data, geo]) => {
+        setDistrictData(data);
+        setGeoData(geo);
+        setStates(getStateList(data));
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err instanceof Error ? err.message : "Failed to load data");
+        setLoading(false);
+      });
   }, []);
 
   // ── Handlers ────────────────────────────────────────────────────────────────
@@ -92,6 +98,23 @@ export default function Home() {
           <span className="font-data text-xs text-muted tracking-wider">
             Loading 785 districts…
           </span>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex h-screen w-screen items-center justify-center bg-void">
+        <div className="flex flex-col items-center gap-3">
+          <span className="font-display text-xl text-primary">Something went wrong</span>
+          <span className="font-data text-xs text-muted">{error}</span>
+          <button
+            onClick={() => window.location.reload()}
+            className="mt-2 px-4 py-2 bg-saffron/10 border border-saffron/40 text-saffron rounded font-data text-xs hover:bg-saffron/20 transition-colors"
+          >
+            Retry
+          </button>
         </div>
       </div>
     );
