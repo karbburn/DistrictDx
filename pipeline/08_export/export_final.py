@@ -22,6 +22,7 @@ Stage 9 — Final Export and Unified Output Generation
 import json
 import logging
 import shutil
+import sys
 from pathlib import Path
 import numpy as np
 import pandas as pd
@@ -110,6 +111,10 @@ def generate_grid_geojson(df: pd.DataFrame, dest: Path):
 
 def main():
     log.info("=== Stage 9: Final Export & Data Dictionary ===")
+
+    if not Path("data/processed").exists():
+        log.error("Run this script from the project root directory.")
+        sys.exit(1)
     
     # ── Load inputs ───────────────────────────────────────────────────────────
     clean_df = pd.read_csv(CLEAN_FILE)
