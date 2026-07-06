@@ -14,39 +14,33 @@ from pathlib import Path
 
 import pandas as pd
 import requests
-from bs4 import BeautifulSoup
+
+try:
+    from bs4 import BeautifulSoup
+except ImportError:
+    BeautifulSoup = None
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger(__name__)
 
-OUT_DIR = Path("data/raw/ni_kshay_tb")
-OUT_DIR.mkdir(parents=True, exist_ok=True)
-
-SESSION = requests.Session()
-SESSION.headers.update({
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-})
-
 BASE_URL = "https://reports.nikshay.in"
 
 
-def get_state_list():
+def get_state_list(session):
     """Fetch available states from the Ni-kshay portal."""
     try:
-        resp = SESSION.get(f"{BASE_URL}/Dashboard/FilterData", timeout=30)
+        resp = session.get(f"{BASE_URL}/Dashboard/FilterData", timeout=30)
         resp.raise_for_status()
-        # Portal may use AJAX — try common API patterns
         return resp.json() if resp.headers.get("content-type", "").startswith("application/json") else None
     except Exception as e:
         log.warning("Could not fetch state list: %s", e)
         return None
 
 
-def download_district_tb_data():
+def download_district_tb_data(out_dir, session):
     """Try to download district-level TB notification data."""
-    # Ni-kshay has a reports section that allows filtering by state/district
-    # The exact URL pattern may vary — try common endpoints
+    if BeautifulSoup is None:
+        return False
     report_urls = [
         f"{BASE_URL}/Reports/TBNotificationDistrictWise",
         f"{BASE_URL}/Dashboard/DistrictWiseData",
@@ -55,14 +49,14 @@ def download_district_tb_data():
 
     for url in report_urls:
         try:
-            resp = SESSION.get(url, timeout=30, allow_redirects=True)
+            resp = session.get(url, timeout=30, allow_redirects=True)
             if resp.status_code == 200:
-                dest = OUT_DIR / "ni_kshay_response.html"
+                dest = out_dir / "ni_kshay_response.html"
                 dest.write_text(resp.text, encoding="utf-8")
                 log.info("Got response from %s (%d bytes)", url, len(resp.content))
 
                 if "application/json" in resp.headers.get("content-type", ""):
-                    json_dest = OUT_DIR / "ni_kshay_district_tb.json"
+                    json_dest = out_dir / "ni_kshay_district_tb.json"
                     json_dest.write_bytes(resp.content)
                     log.info("Saved JSON response")
                     return True
@@ -72,7 +66,7 @@ def download_district_tb_data():
                 if tables:
                     dfs = pd.read_html(str(tables[0]))
                     if dfs:
-                        dfs[0].to_csv(OUT_DIR / "ni_kshay_district_tb.csv", index=False)
+                        dfs[0].to_csv(out_dir / "ni_kshay_district_tb.csv", index=False)
                         log.info("Extracted table: %d rows", len(dfs[0]))
                         return True
         except Exception as e:
@@ -82,7 +76,7 @@ def download_district_tb_data():
     return False
 
 
-def try_nikshay_api():
+def try_nikshay_api(out_dir, session):
     """Try Ni-kshay's internal API endpoints."""
     api_endpoints = [
         f"{BASE_URL}/api/Dashboard/GetStateWiseData",
@@ -91,9 +85,9 @@ def try_nikshay_api():
 
     for url in api_endpoints:
         try:
-            resp = SESSION.get(url, timeout=30)
+            resp = session.get(url, timeout=30)
             if resp.status_code == 200 and "json" in resp.headers.get("content-type", ""):
-                dest = OUT_DIR / "ni_kshay_api_data.json"
+                dest = out_dir / "ni_kshay_api_data.json"
                 dest.write_bytes(resp.content)
                 log.info("Got API data from %s", url)
                 return True
@@ -103,11 +97,19 @@ def try_nikshay_api():
 
 
 def main():
+    out_dir = Path(__file__).resolve().parent.parent.parent / "data" / "raw" / "ni_kshay_tb"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    session = requests.Session()
+    session.headers.update({
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    })
+
     log.info("=== Ni-kshay TB Ingestion ===")
 
-    if try_nikshay_api():
+    if try_nikshay_api(out_dir, session):
         log.info("API data downloaded")
-    elif download_district_tb_data():
+    elif download_district_tb_data(out_dir, session):
         log.info("District TB data downloaded")
     else:
         log.error(
