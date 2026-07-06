@@ -22,6 +22,7 @@ TECHSPEC §3 rules enforced:
 """
 
 import logging
+import re
 from pathlib import Path
 import numpy as np
 import pandas as pd
@@ -54,7 +55,13 @@ def safe_numeric(s: pd.Series) -> pd.Series:
 
 
 def norm_name(s: str) -> str:
-    return str(s).strip().lower().replace("-", " ").replace("  ", " ")
+    """Normalize district/state names for fuzzy matching across sources."""
+    return re.sub(r'\s+', ' ',
+                  str(s).strip().lower()
+                  .replace("&", " and ")
+                  .replace("-", " ")
+                  .replace("(", " ").replace(")", " ")
+                  .replace(" island", " islands"))
 
 
 # ── 1. District master ─────────────────────────────────────────────────────────
