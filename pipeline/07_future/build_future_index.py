@@ -324,8 +324,8 @@ def main():
             high_r = group[r_col] >= r_med
             
             quads.loc[group.index[high_d & high_r]] = "Star"
-            quads.loc[group.index[high_d & ~high_r]] = "Underserved"
-            quads.loc[group.index[~high_d & high_r]] = "Niche"
+            quads.loc[group.index[high_d & ~high_r]] = "Emerging"
+            quads.loc[group.index[~high_d & high_r]] = "Underserved"
             quads.loc[group.index[~high_d & ~high_r]] = "Deprioritize"
         return quads
 

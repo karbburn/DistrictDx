@@ -79,8 +79,8 @@ def assign_quadrants(df: pd.DataFrame, demand_col: str,
 
     Quadrants (named for commercial interpretation):
       High-Demand / High-Realizability → "Star"         (priority markets)
-      High-Demand / Low-Realizability  → "Underserved"  (access-constrained)
-      Low-Demand  / High-Realizability → "Niche"        (infra ahead of need)
+      High-Demand / Low-Realizability  → "Emerging"     (access-constrained)
+      Low-Demand  / High-Realizability → "Underserved"  (infra ahead of need)
       Low-Demand  / Low-Realizability  → "Deprioritize" (low on both axes)
     """
     quadrants = pd.Series("", index=df.index)
@@ -93,8 +93,8 @@ def assign_quadrants(df: pd.DataFrame, demand_col: str,
         high_r = group[realizability_col] >= real_median
 
         quadrants.loc[group.index[high_d & high_r]] = "Star"
-        quadrants.loc[group.index[high_d & ~high_r]] = "Underserved"
-        quadrants.loc[group.index[~high_d & high_r]] = "Niche"
+        quadrants.loc[group.index[high_d & ~high_r]] = "Emerging"
+        quadrants.loc[group.index[~high_d & high_r]] = "Underserved"
         quadrants.loc[group.index[~high_d & ~high_r]] = "Deprioritize"
 
     return quadrants
