@@ -20,13 +20,23 @@ export default function TopBar() {
       className="flex h-12 items-center justify-between border-b border-hairline bg-surface px-6 flex-shrink-0 z-50"
       role="banner"
     >
-      <Link
-        href="/"
-        className="font-display text-lg font-bold tracking-tight text-saffron hover:opacity-90 transition-opacity"
-        aria-label="DistrictDx home"
-      >
-        DistrictDx
-      </Link>
+      <div className="flex items-center gap-3">
+        <Link
+          href="/"
+          className="font-display text-lg font-bold tracking-tight text-saffron hover:opacity-90 transition-opacity"
+          aria-label="DistrictDx home"
+        >
+          DistrictDx
+        </Link>
+        <a
+          href="https://www.linkedin.com/in/sourabh-pradhan07/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-data text-[10px] text-muted hover:text-secondary transition-colors hidden sm:block"
+        >
+          Built by Sourabh
+        </a>
+      </div>
 
       <nav aria-label="Main navigation" className="flex items-center gap-1">
         {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
