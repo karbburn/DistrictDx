@@ -201,16 +201,6 @@ export default function ChoroplethMap({
     return [min, max];
   }, [districtData, indexType, timeHorizon]);
 
-  // Projection fitted to the SVG bounds
-  const projection = useMemo(() => {
-    return geoMercator().fitSize(
-      [dimensions.width - 40, dimensions.height - 40],
-      geoData
-    );
-  }, [geoData, dimensions]);
-
-  const pathGenerator = useMemo(() => geoPath().projection(projection), [projection]);
-
   // Filter features by state
   const filteredFeatures = useMemo(() => {
     if (stateFilter === "all") return geoData.features;
@@ -218,6 +208,20 @@ export default function ChoroplethMap({
       (f) => f.properties.state_name === stateFilter
     );
   }, [geoData.features, stateFilter]);
+
+  // Projection fitted to SVG bounds — zooms to filtered state when one is selected
+  const projection = useMemo(() => {
+    const geojson =
+      stateFilter === "all"
+        ? geoData
+        : { type: "FeatureCollection" as const, features: filteredFeatures };
+    return geoMercator().fitSize(
+      [dimensions.width - 40, dimensions.height - 40],
+      geojson
+    );
+  }, [geoData, filteredFeatures, stateFilter, dimensions]);
+
+  const pathGenerator = useMemo(() => geoPath().projection(projection), [projection]);
 
   // Pre-compute path data for all filtered features (avoids pathGenerator in render loop)
   const pathData = useMemo(() => {
