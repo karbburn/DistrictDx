@@ -16,14 +16,10 @@ from pathlib import Path
 import pandas as pd
 import requests
 
+from download import download_file
+
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger(__name__)
-
-OUT_DIR = Path("data/raw/nightlights_viirs")
-OUT_DIR.mkdir(parents=True, exist_ok=True)
-
-SESSION = requests.Session()
-SESSION.headers.update({"User-Agent": "Mozilla/5.0 (research pipeline)"})
 
 # Pre-built dataset is already in the repo output/csv/
 SOURCES = [
@@ -35,35 +31,33 @@ SOURCES = [
 ]
 
 
-def download_file(url: str, dest: Path, timeout: int = 120) -> bool:
-    try:
-        resp = SESSION.get(url, timeout=timeout, allow_redirects=True)
-        resp.raise_for_status()
-        dest.write_bytes(resp.content)
-        log.info("Downloaded %s (%d bytes) -> %s", url.split("/")[-1], len(resp.content), dest.name)
-        return True
-    except Exception as e:
-        log.warning("Failed: %s — %s", url.split("/")[-1], e)
-        return False
-
-
 def main():
+    out_dir = Path(__file__).resolve().parent.parent.parent / "data" / "raw" / "nightlights_viirs"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    session = requests.Session()
+    session.headers.update({"User-Agent": "Mozilla/5.0 (research pipeline)"})
+
     log.info("=== VIIRS Nightlights Ingestion ===")
 
+    downloaded = []
     for src in SOURCES:
-        dest = OUT_DIR / f"{src['name']}.csv"
-        if download_file(src["url"], dest):
+        dest = out_dir / f"{src['name']}.csv"
+        if download_file(src["url"], dest, session=session):
+            downloaded.append(src["name"])
             df = pd.read_csv(dest)
             log.info("  %s: %d rows, %d cols", src["name"], len(df), len(df.columns))
-            log.info("  Columns: %s", list(df.columns))
-            log.info("  Year range: %s to %s", df["year"].min(), df["year"].max())
-            log.info("  Districts: %d", df["district_id"].nunique())
-        else:
-            log.error(
-                "No nightlights data downloaded.\n"
-                "Visit https://github.com/yashveeeeeeer/india-district-nightlights-viirs\n"
-                "Download output/csv/nightlights_district_panel.csv manually."
-            )
+            if "year" in df.columns and "district_id" in df.columns:
+                log.info("  Year range: %s to %s", df["year"].min(), df["year"].max())
+                log.info("  Districts: %d", df["district_id"].nunique())
+            else:
+                log.warning("  Unexpected columns: %s", list(df.columns))
+
+    if not downloaded:
+        log.error(
+            "No nightlights data downloaded.\n"
+            "Visit https://github.com/yashveeeeeeer/india-district-nightlights-viirs\n"
+            "Download output/csv/nightlights_district_panel.csv manually."
+        )
 
 
 if __name__ == "__main__":
