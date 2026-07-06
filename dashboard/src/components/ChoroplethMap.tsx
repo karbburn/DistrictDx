@@ -3,11 +3,11 @@
 // Full-bleed SVG choropleth representing all districts.
 // - Sequential single-hue ramp per index type
 // - Diagonal hatch overlay on low-confidence/inherited districts
-// - Staggered fade-in on initial load only
+// - Batched staggered fade-in on initial load only
 // - No animation on filter-triggered redraws
 // - Keyboard navigable: Tab + Enter
 
-import { useMemo, useCallback, useRef, useState, useEffect } from "react";
+import { useMemo, useCallback, useRef, useState, useEffect, memo } from "react";
 import { geoMercator, geoPath } from "d3-geo";
 import type { FeatureCollection, Geometry, Feature } from "geojson";
 import type {
@@ -19,6 +19,122 @@ import type {
 import { getMAIValue, getConfidenceLevel } from "@/lib/data";
 import { getChoroplethColor, getLegendStops, getIndexLabel } from "@/lib/colors";
 
+// ── Memoized District Path (only re-renders when its own props change) ────────
+
+interface DistrictPathProps {
+  pathD: string;
+  fillColor: string;
+  isLowConf: boolean;
+  isSelected: boolean;
+  isInitialLoad: boolean;
+  batchIndex: number;
+  code: number;
+  districtName: string;
+  stateName: string;
+  indexType: IndexType;
+  timeHorizon: TimeHorizon;
+  onDistrictClick: (code: number) => void;
+  onHover: (code: number | null) => void;
+}
+
+const DistrictPath = memo(function DistrictPath({
+  pathD,
+  fillColor,
+  isLowConf,
+  isSelected,
+  isInitialLoad,
+  batchIndex,
+  code,
+  districtName,
+  stateName,
+  indexType,
+  timeHorizon,
+  onDistrictClick,
+  onHover,
+}: DistrictPathProps) {
+  const [localHovered, setLocalHovered] = useState(false);
+
+  const handleMouseEnter = useCallback(() => {
+    setLocalHovered(true);
+    onHover(code);
+  }, [code, onHover]);
+
+  const handleMouseLeave = useCallback(() => {
+    setLocalHovered(false);
+    onHover(null);
+  }, [onHover]);
+
+  const handleFocus = useCallback(() => {
+    setLocalHovered(true);
+    onHover(code);
+  }, [code, onHover]);
+
+  const handleBlur = useCallback(() => {
+    setLocalHovered(false);
+    onHover(null);
+  }, [onHover]);
+
+  const handleClick = useCallback(() => {
+    onDistrictClick(code);
+  }, [code, onDistrictClick]);
+
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        onDistrictClick(code);
+      }
+    },
+    [code, onDistrictClick]
+  );
+
+  const strokeColor = isSelected
+    ? "var(--accent-saffron)"
+    : localHovered
+      ? "var(--text-primary)"
+      : "rgba(42, 38, 32, 0.6)";
+  const strokeWidth = isSelected ? 2 : localHovered ? 1.5 : 0.3;
+
+  const animStyle = isInitialLoad
+    ? { animationDelay: `${batchIndex * 100}ms` }
+    : { opacity: 1 };
+
+  return (
+    <g>
+      <path
+        d={pathD}
+        fill={fillColor}
+        stroke={strokeColor}
+        strokeWidth={strokeWidth}
+        className={isInitialLoad ? "district-path" : undefined}
+        style={animStyle}
+        tabIndex={0}
+        role="button"
+        aria-label={`${districtName}, ${stateName}`}
+        onClick={handleClick}
+        onKeyDown={handleKeyDown}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        cursor="pointer"
+      />
+      {isLowConf && (
+        <path
+          d={pathD}
+          fill="url(#hatch-low-confidence)"
+          stroke="none"
+          pointerEvents="none"
+          className={isInitialLoad ? "district-path" : undefined}
+          style={animStyle}
+        />
+      )}
+    </g>
+  );
+});
+
+// ── Main Map Component ───────────────────────────────────────────────────────
+
 interface ChoroplethMapProps {
   geoData: FeatureCollection<Geometry, GeoDistrictProperties>;
   districtData: DistrictData[];
@@ -29,6 +145,8 @@ interface ChoroplethMapProps {
   selectedDistrictCode: number | null;
   isInitialLoad: boolean;
 }
+
+const BATCH_SIZE = 50;
 
 export default function ChoroplethMap({
   geoData,
@@ -93,49 +211,64 @@ export default function ChoroplethMap({
     );
   }, [geoData.features, stateFilter]);
 
-  // Get fill color for a feature
-  const getFill = useCallback(
-    (feature: Feature<Geometry, GeoDistrictProperties>) => {
+  // Pre-compute path data for all filtered features (avoids pathGenerator in render loop)
+  const pathData = useMemo(() => {
+    return filteredFeatures.map((feature) => ({
+      code: feature.properties.lgd_district_code,
+      pathD: pathGenerator(feature) || "",
+    }));
+  }, [filteredFeatures, pathGenerator]);
+
+  // Pre-compute fill colors for all filtered features
+  const fillColors = useMemo(() => {
+    const colors = new Map<number, string>();
+    const range = maxVal - minVal;
+    filteredFeatures.forEach((feature) => {
       const code = feature.properties.lgd_district_code;
       const district = districtMap.get(code);
-      if (!district) return "#1c1915";
-
-      const value = getMAIValue(district, indexType, timeHorizon);
-      // Normalize to [0,1] within the current range
-      const range = maxVal - minVal;
-      const normalized = range > 0 ? (value - minVal) / range : 0.5;
-      return getChoroplethColor(normalized, indexType);
-    },
-    [districtMap, indexType, timeHorizon, minVal, maxVal]
-  );
-
-  // Check if a feature is low confidence or has boundary inherited (hatch required)
-  const isLowConfidence = useCallback(
-    (feature: Feature<Geometry, GeoDistrictProperties>) => {
-      const district = districtMap.get(feature.properties.lgd_district_code);
-      if (!district) return false;
-      const lowConf = getConfidenceLevel(district.confidence_score) === "low";
-      return lowConf || district.boundary_inherited === true;
-    },
-    [districtMap]
-  );
-
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent, code: number) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        onDistrictClick(code);
+      if (!district) {
+        colors.set(code, "#1c1915");
+        return;
       }
-    },
-    [onDistrictClick]
-  );
+      const value = getMAIValue(district, indexType, timeHorizon);
+      const normalized = range > 0 ? (value - minVal) / range : 0.5;
+      colors.set(code, getChoroplethColor(normalized, indexType));
+    });
+    return colors;
+  }, [filteredFeatures, districtMap, indexType, timeHorizon, minVal, maxVal]);
 
-  // Tooltip info
+  // Pre-compute low-confidence flags
+  const lowConfidenceFlags = useMemo(() => {
+    const flags = new Map<number, boolean>();
+    filteredFeatures.forEach((feature) => {
+      const code = feature.properties.lgd_district_code;
+      const district = districtMap.get(code);
+      if (!district) {
+        flags.set(code, false);
+        return;
+      }
+      const lowConf = getConfidenceLevel(district.confidence_score) === "low";
+      flags.set(code, lowConf || district.boundary_inherited === true);
+    });
+    return flags;
+  }, [filteredFeatures, districtMap]);
+
+  // O(1) feature lookup for tooltip
+  const featureMap = useMemo(() => {
+    const map = new Map<number, Feature<Geometry, GeoDistrictProperties>>();
+    filteredFeatures.forEach((f) => map.set(f.properties.lgd_district_code, f));
+    return map;
+  }, [filteredFeatures]);
+
+  // Hover callback — stable reference, doesn't cause path re-renders
+  const handleHover = useCallback((code: number | null) => {
+    setHoveredCode(code);
+  }, []);
+
+  // Tooltip info — O(1) lookup
   const hoveredDistrict = hoveredCode ? districtMap.get(hoveredCode) : null;
   const hoveredFeatureProps = hoveredCode
-    ? filteredFeatures.find(
-        (f) => f.properties.lgd_district_code === hoveredCode
-      )?.properties
+    ? featureMap.get(hoveredCode)?.properties
     : null;
 
   // Legend stops
@@ -174,59 +307,26 @@ export default function ChoroplethMap({
         <g transform="translate(20, 20)">
           {filteredFeatures.map((feature, i) => {
             const code = feature.properties.lgd_district_code;
-            const d = pathGenerator(feature);
-            if (!d) return null;
-
-            const isHovered = hoveredCode === code;
-            const isSelected = selectedDistrictCode === code;
-            const lowConf = isLowConfidence(feature);
+            const pd = pathData[i];
+            if (!pd.pathD) return null;
 
             return (
-              <g key={code}>
-                <path
-                  d={d}
-                  fill={getFill(feature)}
-                  stroke={
-                    isSelected
-                      ? "var(--accent-saffron)"
-                      : isHovered
-                        ? "var(--text-primary)"
-                        : "rgba(42, 38, 32, 0.6)"
-                  }
-                  strokeWidth={isSelected ? 2 : isHovered ? 1.5 : 0.3}
-                  className={isInitialLoad ? "district-path" : undefined}
-                  style={
-                    isInitialLoad
-                      ? { animationDelay: `${i * 1.5}ms` }
-                      : { opacity: 1 }
-                  }
-                  tabIndex={0}
-                  role="button"
-                  aria-label={`${feature.properties.district_name}, ${feature.properties.state_name}`}
-                  onClick={() => onDistrictClick(code)}
-                  onKeyDown={(e) => handleKeyDown(e, code)}
-                  onMouseEnter={() => setHoveredCode(code)}
-                  onMouseLeave={() => setHoveredCode(null)}
-                  onFocus={() => setHoveredCode(code)}
-                  onBlur={() => setHoveredCode(null)}
-                  cursor="pointer"
-                />
-                {/* Hatch overlay for low-confidence districts */}
-                {lowConf && (
-                  <path
-                    d={d}
-                    fill="url(#hatch-low-confidence)"
-                    stroke="none"
-                    pointerEvents="none"
-                    className={isInitialLoad ? "district-path" : undefined}
-                    style={
-                      isInitialLoad
-                        ? { animationDelay: `${i * 1.5}ms` }
-                        : { opacity: 1 }
-                    }
-                  />
-                )}
-              </g>
+              <DistrictPath
+                key={code}
+                code={code}
+                pathD={pd.pathD}
+                fillColor={fillColors.get(code) || "#1c1915"}
+                isLowConf={lowConfidenceFlags.get(code) || false}
+                isSelected={selectedDistrictCode === code}
+                isInitialLoad={isInitialLoad}
+                batchIndex={Math.floor(i / BATCH_SIZE)}
+                districtName={feature.properties.district_name}
+                stateName={feature.properties.state_name}
+                indexType={indexType}
+                timeHorizon={timeHorizon}
+                onDistrictClick={onDistrictClick}
+                onHover={handleHover}
+              />
             );
           })}
         </g>
