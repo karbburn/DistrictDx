@@ -1,1 +1,20 @@
 variable,source_url,year,granularity,domain,therapy_applicability,proxy_justification,known_limitations
+census_total_population,https://censusindia.gov.in,2011,district,Demographics,False,Total population from Census 2011 PCA,Static (decennial census)
+literacy_rate,https://censusindia.gov.in,2011,district,Demographics,False,Percentage of population aged 7+ who can read/write,Static (decennial census)
+sex_ratio,https://censusindia.gov.in,2011,district,Demographics,False,Females per 1000 males from Census 2011,Static (decennial census)
+latrine_access_rate,https://censusindia.gov.in,2011,district,WASH,False,Households with latrine in premise (%),Static (decennial census); does not reflect post-Swachh Bharat improvements
+tap_water_rate,https://censusindia.gov.in,2011,district,WASH,False,Households with treated tap water supply (%),Static (decennial census); does not reflect Jal Jeevan Mission coverage
+nfhs5_high_blood_sugar_pct,https://dhsprogram.com,2019-21,district,Chronic disease,True,"Women with blood sugar level high or very high (>140 mg/dl) or taking medicine",Women only; includes medication-taking which inflates vs NFHS-4 comparator
+nfhs5_elevated_bp_pct,https://dhsprogram.com,2019-21,district,Chronic disease,True,"Women with elevated blood pressure (systolic >=140 or diastolic >=90)",Women only
+nfhs5_women_overweight_pct,https://dhsprogram.com,2019-21,district,Nutrition,True,"Women age 15-49 who are overweight or obese (BMI >=25)",Women only
+nfhs5_women_tobacco_pct,https://dhsprogram.com,2019-21,district,Risk factors,True,Women age 15+ who use any kind of tobacco,
+nfhs5_men_tobacco_pct,https://dhsprogram.com,2019-21,district,Risk factors,True,Men age 15+ who use any kind of tobacco,
+nfhs5_women_alcohol_pct,https://dhsprogram.com,2019-21,district,Risk factors,True,Women age 15+ who consume alcohol,
+nfhs5_men_alcohol_pct,https://dhsprogram.com,2019-21,district,Risk factors,True,Men age 15+ who consume alcohol,
+nfhs5_child_diarrhoea_pct,https://dhsprogram.com,2019-21,district,Child morbidity,True,Prevalence of diarrhoea in children under 5 in past 2 weeks,
+nfhs5_child_ari_pct,https://dhsprogram.com,2019-21,district,Child morbidity,True,Prevalence of acute respiratory infection symptoms in children under 5,
+nfhs5_improved_sanitation_pct,https://dhsprogram.com,2019-21,district,WASH,False,Population living in households using improved sanitation,
+nfhs5_improved_water_pct,https://dhsprogram.com,2019-21,district,WASH,False,Population living in households with improved drinking water,
+nfhs5_child_underweight_pct,https://dhsprogram.com,2019-21,district,Nutrition,True,Children under 5 who are underweight (weight-for-age <-2 SD),
+nightlight_log_mean,https://eogdata.mines.edu,2019-21,district,Income proxy,False,Mean log1p-transformed VIIRS nightlight radiance (latest year),Only captures formal-sector economic activity; misses rural subsistence
+nightlight_growth_rate,https://eogdata.mines.edu,2014-19,district,Income proxy,False,Annual growth slope of nightlight radiance (OLS on log1p_mean ~ year),Requires >=3 years of data; noisy for small districts
