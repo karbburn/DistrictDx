@@ -17,14 +17,10 @@ from pathlib import Path
 import pandas as pd
 import requests
 
+from download import download_file
+
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger(__name__)
-
-OUT_DIR = Path("data/raw/imd_rainfall")
-OUT_DIR.mkdir(parents=True, exist_ok=True)
-
-SESSION = requests.Session()
-SESSION.headers.update({"User-Agent": "Mozilla/5.0 (research pipeline)"})
 
 # IMD also publishes district-level rainfall summaries
 # These are sometimes available as Excel/PDF on imd.gov.in
@@ -42,35 +38,25 @@ FALLBACK_SOURCES = [
 ]
 
 
-def download_file(url: str, dest: Path, timeout: int = 120) -> bool:
-    try:
-        resp = SESSION.get(url, timeout=timeout, allow_redirects=True)
-        resp.raise_for_status()
-        dest.write_bytes(resp.content)
-        log.info("Downloaded %s (%d bytes) -> %s", url, len(resp.content), dest)
-        return True
-    except Exception as e:
-        log.warning("Failed: %s — %s", url, e)
-        return False
-
-
-def try_imdlib():
+def try_imdlib(out_dir):
     """Attempt to use imdlib for automated IMD rainfall download."""
     try:
         import imdlib as imd
         log.info("imdlib available, attempting download...")
 
+        last_data = None
         for year in range(2019, 2024):
             try:
-                imd.get_data(None, year, None, 'rain', 25)  # 0.25 deg resolution
+                data = imd.get_data(None, year, None, 'rain', 25)
                 log.info("Downloaded IMD rainfall for %d", year)
+                last_data = data
             except Exception as e:
                 log.warning("imdlib download failed for %d: %s", year, e)
                 return False
 
-        data = imd.get_data(None, 2023, None, 'rain', 25)
-        data.to_csv(OUT_DIR / "imd_rainfall_2023_grid.csv")
-        log.info("Converted IMD grid to CSV")
+        if last_data is not None:
+            last_data.to_csv(out_dir / "imd_rainfall_2023_grid.csv")
+            log.info("Converted IMD grid to CSV")
         return True
     except ImportError:
         log.info("imdlib not installed, trying fallback sources")
@@ -80,11 +66,11 @@ def try_imdlib():
         return False
 
 
-def try_fallback():
+def try_fallback(out_dir, session):
     """Try GitHub fallback sources."""
     for src in FALLBACK_SOURCES:
-        dest = OUT_DIR / f"{src['name']}.csv"
-        if download_file(src["url"], dest):
+        dest = out_dir / f"{src['name']}.csv"
+        if download_file(src["url"], dest, session=session):
             try:
                 df = pd.read_csv(dest)
                 log.info("  %s: %d rows, %d cols", src["name"], len(df), len(df.columns))
@@ -95,11 +81,16 @@ def try_fallback():
 
 
 def main():
+    out_dir = Path(__file__).resolve().parent.parent.parent / "data" / "raw" / "imd_rainfall"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    session = requests.Session()
+    session.headers.update({"User-Agent": "Mozilla/5.0 (research pipeline)"})
+
     log.info("=== IMD Rainfall Ingestion ===")
 
-    if try_imdlib():
+    if try_imdlib(out_dir):
         log.info("Rainfall data downloaded via imdlib")
-    elif try_fallback():
+    elif try_fallback(out_dir, session):
         log.info("Rainfall data downloaded from fallback sources")
     else:
         log.error(
