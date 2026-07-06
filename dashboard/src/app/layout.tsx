@@ -27,6 +27,9 @@ export const metadata: Metadata = {
   title: "DistrictDx — Pharmaceutical Market Attractiveness Index (MAI)",
   description:
     "An analytical research instrument providing district-level chronic and acute attractiveness index scores across 785 Indian districts. Tailored for Sun Pharmaceutical Industries portfolio planning.",
+  icons: {
+    icon: "/icon.png",
+  },
 
 };
 
