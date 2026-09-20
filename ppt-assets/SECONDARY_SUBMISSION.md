@@ -230,7 +230,7 @@ The methodology is deliberately transparent - every weight challengeable, every 
 
 ## Project Resources
 
-**Interactive Dashboard:** https://districtdx.vercel.app/
+**Interactive Dashboard:** https://districtdx.sourabhpradhan.in/
 
 **GitHub Repository:** https://github.com/karbburn/DistrictDx
 

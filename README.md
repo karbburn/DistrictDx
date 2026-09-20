@@ -48,7 +48,7 @@ An interactive Next.js dashboard provides exploratory visualization of the index
 - **`/variables`** — Variable selection & business rationale for all 19 pipeline inputs
 - **`/methodology`** — Plain-language methodology summary for non-technical readers
 
-**Live demo:** [https://districtdx.vercel.app](https://districtdx.vercel.app)
+**Live demo:** [https://districtdx.sourabhpradhan.in](https://districtdx.sourabhpradhan.in)
 
 ### Run locally
 

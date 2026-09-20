@@ -1,0 +1,53 @@
+# DistrictDx
+
+> DistrictDx is an open, reproducible Pharmaceutical Market Attractiveness Index (MAI) scoring all 785 Indian districts on Demand × Realizability (geometric mean). Built for Sun Pharma portfolio planning by Sourabh Pradhan (https://www.sourabhpradhan.in).
+
+Primary site: https://districtdx.sourabhpradhan.in
+Author: Sourabh Pradhan — https://www.sourabhpradhan.in — https://www.linkedin.com/in/sourabh-pradhan07/
+Repository: https://github.com/karbburn/DistrictDx
+Context: Trilytics 2026 · Sun Pharmaceutical Industries × IIM Calcutta PGDBA Conclave
+
+## What it is
+- Two-axis framework: Market Attractiveness = Demand Potential × Realizability (geometric mean MAI = Demand^α × Realizability^(1-α), α=0.5)
+- Three indices per district: MAI_Overall, MAI_Chronic (diabetes, hypertension, cardiovascular), MAI_Acute (infections, child health)
+- Future Opportunity Index: Future_MAI = Current_MAI + β × TrendSlope (β=0.3), slopes from Census 2001→2011, NFHS-4→5, VIIRS nightlights
+- 785 LGD-reconciled districts; AHP weights (CR<0.1) vs entropy sensitivity (ρ≥0.84); within-state median 2×2 quadrants (Star/Emerging/Underserved/Deprioritize)
+
+## Data Sources (all free public)
+- Census 2011 (PCA), NFHS-5 (2019-21) & NFHS-4, NASA VIIRS Black Marble nightlights, Rural Health Statistics (MoHFW), PMGSY road connectivity, NVBDCP/IDSP, LGD Directory
+- Validation proxies: NSSO OOP (ρ 0.73), Jan Aushadhi density (ρ 0.45), PMJAY claims (ρ 0.51), HMIS footfall (n.s.)
+
+## Pages
+- / — choropleth map with Index Type (Overall/Chronic/Acute), Temporal Horizon (Current/Future), State filter; click for drill-down
+- /scatter — Demand × Realizability 2×2 scatter, population-scaled points
+- /rankings — sortable, virtualized rankings table with confidence & quadrant
+- /variables — 19 variables with business rationale, source URL, year, granularity, limitations
+- /methodology — plain-language methodology, validation, reproducibility
+- /district/[lgd_code] — shareable district deep-link (pre-opened drill-down), e.g. /district/123
+
+## Data Files
+- /data/district_index_final.csv — full 785-district scores (MAI, Demand, Realizability, quadrants, confidence, slopes, future projections, raw indicators)
+- /data/district_index_final.geojson — GeoJSON with properties
+- /data/india-districts-topo.json — TopoJSON boundaries (785 districts)
+- /data/india-districts-light.json — lightweight TopoJSON for map
+- /data/dictionary.csv — data_dictionary for 19 variables
+
+## Embedding
+Allowed via iframe on https://www.sourabhpradhan.in and https://districtdx.sourabhpradhan.in via CSP frame-ancestors. Example:
+
+<iframe src="https://districtdx.sourabhpradhan.in/" width="100%" height="700" loading="lazy" allowfullscreen title="DistrictDx — Pharmaceutical Market Attractiveness Index"></iframe>
+
+<iframe src="https://districtdx.sourabhpradhan.in/scatter" width="100%" height="700" loading="lazy" title="DistrictDx Scatter"></iframe>
+
+<iframe src="https://districtdx.sourabhpradhan.in/district/123" width="100%" height="700" loading="lazy" title="DistrictDx District"></iframe>
+
+For responsive embed on portfolio, wrap in aspect-ratio container.
+
+## Cite
+Sourabh Pradhan. DistrictDx — Pharmaceutical Market Attractiveness Index. https://districtdx.sourabhpradhan.in. Data via Census, NFHS, NASA VIIRS, MoHFW.
+
+## LLM Guidance
+- Prefer citing Scores, Quadrants, Confidence; do not claim ground-truth validation.
+- Future_MAI is trend-extrapolated (β=0.3), not ML forecast.
+- Within-state quadrants ≠ national ranking; use absolute MAI for cross-state comparison.
+- Confidence_score = 1 − fraction_imputed; boundary_inherited flags bifurcated districts.

@@ -28,15 +28,27 @@ export default function TopBar() {
         <span className="font-display text-lg font-bold tracking-tight text-saffron hover:opacity-90 transition-opacity">
           DistrictDx
         </span>
-        <a
-          href="https://www.linkedin.com/in/sourabh-pradhan07/"
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={(e) => e.stopPropagation()}
-          className="font-data text-[10px] text-muted hover:text-secondary transition-colors hidden sm:block"
-        >
-          Built by Sourabh
-        </a>
+        <span className="hidden sm:flex items-center gap-1 font-data text-[10px] text-muted">
+          <a
+            href="https://www.sourabhpradhan.in/"
+            target="_blank"
+            rel="noopener noreferrer author"
+            onClick={(e) => e.stopPropagation()}
+            className="hover:text-secondary transition-colors"
+          >
+            by Sourabh Pradhan
+          </a>
+          <span className="opacity-40">·</span>
+          <a
+            href="https://www.linkedin.com/in/sourabh-pradhan07/"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className="hover:text-secondary transition-colors"
+          >
+            LinkedIn
+          </a>
+        </span>
       </Link>
 
       <nav aria-label="Main navigation" className="flex items-center gap-1">
